@@ -55,7 +55,7 @@ class particle():
 
 
 class Simulation():  # this is where we will make them interact
-    def __init__(self, N, E, size, radius, mass, delay=20):
+    def __init__(self, N, E, size, radius, mass, delay=20, visualise=True):
         """Simulation class initialisation. This class handles the entire particle
         in a box thing.
 
@@ -73,6 +73,8 @@ class Simulation():  # this is where we will make them interact
             Mass of the particles
         delay : `int`
             Delay in milliseconds between showing/running timesteps
+        visualise : `boolean`
+            Whether to animate the balls in the box
         """
         self.N = N
         self.E = E
@@ -80,14 +82,16 @@ class Simulation():  # this is where we will make them interact
 
         # initialise N particle classes
         self.particles = [particle(size=size, pid=i, init_ke=E, radius=radius, mass=mass) for i in range(N)]
-        self.delay = delay
+        self.visualise = visualise
 
-        self.canvas = None
-        self.root = None
-        self.particle_handles = {}
+        if visualise:
+            self.delay = delay
+            self.canvas = None
+            self.root = None
+            self.particle_handles = {}
 
-        self._init_visualization()
-        self.root.update()
+            self._init_visualization()
+            self.root.update()
 
     def _init_visualization(self):
         # start the visualisation box
@@ -130,7 +134,9 @@ class Simulation():  # this is where we will make them interact
     def _move_particle(self, particle):
         new_pos = particle.pos + particle.vel
         particle.update_pos(new_pos)
-        self.canvas.move(self.particle_handles[particle.pid], particle.vel[0], particle.vel[1])
+
+        if self.visualise:
+            self.canvas.move(self.particle_handles[particle.pid], particle.vel[0], particle.vel[1])
 
     def resolve_particle_collisions(self):
         # make a set of particles that haven't collided yet
@@ -178,13 +184,15 @@ class Simulation():  # this is where we will make them interact
             # 3. resolve any particle collisions and transfer momentum
             self.resolve_particle_collisions()
 
-            # update visualization with a delay
-            self.root.after(self.delay, self.root.update())
+            if self.visualise:
+                # update visualization with a delay
+                self.root.after(self.delay, self.root.update())
 
-            # change the timestep message as well
-            self.canvas.itemconfig(self.timestep_message, text="Timestep = {}".format(i))
-
-        self.root.mainloop()
+                # change the timestep message as well
+                self.canvas.itemconfig(self.timestep_message, text="Timestep = {}".format(i))
+        
+        if self.visualise:
+            self.root.mainloop()
 
     def get_velocities(self):
         raise NotImplementedError
