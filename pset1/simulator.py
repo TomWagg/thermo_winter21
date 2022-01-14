@@ -1,6 +1,5 @@
 import numpy as np
 import tkinter as tk
-import matplotlib.pyplot as plt
 
 
 class particle():
@@ -21,15 +20,15 @@ class particle():
             Mass of the particle, by default 1
         """
         # choose random x and y positions within the grid (padded by radius of particles)
-        self.x = np.random.uniform(0 + radius, size - radius)
-        self.y = np.random.uniform(0 + radius, size - radius)
+        self.pos = np.random.uniform(0 + radius, size - radius, size=2)
 
         # convert initial kinetic energy into a velocity
         init_v = np.sqrt(2 * init_ke / mass)
 
         # set random velocities for each particle (randomly distributed between x and y speed)
-        self.vx = np.random.uniform(0, init_v) * np.random.choice([-1, 1])
-        self.vy = np.sqrt(init_v**2 - self.vx**2) * np.random.choice([-1, 1])
+        self.vel = np.array([None, None])
+        self.vel[0] = np.random.uniform(0, init_v) * np.random.choice([-1, 1])
+        self.vel[1] = np.sqrt(init_v**2 - self.vel[0]**2) * np.random.choice([-1, 1])
 
         # set the radius and mass of the particle
         self.radius = radius
@@ -38,20 +37,20 @@ class particle():
         # assign a particle id to each particle
         self.pid = pid
 
-    def update_x(self, val):
-        self.x = val
+    def update_pos(self, val):
+        self.pos = val
 
-    def update_y(self, val):
-        self.y = val
+    def update_vel(self, val):
+        self.vel = val
 
     def update_vx(self, val):
-        self.vx = val
+        self.vel[0] = val
 
     def update_vy(self, val):
-        self.vy = val
+        self.vel[1] = val
 
     def colliding(self, other_particle):
-        distance = np.sqrt((other_particle.x - self.x)**2 + (other_particle.y - self.y)**2)
+        distance = np.sqrt(sum((other_particle.pos - self.pos)**2))
         return distance <= self.radius + other_particle.radius
 
 
@@ -119,21 +118,19 @@ class Simulation():  # this is where we will make them interact
         """Draw a circle on the canvas corresponding to particle
 
         Returns the handle of the tkinter circle element"""
-        x0 = particle.x - particle.radius
-        y0 = particle.y - particle.radius
-        x1 = particle.x + particle.radius
-        y1 = particle.y + particle.radius
+        x0 = particle.pos[0] - particle.radius
+        y0 = particle.pos[1] - particle.radius
+        x1 = particle.pos[0] + particle.radius
+        y1 = particle.pos[1] + particle.radius
 
         colours = ["black", "red", "blue", "green"]
 
         return self.canvas.create_oval(x0, y0, x1, y1, fill=np.random.choice(colours), outline='black')
 
     def _move_particle(self, particle):
-        xx = particle.x + particle.vx
-        yy = particle.y + particle.vy
-        particle.update_x(xx)
-        particle.update_y(yy)
-        self.canvas.move(self.particle_handles[particle.pid], particle.vx, particle.vy)
+        new_pos = particle.pos + particle.vel
+        particle.update_pos(new_pos)
+        self.canvas.move(self.particle_handles[particle.pid], particle.vel[0], particle.vel[1])
 
     def resolve_particle_collisions(self):
         # make a set of particles that haven't collided yet
@@ -151,30 +148,23 @@ class Simulation():  # this is where we will make them interact
                     print(p1.pid, p2.pid, "are colliding")
                     not_yet_collided.discard(p2)
 
-                    v1 = np.array([p1.vx, p1.vy])
-                    v2 = np.array([p2.vx, p2.vy])
-                    pos1 = np.array(p1.x, p1.y)
-                    pos2 = np.array(p2.x, p2.y)
                     M = p1.mass + p2.mass
 
-                    new_v1 = v1 - 2 * p2.mass / M * np.dot(v1 - v2, pos1 - pos2) / np.linalg.norm(pos1 - pos2)**2 * (pos1 - pos2)
-                    new_v2 = v2 - 2 * p1.mass / M * np.dot(v2 - v1, pos2 - pos1) / np.linalg.norm(pos2 - pos1)**2 * (pos2 - pos1)
+                    new_v1 = p1.vel - 2 * p2.mass / M * np.dot(p1.vel - p2.vel, p1.pos - p2.pos) / np.linalg.norm(p1.pos - p2.pos)**2 * (p1.pos - p2.pos)
+                    new_v2 = p2.vel - 2 * p1.mass / M * np.dot(p2.vel - p1.vel, p2.pos - p1.pos) / np.linalg.norm(p2.pos - p1.pos)**2 * (p2.pos - p1.pos)
 
-                    p1.update_vx(new_v1[0])
-                    p1.update_vy(new_v1[1])
-                    p2.update_vx(new_v2[0])
-                    p2.update_vy(new_v2[1])
-
+                    p1.update_vel(new_v1)
+                    p2.update_vel(new_v2)
                     break
 
     def resolve_wall_collisions(self):
         """Reverse the direction of any particles that hit walls"""
         for particle in self.particles:
-            if (particle.x + particle.radius) >= self.size or (particle.x - particle.radius) <= 0:
-                particle.update_vx(-particle.vx)
+            if (particle.pos[0] + particle.radius) >= self.size or (particle.pos[0] - particle.radius) <= 0:
+                particle.update_vx(-particle.vel[0])
 
-            if (particle.y + particle.radius) >= self.size or (particle.y - particle.radius) <= 0:
-                particle.update_vy(-particle.vy)
+            if (particle.pos[1] + particle.radius) >= self.size or (particle.pos[1] - particle.radius) <= 0:
+                particle.update_vy(-particle.vel[1])
 
     def run_simulation(self, steps=1000):
         for i in range(steps):
