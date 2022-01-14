@@ -3,7 +3,7 @@ import tkinter as tk
 
 
 class particle():
-    def __init__(self, size, pid, init_ke=5, radius=3, mass=1):
+    def __init__(self, size, pid, init_ke=5, radius=3, mass=1, pos=None):
         """Initialise the particles
 
         Parameters
@@ -18,9 +18,11 @@ class particle():
             Radius of the particle, by default 3
         mass : int, optional
             Mass of the particle, by default 1
+        pos : list, optional
+            Initial position of particle, by default randomly chosen in the box
         """
         # choose random x and y positions within the grid (padded by radius of particles)
-        self.pos = np.random.uniform(0 + radius, size - radius, size=2)
+        self.pos = pos if pos is not None else np.random.uniform(0 + radius, size - radius, size=2)
 
         # convert initial kinetic energy into a velocity
         init_v = np.sqrt(2 * init_ke / mass)
@@ -80,8 +82,29 @@ class Simulation():  # this is where we will make them interact
         self.E = E
         self.size = size
 
+        # create an empty position array and try to find a position for each particle
+        positions = []
+        for _ in range(N):
+            # keep looping until the position is no longer invalid
+            position_invalid = True
+            while position_invalid:
+                # pick a random (x, y) position
+                possible_pos = np.random.uniform(0 + radius, size - radius, size=2)
+                position_invalid = False
+
+                # loop over all other chosen positions
+                for other in positions:
+                    # mark the position as bad if it overlaps with another particle
+                    position_invalid = np.sqrt(sum((other - possible_pos)**2)) <= 2 * radius
+                    if position_invalid:
+                        break
+
+            # add to the position array
+            positions.append(possible_pos)
+
         # initialise N particle classes
-        self.particles = [particle(size=size, pid=i, init_ke=E, radius=radius, mass=mass) for i in range(N)]
+        self.particles = [particle(size=size, pid=i, init_ke=E,
+                                   radius=radius, mass=mass, pos=positions[i]) for i in range(N)]
         self.visualise = visualise
 
         if visualise:
@@ -151,7 +174,6 @@ class Simulation():  # this is where we will make them interact
             for p2 in list(not_yet_collided):
                 if p1.colliding(p2):
                     # handle the collision!
-                    print(p1.pid, p2.pid, "are colliding")
                     not_yet_collided.discard(p2)
 
                     M = p1.mass + p2.mass
@@ -190,7 +212,7 @@ class Simulation():  # this is where we will make them interact
 
                 # change the timestep message as well
                 self.canvas.itemconfig(self.timestep_message, text="Timestep = {}".format(i))
-        
+
         if self.visualise:
             self.root.mainloop()
 
