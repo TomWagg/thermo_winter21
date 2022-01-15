@@ -1,5 +1,6 @@
 import numpy as np
 import tkinter as tk
+from itertools import combinations
 
 
 class Simulation():  # this is where we will make them interact
@@ -49,7 +50,12 @@ class Simulation():  # this is where we will make them interact
             positions.append(possible_pos)
 
         self.pos = np.array(positions)
-        self.masses = masses
+
+        if isinstance(masses, (int, float)):
+            self.masses = np.repeat(masses, self.N)
+        else:
+            self.masses = masses
+
         self.radius = radius
 
         # convert initial kinetic energy into a velocity
@@ -61,6 +67,7 @@ class Simulation():  # this is where we will make them interact
 
         self.vel = np.transpose([vx, vy])
         self.visualise = visualise
+        self.combos = np.array(list(combinations(np.arange(0, self.N).astype(int), 2)))
 
         if visualise:
             self.delay = delay
@@ -111,31 +118,30 @@ class Simulation():  # this is where we will make them interact
 
     def resolve_particle_collisions(self):
 
-        def colliding(self, other_particle):
-            distance = np.sqrt(sum((other_particle.pos - self.pos)**2))
-            return distance <= self.radius + other_particle.radius
-        # make a set of particles that haven't collided yet
-        not_yet_collided = set(self.particles[:])
+        distances = np.sqrt(np.square(self.pos[self.combos][:, 0, :]
+                                      - self.pos[self.combos][:, 1, :]).sum(axis=1))
+        colliders = distances <= 2 * self.radius
+        if len(colliders[colliders]) > 0:
+            mask = self.combos[colliders]
+            # print("COLLISION", self.combos[colliders])
 
-        # go through every single particle
-        for p1 in self.particles:
-            # we're handling its collisions now so remove it from the set
-            not_yet_collided.discard(p1)
+            M = self.masses[mask].sum(axis=1)
+            m1 = self.masses[mask][:, 0]
+            m2 = self.masses[mask][:, 0]
+            v1 = self.vel[mask][:, 0, :]
+            v2 = self.vel[mask][:, 1, :]
+            p1 = self.pos[mask][:, 0, :]
+            p2 = self.pos[mask][:, 1, :]
 
-            # go through all potential colliders and check if they are colliding
-            for p2 in list(not_yet_collided):
-                if p1.colliding(p2):
-                    # handle the collision!
-                    not_yet_collided.discard(p2)
+            scalar_bit1 = 2 * m2 / M * np.sum((v1 - v2) * (p1 - p2), axis=1) / np.linalg.norm(p1 - p2, axis=1)**2
+            scalar_bit2 = 2 * m1 / M * np.sum((v2 - v1) * (p2 - p1), axis=1) / np.linalg.norm(p2 - p1, axis=1)**2
 
-                    M = p1.mass + p2.mass
+            new_v1 = v1 - scalar_bit1[:, np.newaxis] * (p1 - p2)
+            new_v2 = v2 - scalar_bit2[:, np.newaxis] * (p2 - p1)
 
-                    new_v1 = p1.vel - 2 * p2.mass / M * np.dot(p1.vel - p2.vel, p1.pos - p2.pos) / np.linalg.norm(p1.pos - p2.pos)**2 * (p1.pos - p2.pos)
-                    new_v2 = p2.vel - 2 * p1.mass / M * np.dot(p2.vel - p1.vel, p2.pos - p1.pos) / np.linalg.norm(p2.pos - p1.pos)**2 * (p2.pos - p1.pos)
-
-                    p1.update_vel(new_v1)
-                    p2.update_vel(new_v2)
-                    break
+            for i, combo in enumerate(self.combos[colliders]):
+                self.vel[combo[0]] = new_v1[i]
+                self.vel[combo[1]] = new_v2[i]
 
     def resolve_wall_collisions(self):
         """Reverse the direction of any particles that hit walls"""
@@ -160,7 +166,7 @@ class Simulation():  # this is where we will make them interact
             self.resolve_wall_collisions()
 
             # 3. resolve any particle collisions and transfer momentum
-            # self.resolve_particle_collisions()
+            self.resolve_particle_collisions()
 
             if self.visualise:
                 # update visualization with a delay
