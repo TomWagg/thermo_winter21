@@ -13,7 +13,7 @@ def part_b(steps=10000):
     assert steps >= 100
 
     # create a new class for the simulation with some randomish variable choices
-    sim = Simulation(N=300, E=1, size=750, radius=3, masses=1, delay=10, visualise=False)
+    sim = Simulation(N=300, E=1, size=750, radius=3, masses=1, delay=10, visualise=True)
 
     # start a timer and create an empty velocity array
     start = time()
@@ -32,7 +32,7 @@ def part_b(steps=10000):
     print("Runtime: {:1.2f}s".format(time() - start))
 
     # save the velocities for later (just in case)
-    np.save("vels.npy", velocities)
+    np.save("data/vels_2b.npy", velocities)
 
     # work out the value of k_B T from velocities
     v_rms = np.sqrt(np.mean(velocities**2))
@@ -55,12 +55,13 @@ def part_b(steps=10000):
 
     plt.show()
 
+
 def part_c(steps=10000):
 
     # create a new class for the simulation with some randomish variable choices
-    N = 300
-    sim = Simulation(N=N, E=0.1, size=750, radius=3,
-                     masses=np.concatenate([np.repeat(1, N // 2), np.repeat(100, N - N // 2)]),
+    N = 5
+    sim = Simulation(N=N, E=1, size=750, radius=100,
+                     masses=np.concatenate([np.repeat(1, N // 2), np.repeat(10, N - N // 2)]),
                      delay=1, visualise=True)
 
     # start a timer and create an empty velocity array
@@ -80,7 +81,7 @@ def part_c(steps=10000):
     print("Runtime: {:1.2f}s".format(time() - start))
 
     # save the velocities for later (just in case)
-    np.save("vels_2c.npy", velocities)
+    np.save("data/vels_2c.npy", velocities)
 
     # work out the value of k_B T from velocities
     v_rms = np.sqrt(np.mean(velocities**2))
@@ -103,8 +104,9 @@ def part_c(steps=10000):
 
     plt.show()
 
+
 def main():
-    part_c(10000)
+    part_b(10000)
 
 
 if __name__ == "__main__":
