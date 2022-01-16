@@ -1,7 +1,8 @@
 import numpy as np
 import tkinter as tk
 from itertools import combinations
-
+from matplotlib.colors import rgb2hex
+from matplotlib.pyplot import get_cmap
 
 class Simulation():  # this is where we will make them interact
     def __init__(self, N, E, size, radius, masses, delay=20, visualise=True):
@@ -96,9 +97,18 @@ class Simulation():  # this is where we will make them interact
 
         self.timestep_message = self.canvas.create_text(self.size // 2, 10, text="Timestep = 0")
 
+        if np.all(self.masses == self.masses[0]):
+            fill = np.repeat(rgb2hex(get_cmap("Greens")(0.5)), self.N)
+        else:
+            scaled_masses = (self.masses - self.masses.min()) / (self.masses.max() - self.masses.min())
+            fill = [rgb2hex(get_cmap("viridis_r")(sm)) for sm in scaled_masses]
+
+        reds = np.random.choice(self.N, size=5, replace=False)
+
         # add all of the particles
         for i in range(self.N):
-            self.particle_handles[i] = self._draw_particle(i)
+            self.particle_handles[i] = self._draw_particle(i, fill=fill[i],
+                                                           outline="red" if i in reds else "black")
 
         # update this all on the canvas
         self.root.update()
@@ -106,7 +116,7 @@ class Simulation():  # this is where we will make them interact
     def _quit_visualisation(self):
         self.root.destroy()
 
-    def _draw_particle(self, pid):
+    def _draw_particle(self, pid, fill="green", outline="black"):
         """Draw a circle on the canvas corresponding to particle
 
         Returns the handle of the tkinter circle element"""
@@ -115,9 +125,7 @@ class Simulation():  # this is where we will make them interact
         x1 = self.pos[pid, 0] + self.radius
         y1 = self.pos[pid, 1] + self.radius
 
-        colours = ["black", "red", "blue", "green"]
-
-        return self.canvas.create_oval(x0, y0, x1, y1, fill=np.random.choice(colours), outline='black')
+        return self.canvas.create_oval(x0, y0, x1, y1, fill=fill, outline=outline)
 
     def resolve_particle_collisions(self):
 
