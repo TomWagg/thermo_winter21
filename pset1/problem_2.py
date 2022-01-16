@@ -43,10 +43,11 @@ def part_b(steps=10000):
 
     # plot the analytic Maxwellian
     v_range = np.linspace(0, np.ceil(velocities.max()), 1000)
-    ax.plot(v_range, velocity_dist(v_range, kBT), label="Analytic distribution")
+    ax.plot(v_range, velocity_dist(v_range, kBT), label="Analytic distribution", lw=5)
 
     # plot a histogram of the velocities
-    ax.hist(velocities, bins="fd", density=True, label="Simulated distribution")
+    ax.hist(velocities, bins="fd", density=True, label="Simulated distribution",
+            color="tab:purple", alpha=0.8)
 
     # label axes, add a legend
     ax.set_xlabel(r"Velocity, $v$")
@@ -108,9 +109,30 @@ def part_c(steps=10000):
     plt.savefig("figures/2c_velocity.png", bbox_inches="tight")
     plt.show()
 
+    # start a figure
+    fig, ax = plt.subplots()
+
+    energies = 0.5 * full_masses * velocities**2
+
+    # plot the analytic Maxwellian
+    # v_range = np.linspace(0, np.ceil(velocities.max()), 1000)
+    # ax.plot(v_range, 0.5 * (velocity_dist(v_range, kBT_low)
+    #                         + velocity_dist(v_range, kBT_high)), label="Mixture of Maxwellians")
+
+    # plot a histogram of the velocities
+    ax.hist(energies, bins="fd", density=True, label="Simulated distribution")
+
+    # label axes, add a legend
+    ax.set_xlabel(r"Energy, $E \, [\rm erg]$")
+    ax.set_ylabel(r"$\mathrm{d}N/\mathrm{d}E$")
+    ax.legend()
+
+    plt.savefig("figures/2c_energy.png", bbox_inches="tight")
+    plt.show()
+
 
 def main():
-    part_c()
+    part_c(1000)
 
 
 if __name__ == "__main__":
