@@ -57,12 +57,10 @@ def part_b(steps=10000):
 
 
 def part_c(steps=10000):
-
     # create a new class for the simulation with some randomish variable choices
-    N = 5
-    sim = Simulation(N=N, E=1, size=750, radius=100,
-                     masses=np.concatenate([np.repeat(1, N // 2), np.repeat(10, N - N // 2)]),
-                     delay=1, visualise=True)
+    N = 300
+    masses = np.concatenate([np.repeat(1, N // 2), np.repeat(10, N - N // 2)])
+    sim = Simulation(N=N, E=1, size=750, radius=3, masses=masses, delay=1, visualise=False)
 
     # start a timer and create an empty velocity array
     start = time()
@@ -83,16 +81,21 @@ def part_c(steps=10000):
     # save the velocities for later (just in case)
     np.save("data/vels_2c.npy", velocities)
 
+    # -- PLOTTING --
+    # tile out the masses to the full range
+    full_masses = np.tile(masses, 101)
+
     # work out the value of k_B T from velocities
-    v_rms = np.sqrt(np.mean(velocities**2))
-    kBT = v_rms**2 / 2
+    kBT_low = 0.5 * np.mean(velocities[full_masses == 1]**2)
+    kBT_high = 0.5 * np.mean(velocities[full_masses == 10]**2)
 
     # start a figure
     fig, ax = plt.subplots()
 
     # plot the analytic Maxwellian
     v_range = np.linspace(0, np.ceil(velocities.max()), 1000)
-    ax.plot(v_range, velocity_dist(v_range, kBT), label="Analytic distribution")
+    ax.plot(v_range, 0.5 * (velocity_dist(v_range, kBT_low)
+                            + velocity_dist(v_range, kBT_high)), label="Mixture of Maxwellians")
 
     # plot a histogram of the velocities
     ax.hist(velocities, bins="fd", density=True, label="Simulated distribution")
@@ -102,11 +105,12 @@ def part_c(steps=10000):
     ax.set_ylabel(r"$\mathrm{d}N/\mathrm{d}v$")
     ax.legend()
 
+    plt.savefig("figures/2c_velocity.png", bbox_inches="tight")
     plt.show()
 
 
 def main():
-    part_b(10000)
+    part_c()
 
 
 if __name__ == "__main__":
