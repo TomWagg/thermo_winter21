@@ -1,63 +1,10 @@
 import numpy as np
 import tkinter as tk
-
-
-class particle():
-    def __init__(self, size, pid, init_ke=5, radius=3, mass=1, pos=None):
-        """Initialise the particles
-
-        Parameters
-        ----------
-        size : int
-            Size of the box
-        pid : int
-            Unique particle ID
-        init_ke : int, optional
-            Initial kinetic energy for the particle, by default 5
-        radius : int, optional
-            Radius of the particle, by default 3
-        mass : int, optional
-            Mass of the particle, by default 1
-        pos : list, optional
-            Initial position of particle, by default randomly chosen in the box
-        """
-        # choose random x and y positions within the grid (padded by radius of particles)
-        self.pos = pos if pos is not None else np.random.uniform(0 + radius, size - radius, size=2)
-
-        # convert initial kinetic energy into a velocity
-        init_v = np.sqrt(2 * init_ke / mass)
-
-        # set random velocities for each particle (randomly distributed between x and y speed)
-        self.vel = np.array([None, None])
-        self.vel[0] = np.random.uniform(0, init_v) * np.random.choice([-1, 1])
-        self.vel[1] = np.sqrt(init_v**2 - self.vel[0]**2) * np.random.choice([-1, 1])
-
-        # set the radius and mass of the particle
-        self.radius = radius
-        self.mass = mass
-
-        # assign a particle id to each particle
-        self.pid = pid
-
-    def update_pos(self, val):
-        self.pos = val
-
-    def update_vel(self, val):
-        self.vel = val
-
-    def update_vx(self, val):
-        self.vel[0] = val
-
-    def update_vy(self, val):
-        self.vel[1] = val
-
-    def colliding(self, other_particle):
-        distance = np.sqrt(sum((other_particle.pos - self.pos)**2))
-        return distance <= self.radius + other_particle.radius
+from itertools import combinations
 
 
 class Simulation():  # this is where we will make them interact
-    def __init__(self, N, E, size, radius, mass, delay=20, visualise=True):
+    def __init__(self, N, E, size, radius, masses, delay=20, visualise=True):
         """Simulation class initialisation. This class handles the entire particle
         in a box thing.
 
@@ -69,9 +16,9 @@ class Simulation():  # this is where we will make them interact
             Kinetic energy to start with
         size : `int`
             Size of the box
-        radius : `int`
+        radius : `int` or `list`
             Radius of the particles
-        mass : `int`
+        masses : `int` or `list`
             Mass of the particles
         delay : `int`
             Delay in milliseconds between showing/running timesteps
@@ -102,10 +49,25 @@ class Simulation():  # this is where we will make them interact
             # add to the position array
             positions.append(possible_pos)
 
-        # initialise N particle classes
-        self.particles = [particle(size=size, pid=i, init_ke=E,
-                                   radius=radius, mass=mass, pos=positions[i]) for i in range(N)]
+        self.pos = np.array(positions)
+
+        if isinstance(masses, (int, float)):
+            self.masses = np.repeat(masses, self.N)
+        else:
+            self.masses = masses
+
+        self.radius = radius
+
+        # convert initial kinetic energy into a velocity
+        init_v = np.sqrt(2 * E / masses)
+
+        # set random velocities for each particle (randomly distributed between x and y speed)
+        vx = np.random.uniform(0, init_v, size=N) * np.random.choice([-1, 1], size=N)
+        vy = np.sqrt(init_v**2 - vx**2) * np.random.choice([-1, 1], size=N)
+
+        self.vel = np.transpose([vx, vy])
         self.visualise = visualise
+        self.combos = np.array(list(combinations(np.arange(0, self.N).astype(int), 2)))
 
         if visualise:
             self.delay = delay
@@ -115,6 +77,9 @@ class Simulation():  # this is where we will make them interact
 
             self._init_visualization()
             self.root.update()
+
+    def get_total_kinetic_energy(self):
+        return 0.5 * np.sum(self.masses * np.sum(self.vel**2, axis=1))
 
     def _init_visualization(self):
         # start the visualisation box
@@ -132,8 +97,8 @@ class Simulation():  # this is where we will make them interact
         self.timestep_message = self.canvas.create_text(self.size // 2, 10, text="Timestep = 0")
 
         # add all of the particles
-        for p in self.particles:
-            self.particle_handles[p.pid] = self._draw_particle(p)
+        for i in range(self.N):
+            self.particle_handles[i] = self._draw_particle(i)
 
         # update this all on the canvas
         self.root.update()
@@ -141,64 +106,64 @@ class Simulation():  # this is where we will make them interact
     def _quit_visualisation(self):
         self.root.destroy()
 
-    def _draw_particle(self, particle):
+    def _draw_particle(self, pid):
         """Draw a circle on the canvas corresponding to particle
 
         Returns the handle of the tkinter circle element"""
-        x0 = particle.pos[0] - particle.radius
-        y0 = particle.pos[1] - particle.radius
-        x1 = particle.pos[0] + particle.radius
-        y1 = particle.pos[1] + particle.radius
+        x0 = self.pos[pid, 0] - self.radius
+        y0 = self.pos[pid, 1] - self.radius
+        x1 = self.pos[pid, 0] + self.radius
+        y1 = self.pos[pid, 1] + self.radius
 
         colours = ["black", "red", "blue", "green"]
 
         return self.canvas.create_oval(x0, y0, x1, y1, fill=np.random.choice(colours), outline='black')
 
-    def _move_particle(self, particle):
-        new_pos = particle.pos + particle.vel
-        particle.update_pos(new_pos)
-
-        if self.visualise:
-            self.canvas.move(self.particle_handles[particle.pid], particle.vel[0], particle.vel[1])
-
     def resolve_particle_collisions(self):
-        # make a set of particles that haven't collided yet
-        not_yet_collided = set(self.particles[:])
 
-        # go through every single particle
-        for p1 in self.particles:
-            # we're handling its collisions now so remove it from the set
-            not_yet_collided.discard(p1)
+        distances = np.sqrt(np.square(self.pos[self.combos][:, 0, :]
+                                      - self.pos[self.combos][:, 1, :]).sum(axis=1))
+        colliders = distances <= 2 * self.radius
+        if len(colliders[colliders]) > 0:
+            mask = self.combos[colliders]
+            # print("COLLISION", self.combos[colliders])
 
-            # go through all potential colliders and check if they are colliding
-            for p2 in list(not_yet_collided):
-                if p1.colliding(p2):
-                    # handle the collision!
-                    not_yet_collided.discard(p2)
+            M = self.masses[mask].sum(axis=1)
+            m1 = self.masses[mask][:, 0]
+            m2 = self.masses[mask][:, 0]
+            v1 = self.vel[mask][:, 0, :]
+            v2 = self.vel[mask][:, 1, :]
+            p1 = self.pos[mask][:, 0, :]
+            p2 = self.pos[mask][:, 1, :]
 
-                    M = p1.mass + p2.mass
+            scalar_bit1 = 2 * m2 / M * np.sum((v1 - v2) * (p1 - p2), axis=1) / np.linalg.norm(p1 - p2, axis=1)**2
+            scalar_bit2 = 2 * m1 / M * np.sum((v2 - v1) * (p2 - p1), axis=1) / np.linalg.norm(p2 - p1, axis=1)**2
 
-                    new_v1 = p1.vel - 2 * p2.mass / M * np.dot(p1.vel - p2.vel, p1.pos - p2.pos) / np.linalg.norm(p1.pos - p2.pos)**2 * (p1.pos - p2.pos)
-                    new_v2 = p2.vel - 2 * p1.mass / M * np.dot(p2.vel - p1.vel, p2.pos - p1.pos) / np.linalg.norm(p2.pos - p1.pos)**2 * (p2.pos - p1.pos)
+            new_v1 = v1 - scalar_bit1[:, np.newaxis] * (p1 - p2)
+            new_v2 = v2 - scalar_bit2[:, np.newaxis] * (p2 - p1)
 
-                    p1.update_vel(new_v1)
-                    p2.update_vel(new_v2)
-                    break
+            for i, combo in enumerate(self.combos[colliders]):
+                self.vel[combo[0]] = new_v1[i]
+                self.vel[combo[1]] = new_v2[i]
 
     def resolve_wall_collisions(self):
         """Reverse the direction of any particles that hit walls"""
-        for particle in self.particles:
-            if (particle.pos[0] + particle.radius) >= self.size or (particle.pos[0] - particle.radius) <= 0:
-                particle.update_vx(-particle.vel[0])
+        outside_x = np.logical_or(self.pos[:, 0] + self.radius >= self.size,
+                                  self.pos[:, 0] - self.radius <= 0)
+        outside_y = np.logical_or(self.pos[:, 1] + self.radius >= self.size,
+                                  self.pos[:, 1] - self.radius <= 0)
 
-            if (particle.pos[1] + particle.radius) >= self.size or (particle.pos[1] - particle.radius) <= 0:
-                particle.update_vy(-particle.vel[1])
+        self.vel[:, 0][outside_x] = -self.vel[:, 0][outside_x]
+        self.vel[:, 1][outside_y] = -self.vel[:, 1][outside_y]
 
     def run_simulation(self, steps=1000):
         for i in range(steps):
             # 1. update all particle positions based on current speeds
-            for particle in self.particles:
-                self._move_particle(particle)
+            self.pos += self.vel
+
+            if self.visualise:
+                for j in range(self.N):
+                    self.canvas.move(self.particle_handles[j], self.vel[j, 0], self.vel[j, 1])
 
             # 2. resolve whether any hit the wall and reflect them
             self.resolve_wall_collisions()
@@ -215,6 +180,3 @@ class Simulation():  # this is where we will make them interact
 
         if self.visualise:
             self.root.mainloop()
-
-    def get_velocities(self):
-        raise NotImplementedError
