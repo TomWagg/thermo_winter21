@@ -78,6 +78,9 @@ class Simulation():  # this is where we will make them interact
             self._init_visualization()
             self.root.update()
 
+    def get_total_kinetic_energy(self):
+        return 0.5 * np.sum(self.masses * np.sum(self.vel**2, axis=1))
+
     def _init_visualization(self):
         # start the visualisation box
         self.root = tk.Tk()
