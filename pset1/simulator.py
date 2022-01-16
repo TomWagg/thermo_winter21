@@ -139,7 +139,7 @@ class Simulation():  # this is where we will make them interact
 
             M = self.masses[mask].sum(axis=1)
             m1 = self.masses[mask][:, 0]
-            m2 = self.masses[mask][:, 0]
+            m2 = self.masses[mask][:, 1]
             v1 = self.vel[mask][:, 0, :]
             v2 = self.vel[mask][:, 1, :]
             p1 = self.pos[mask][:, 0, :]
