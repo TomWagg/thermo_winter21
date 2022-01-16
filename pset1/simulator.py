@@ -4,6 +4,7 @@ from itertools import combinations
 from matplotlib.colors import rgb2hex
 from matplotlib.pyplot import get_cmap
 
+
 class Simulation():  # this is where we will make them interact
     def __init__(self, N, E, size, radius, masses, delay=20, visualise=True):
         """Simulation class initialisation. This class handles the entire particle
@@ -107,8 +108,8 @@ class Simulation():  # this is where we will make them interact
 
         # add all of the particles
         for i in range(self.N):
-            self.particle_handles[i] = self._draw_particle(i, fill=fill[i],
-                                                           outline="red" if i in reds else "black")
+            self.particle_handles[i] = self._draw_particle(i, fill=fill[i] if i not in reds else "red",
+                                                           outline="black")
 
         # update this all on the canvas
         self.root.update()
