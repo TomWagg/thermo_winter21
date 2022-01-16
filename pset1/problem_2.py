@@ -101,7 +101,7 @@ def part_c(steps=10000):
     ax.hist(velocities, bins="fd", density=True, label="Simulated distribution")
 
     # label axes, add a legend
-    ax.set_xlabel(r"Velocity, $v$")
+    ax.set_xlabel(r"Velocity, $v \, [\rm cm \, s^{-1}]$")
     ax.set_ylabel(r"$\mathrm{d}N/\mathrm{d}v$")
     ax.legend()
 
