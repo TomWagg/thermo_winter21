@@ -136,8 +136,7 @@ class Simulation():  # this is where we will make them interact
     def reached_steadstate(self):
         self.speeds = np.sqrt(np.sum(self.vel**2, axis=1))
         v_rms = np.sqrt(np.mean(self.speeds**2))
-        print(kstest(self.speeds, speed_cdf, args=(v_rms,)).statistic)
-        return kstest(self.speeds, speed_cdf, args=(v_rms,)).statistic <= 0.03
+        return kstest(self.speeds, speed_cdf, args=(v_rms,)).pvalue >= 0.05
 
     def resolve_particle_collisions(self):
 
