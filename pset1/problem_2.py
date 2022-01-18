@@ -10,7 +10,8 @@ def velocity_dist(v, v_rms):
 
 
 def energy_dist(E, m, v_rms):
-    return E / (0.5 * v_rms**2) * np.exp(-E / (0.5 * m * v_rms**2))
+    kBT = 0.5 * m * v_rms**2
+    return 1 / kBT * np.exp(-E / kBT)
 
 
 def part_b(steps=10000):
@@ -36,7 +37,7 @@ def part_b(steps=10000):
     print("Runtime: {:1.2f}s".format(time() - start))
 
     # save the velocities for later (just in case)
-    # np.save("data/vels_2b.npy", velocities)
+    np.save("data/vels_2b.npy", velocities)
 
     # work out the value of k_B T from velocities
     v_rms = np.sqrt(np.mean(velocities**2))
@@ -68,6 +69,8 @@ def part_b(steps=10000):
     axes[1].set_xlabel(r"Energy, $E \, [\rm erg]$")
     axes[1].set_ylabel(r"$\mathrm{d}N/\mathrm{d}E$")
     axes[1].legend()
+
+    plt.savefig("figures/2b.png", bbox_inches="tight")
 
     plt.show()
 
@@ -144,7 +147,7 @@ def part_c(steps=10000):
 
 
 def main():
-    part_b(1000)
+    part_b()
 
 
 if __name__ == "__main__":
