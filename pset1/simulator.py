@@ -3,6 +3,11 @@ import tkinter as tk
 from itertools import combinations
 from matplotlib.colors import rgb2hex
 from matplotlib.pyplot import get_cmap
+from scipy.stats import kstest
+
+
+def speed_cdf(v, v_rms):
+    return 1 - np.exp(-(v / v_rms)**2)
 
 
 class Simulation():  # this is where we will make them interact
@@ -128,11 +133,20 @@ class Simulation():  # this is where we will make them interact
 
         return self.canvas.create_oval(x0, y0, x1, y1, fill=fill, outline=outline)
 
+    def reached_steadstate(self):
+        self.speeds = np.sqrt(np.sum(self.vel**2, axis=1))
+        v_rms = np.sqrt(np.mean(self.speeds**2))
+        print(kstest(self.speeds, speed_cdf, args=(v_rms,)).statistic)
+        return kstest(self.speeds, speed_cdf, args=(v_rms,)).statistic <= 0.03
+
     def resolve_particle_collisions(self):
 
         distances = np.sqrt(np.square(self.pos[self.combos][:, 0, :]
                                       - self.pos[self.combos][:, 1, :]).sum(axis=1))
-        colliders = distances <= 2 * self.radius
+
+        v_dotprod = np.sum(self.vel[self.combos][:, 0, :] * self.vel[self.combos][:, 1, :], axis=1)
+
+        colliders = np.logical_and(distances <= 2 * self.radius, v_dotprod < 0)
         if len(colliders[colliders]) > 0:
             mask = self.combos[colliders]
             # print("COLLISION", self.combos[colliders])
@@ -165,8 +179,10 @@ class Simulation():  # this is where we will make them interact
         self.vel[:, 0][outside_x] = -self.vel[:, 0][outside_x]
         self.vel[:, 1][outside_y] = -self.vel[:, 1][outside_y]
 
-    def run_simulation(self, steps=1000):
-        for i in range(steps):
+    def run_simulation(self, steps=1000, run_until_steadstate=False):
+        i = 0
+        actual_steps = 0
+        while i < steps:
             # 1. update all particle positions based on current speeds
             self.pos += self.vel
 
@@ -186,6 +202,14 @@ class Simulation():  # this is where we will make them interact
 
                 # change the timestep message as well
                 self.canvas.itemconfig(self.timestep_message, text="Timestep = {}".format(i))
+
+            # only update i when we're stepping a set number of times
+            if not run_until_steadstate:
+                i += 1
+            else:
+                if self.reached_steadstate():
+                    return actual_steps
+                actual_steps += 1
 
         if self.visualise:
             self.root.mainloop()
