@@ -48,7 +48,7 @@ def plot_r_comparison(N=100, size=1000, E=0.1, mass=1):
 
     fig, ax = plt.subplots()
 
-    r_range = np.array([1, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20])
+    r_range = np.array([10, 12.5, 15, 17.5, 20])
 
     for radius in r_range:
         t_relax = []
@@ -63,7 +63,7 @@ def plot_r_comparison(N=100, size=1000, E=0.1, mass=1):
         print("r =", radius, "done", t_relax)
 
     r_range_smooth = np.linspace(r_range.min(), r_range.max(), 1000)
-    ax.plot(r_range_smooth, t_relax_analytic(r_range_smooth, size, radius, E, mass))
+    ax.plot(r_range_smooth, t_relax_analytic(N=N, size=size, radius=r_range_smooth, E=E, mass=mass))
     ax.set_xlabel(r"Radius, $r \, [\rm cm]$")
     ax.set_ylabel(r"Relaxation Time, $\tau_{\rm relax} \, [\rm s]$")
 
@@ -75,7 +75,7 @@ def plot_r_comparison(N=100, size=1000, E=0.1, mass=1):
 
 
 def main():
-    plot_N_comparison()
+    # plot_N_comparison()
     plot_r_comparison()
 
 
