@@ -10,6 +10,11 @@ def speed_cdf(v, v_rms):
     return 1 - np.exp(-(v / v_rms)**2)
 
 
+def energy_cdf(E, m, v_rms):
+    kBT = 0.5 * m * v_rms**2
+    return 1 - np.exp(-E / kBT)
+
+
 class Simulation():  # this is where we will make them interact
     def __init__(self, N, E, size, radius, masses, delay=20, visualise=True):
         """Simulation class initialisation. This class handles the entire particle
@@ -136,7 +141,10 @@ class Simulation():  # this is where we will make them interact
     def reached_steadstate(self):
         self.speeds = np.sqrt(np.sum(self.vel**2, axis=1))
         v_rms = np.sqrt(np.mean(self.speeds**2))
-        return kstest(self.speeds, speed_cdf, args=(v_rms,)).pvalue >= 0.05
+
+        passes_speed = kstest(self.speeds, speed_cdf, args=(v_rms,)).pvalue >= 0.05
+        passes_energy = kstest(self.speeds, energy_cdf, args=(self.masses[0], v_rms,)).pvalue >= 0.05
+        return passes_speed and passes_energy
 
     def resolve_particle_collisions(self):
 
