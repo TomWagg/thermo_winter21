@@ -97,8 +97,10 @@ def part_b(steps=10000):
 def part_c(steps=10000):
     # create a new class for the simulation with some randomish variable choices
     N = 300
-    masses = np.concatenate([np.repeat(1, N // 2), np.repeat(10, N - N // 2)])
-    sim = Simulation(N=N, E=1, size=750, radius=3, masses=masses, delay=1, visualise=True)
+    low_mass = 1
+    high_mass = 10
+    masses = np.concatenate([np.repeat(low_mass, N // 2), np.repeat(high_mass, N - N // 2)])
+    sim = Simulation(N=N, E=1, size=750, radius=3, masses=masses, delay=1, visualise=False)
 
     # start a timer and create an empty velocity array
     start = time()
@@ -117,56 +119,59 @@ def part_c(steps=10000):
     print("Runtime: {:1.2f}s".format(time() - start))
 
     # save the velocities for later (just in case)
-    # np.save("data/vels_2c.npy", velocities)
+    np.save("data/vels_2c.npy", velocities)
 
     # -- PLOTTING --
     # tile out the masses to the full range
     full_masses = np.tile(masses, 101)
 
     # work out the value of k_B T from velocities
-    kBT_low = 0.5 * np.mean(velocities[full_masses == 1]**2)
-    kBT_high = 0.5 * np.mean(velocities[full_masses == 10]**2)
+    v_rms_low = np.sqrt(np.mean(velocities[full_masses == low_mass]**2))
+    v_rms_high = np.sqrt(np.mean(velocities[full_masses == high_mass]**2))
 
-    fig, ax = plt.subplots()
+    fig, axes = plt.subplots(1, 2, figsize=(18, 7))
 
     # plot the analytic Maxwellian
     v_range = np.linspace(0, np.ceil(velocities.max()), 1000)
-    ax.plot(v_range, 0.5 * (velocity_dist(v_range, kBT_low)
-                            + velocity_dist(v_range, kBT_high)), label="Mixture of Maxwellians", lw=3)
-    ax.plot(v_range, 0.5 * velocity_dist(v_range, kBT_low), label="Individual Maxwellians", linestyle="dotted", color="darkblue", lw=2)
-    ax.plot(v_range, 0.5 * velocity_dist(v_range, kBT_high), linestyle="dotted", color="darkblue", lw=2)
+    axes[0].plot(v_range, 0.5 * (velocity_dist(v_range, v_rms_low)
+                                 + velocity_dist(v_range, v_rms_high)), label="Mixture of Maxwellians", lw=3)
+    axes[0].plot(v_range, 0.5 * velocity_dist(v_range, v_rms_low), label="Individual Maxwellians",
+                 linestyle="dotted", color="darkblue", lw=2)
+    axes[0].plot(v_range, 0.5 * velocity_dist(v_range, v_rms_high),
+                 linestyle="dotted", color="darkblue", lw=2)
 
     # plot a histogram of the velocities
-    ax.hist(velocities, bins="fd", density=True, label="Simulated distribution",
-            color="tab:orange", alpha=0.8)
+    axes[0].hist(velocities, bins="fd", density=True, label="Simulated distribution",
+                 color="tab:orange", alpha=0.8)
 
     # label axes, add a legend
-    ax.set_xlabel(r"Velocity, $v \, [\rm cm \, s^{-1}]$")
-    ax.set_ylabel(r"$\mathrm{d}N/\mathrm{d}v$")
-    ax.legend()
+    axes[0].set_xlabel(r"Velocity, $v \, [\rm cm \, s^{-1}]$")
+    axes[0].set_ylabel(r"$\mathrm{d}N/\mathrm{d}v$")
+    axes[0].legend()
 
-    plt.savefig("figures/2c_velocity.png", bbox_inches="tight")
-    plt.show()
-
-    # start a figure
-    fig, ax = plt.subplots()
-
+    # repeat for energies
     energies = 0.5 * full_masses * velocities**2
+    E_range = np.linspace(0, np.ceil(energies.max()), 1000)
+    analytic = 0.5 * (energy_dist(E_range, low_mass, v_rms_low) + energy_dist(E_range, high_mass, v_rms_high))
+    axes[1].plot(E_range, analytic, label="Analytic distribution", lw=3)
 
     # plot a histogram of the velocities
-    ax.hist(energies, bins="fd", density=True, label="Simulated distribution")
+    axes[1].hist(energies, bins="fd", density=True, label="Simulated distribution",
+                 color="tab:orange", alpha=0.8)
 
     # label axes, add a legend
-    ax.set_xlabel(r"Energy, $E \, [\rm erg]$")
-    ax.set_ylabel(r"$\mathrm{d}N/\mathrm{d}E$")
-    ax.legend()
+    axes[1].set_xlabel(r"Energy, $E \, [\rm erg]$")
+    axes[1].set_ylabel(r"$\mathrm{d}N/\mathrm{d}E$")
+    axes[1].legend()
 
-    plt.savefig("figures/2c_energy.png", bbox_inches="tight")
+    plt.savefig("figures/2c.pdf", format="pdf", bbox_inches="tight")
+
     plt.show()
 
 
 def main():
-    part_b()
+    # part_b()
+    part_c()
 
 
 if __name__ == "__main__":
