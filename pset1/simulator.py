@@ -7,15 +7,35 @@ from scipy.stats import kstest
 
 
 def speed_cdf(v, v_rms):
+    """Cumulative distribution function for the speeds
+
+    Parameters
+    ----------
+    v : `float/array`
+        Speeds at which to evaluate
+    v_rms : `float`
+        The root mean square speed of the distribution
+    """
     return 1 - np.exp(-(v / v_rms)**2)
 
 
 def energy_cdf(E, m, v_rms):
+    """Cumulative distribution function for the energies
+
+    Parameters
+    ----------
+    E : `float/array`
+        Energies at which to evaluate
+    m : `float`
+        Masses of the particles (this currently only handles particles with the same mass)
+    v_rms : `float`
+        The root mean square speed of the distribution
+    """
     kBT = 0.5 * m * v_rms**2
     return 1 - np.exp(-E / kBT)
 
 
-class Simulation():  # this is where we will make them interact
+class Simulation():
     def __init__(self, N, E, size, radius, masses, delay=20, visualise=True):
         """Simulation class initialisation. This class handles the entire particle
         in a box thing.
