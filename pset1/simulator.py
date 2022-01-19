@@ -82,14 +82,7 @@ class Simulation():
         self.pos = np.array(positions)
         self.radius = radius
         self.pressure = []
-        self.wall_momenta = [[] for _ in range(self.N)]
-        self.wall_times = [[0] for _ in range(self.N)]
-        self.wall_momenta_up = [[] for _ in range(self.N)]
-        self.wall_times_up = [[0] for _ in range(self.N)]
-        self.wall_momenta_down = [[] for _ in range(self.N)]
-        self.wall_times_down = [[0] for _ in range(self.N)]
-        self.wall_momenta_left = [[] for _ in range(self.N)]
-        self.wall_times_left = [[0] for _ in range(self.N)]
+        self.wall_momenta = []
         self.time = 0
 
         # save the masses as an array, whatever is inputted
@@ -247,19 +240,8 @@ class Simulation():
         self.pos[:, 1][bottom_wall] = self.radius
         self.pos[:, 1][top_wall] = self.size - self.radius
 
-        for i in range(self.N):
-            if self.pos[i, 0] + self.radius >= self.size:
-                self.wall_momenta[i].append(2 * self.masses[i] * np.abs(self.vel[i, 0]))
-                self.wall_times[i].append(self.time)
-            elif self.pos[i, 1] + self.radius >= self.size:
-                self.wall_momenta_up[i].append(2 * self.masses[i] * np.abs(self.vel[i, 1]))
-                self.wall_times_up[i].append(self.time)
-            elif self.pos[i, 0] - self.radius <= 0:
-                self.wall_momenta_left[i].append(2 * self.masses[i] * np.abs(self.vel[i, 0]))
-                self.wall_times_left[i].append(self.time)
-            elif self.pos[i, 1] - self.radius <= 0:
-                self.wall_momenta_down[i].append(2 * self.masses[i] * np.abs(self.vel[i, 1]))
-                self.wall_times_down[i].append(self.time)
+        self.wall_momenta.extend(2 * self.masses[outside_x] * np.abs(self.vel[:, 0][outside_x]))
+        self.wall_momenta.extend(2 * self.masses[outside_y] * np.abs(self.vel[:, 1][outside_y]))
 
     def run_simulation(self, seconds=1000, run_until_steadystate=False):
         """Run the simulation of particles! It can either be run for a set amount of time or until a steady
