@@ -143,7 +143,8 @@ class Simulation():  # this is where we will make them interact
         v_rms = np.sqrt(np.mean(self.speeds**2))
 
         passes_speed = kstest(self.speeds, speed_cdf, args=(v_rms,)).pvalue >= 0.05
-        passes_energy = kstest(self.speeds, energy_cdf, args=(self.masses[0], v_rms,)).pvalue >= 0.05
+        passes_energy = kstest(0.5 * self.masses * self.speeds**2, energy_cdf,
+                               args=(self.masses[0], v_rms,)).pvalue >= 0.05
         return passes_speed and passes_energy
 
     def resolve_particle_collisions(self):
