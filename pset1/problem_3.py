@@ -31,7 +31,7 @@ def t_relax_analytic(N, size, radius, E, mass):
     return (n * sigma * v0)**(-1)
 
 
-def plot_N_comparison(fig, ax, size=1000, radius=20, E=0.1, mass=1, repeats=10):
+def get_N_comparison(size=1000, radius=20, E=0.1, mass=1, repeats=10):
     start = time()
 
     N_range = np.array([25, 50, 75, 100, 125, 150, 175, 200])
@@ -42,27 +42,15 @@ def plot_N_comparison(fig, ax, size=1000, radius=20, E=0.1, mass=1, repeats=10):
         for _ in range(repeats):
             sim = Simulation(N=N, E=E, size=size, radius=radius, masses=mass, visualise=False)
             t_relax.append(sim.run_simulation(run_until_steadstate=True))
-
-        ax.errorbar(N, np.median(t_relax), xerr=0.0, yerr=[[np.median(t_relax) - np.min(t_relax)],
-                                                           [np.max(t_relax) - np.median(t_relax)]],
-                    color="tab:orange")
-        ax.scatter(N, np.median(t_relax), color="tab:orange")
         print("N =", N, "done", t_relax)
         t_relax_list.append(t_relax)
-
     np.save("data/t_relax_N.npy", t_relax_list)
-
-    N_range_smooth = np.linspace(N_range.min(), N_range.max(), 1000)
-    ax.plot(N_range_smooth, t_relax_analytic(N_range_smooth, size, radius, E, mass))
-    ax.set_xlabel(r"Number of Particles")
-    ax.set_ylabel(r"Relaxation Time, $\tau_{\rm relax} \, [\rm s]$")
-
     print("Runtime {:1.2f}s".format(time() - start))
 
-    return fig, ax
+    return N_range, t_relax_list
 
 
-def plot_r_comparison(fig, ax, N=100, size=1000, E=0.1, mass=1, repeats=10):
+def get_r_comparison(N=100, size=1000, E=0.1, mass=1, repeats=10):
     start = time()
 
     r_range = np.array([10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30])
@@ -73,32 +61,59 @@ def plot_r_comparison(fig, ax, N=100, size=1000, E=0.1, mass=1, repeats=10):
         for _ in range(repeats):
             sim = Simulation(N=N, E=E, size=size, radius=radius, masses=mass, visualise=False)
             t_relax.append(sim.run_simulation(run_until_steadstate=True))
-
-        ax.errorbar(radius, np.median(t_relax), xerr=0.0, yerr=[[np.median(t_relax) - np.min(t_relax)],
-                                                                [np.max(t_relax) - np.median(t_relax)]],
-                    color="tab:orange")
-        ax.scatter(radius, np.median(t_relax), color="tab:orange")
         print("r =", radius, "done", t_relax)
         t_relax_list.append(t_relax)
-
     np.save("data/t_relax_r.npy", t_relax_list)
-
-    r_range_smooth = np.linspace(r_range.min(), r_range.max(), 1000)
-    ax.plot(r_range_smooth, t_relax_analytic(N=N, size=size, radius=r_range_smooth, E=E, mass=mass))
-    ax.set_xlabel(r"Radius, $r \, [\rm cm]$")
-    ax.set_ylabel(r"Relaxation Time, $\tau_{\rm relax} \, [\rm s]$")
-
     print("Runtime {:1.2f}s".format(time() - start))
 
-    return fig, ax
+    return r_range, t_relax_list
 
 
 def main():
+    N = 100
+    radius = 20
+    size = 1000
+    E = 0.1
+    mass = 1
 
     fig, axes = plt.subplots(1, 2, figsize=(18, 7))
 
-    fig, axes[0] = plot_N_comparison(fig=fig, ax=axes[0])
-    fig, axes[1] = plot_r_comparison(fig=fig, ax=axes[1])
+    N_range, t_relax_N = get_N_comparison(radius=radius, size=size, E=E, mass=mass)
+    r_range, t_relax_r = get_r_comparison(N=N, size=size, E=E, mass=mass)
+
+    ax = axes[0]
+    t_relax = t_relax_N
+
+    N_range_smooth = np.linspace(N_range.min(), N_range.max(), 1000)
+    ax.plot(N_range_smooth, t_relax_analytic(N_range_smooth, size, radius, E, mass) * 1.2,
+            linestyle="dotted", lw=3, color=plt.get_cmap("plasma")(0.8),
+            label=r"Analytic function, $X = 1.2$")
+    ax.set_xlabel(r"Number of Particles")
+    ax.set_ylabel(r"Relaxation Time, $\tau_{\rm relax} \, [\rm s]$")
+
+    ax.errorbar(N_range, np.median(t_relax, axis=1), xerr=0.0,
+                yerr=[np.median(t_relax, axis=1) - np.min(t_relax, axis=1),
+                      np.max(t_relax, axis=1) - np.median(t_relax, axis=1)],
+                marker="o", color=plt.get_cmap("plasma")(0.2), label="Simulated results")
+
+    ax.legend()
+
+    ax = axes[1]
+    t_relax = t_relax_r
+
+    r_range_smooth = np.linspace(r_range.min(), r_range.max(), 1000)
+    ax.plot(r_range_smooth, t_relax_analytic(N=N, size=size, radius=r_range_smooth, E=E, mass=mass) * 1.2,
+            linestyle="dotted", lw=3, color=plt.get_cmap("plasma")(0.8),
+            label=r"Analytic function, $X = 1.2$")
+    ax.set_xlabel(r"Radius, $r \, [\rm cm]$")
+    ax.set_ylabel(r"Relaxation Time, $\tau_{\rm relax} \, [\rm s]$")
+
+    ax.errorbar(r_range, np.median(t_relax, axis=1), xerr=0.0,
+                yerr=[np.median(t_relax, axis=1) - np.min(t_relax, axis=1),
+                      np.max(t_relax, axis=1) - np.median(t_relax, axis=1)],
+                marker="o", color=plt.get_cmap("plasma")(0.2), label="Simulated results")
+
+    ax.legend()
 
     plt.savefig("figures/3c.pdf", format="pdf", bbox_inches="tight")
     plt.show()
