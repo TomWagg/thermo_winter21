@@ -73,7 +73,7 @@ def part_b(steps=10000):
                  color="tab:purple", alpha=0.8)
 
     # label axes, add a legend
-    axes[0].set_xlabel(r"Velocity, $v \, [\rm cm \, s^{-1}]$")
+    axes[0].set_xlabel(r"Speed, $v \, [\rm cm \, s^{-1}]$")
     axes[0].set_ylabel(r"$\mathrm{d}N/\mathrm{d}v$")
     axes[0].legend()
 
@@ -145,7 +145,7 @@ def part_c(steps=10000):
                  color="tab:orange", alpha=0.8)
 
     # label axes, add a legend
-    axes[0].set_xlabel(r"Velocity, $v \, [\rm cm \, s^{-1}]$")
+    axes[0].set_xlabel(r"Speed, $v \, [\rm cm \, s^{-1}]$")
     axes[0].set_ylabel(r"$\mathrm{d}N/\mathrm{d}v$")
     axes[0].legend()
 
