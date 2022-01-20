@@ -223,23 +223,25 @@ class Simulation():
 
     def resolve_wall_collisions(self):
         """Reverse the direction of any particles that hit walls"""
-        left_wall = self.pos[:, 0] - self.radius <= 0
-        right_wall = self.pos[:, 0] + self.radius >= self.size
-        bottom_wall = self.pos[:, 1] - self.radius <= 0
-        top_wall = self.pos[:, 1] + self.radius >= self.size
+        # check whether the particles are beyond any of the walls and moving further
+        left_wall = np.logical_and(self.pos[:, 0] - self.radius <= 0, self.vel[:, 0] < 0)
+        right_wall = np.logical_and(self.pos[:, 0] + self.radius >= self.size, self.vel[:, 0] > 0)
+        bottom_wall = np.logical_and(self.pos[:, 1] - self.radius <= 0, self.vel[:, 1] < 0)
+        top_wall = np.logical_and(self.pos[:, 1] + self.radius >= self.size, self.vel[:, 1] > 0)
 
-        outside_x = np.logical_or(left_wall, right_wall)
-        outside_y = np.logical_or(bottom_wall, top_wall)
-
-        self.vel[:, 0][outside_x] = -self.vel[:, 0][outside_x]
-        self.vel[:, 1][outside_y] = -self.vel[:, 1][outside_y]
-
+        # if so, move them back to right at the edge
         self.pos[:, 0][left_wall] = self.radius
         self.pos[:, 0][right_wall] = self.size - self.radius
-
         self.pos[:, 1][bottom_wall] = self.radius
         self.pos[:, 1][top_wall] = self.size - self.radius
 
+        # and reflect the velocities
+        outside_x = np.logical_or(left_wall, right_wall)
+        outside_y = np.logical_or(bottom_wall, top_wall)
+        self.vel[:, 0][outside_x] = -self.vel[:, 0][outside_x]
+        self.vel[:, 1][outside_y] = -self.vel[:, 1][outside_y]
+
+        # then also keep track of the momentum of the interaction (to calculate the pressure)
         self.wall_momenta.extend(2 * self.masses[outside_x] * np.abs(self.vel[:, 0][outside_x]))
         self.wall_momenta.extend(2 * self.masses[outside_y] * np.abs(self.vel[:, 1][outside_y]))
 
