@@ -25,26 +25,47 @@ plt.rcParams.update(params)
 
 
 def main():
-    mass = 1
-    sim = Simulation(N=100, E=1, size=1000, radius=20, masses=mass, visualise=False)
-    sim.run_simulation(run_until_steadystate=True)
 
-    sim.wall_momenta = []
+    an_val = []
+    sim_val = []
 
-    seconds = 1000
-    sim.run_simulation(seconds=seconds)
+    N_range = [10, 20, 50, 70, 100]
+    for N in N_range:
 
-    total_pressure = np.array(sim.wall_momenta).sum() / sim.size / seconds
+        mass = 1
+        sim = Simulation(N=N, E=0.1, size=1000, radius=20, masses=mass, visualise=False)
+        sim.run_simulation(run_until_steadystate=True)
 
-    speeds = np.sqrt(np.sum(sim.vel**2, axis=1))
-    v_rms = np.sqrt(np.mean(speeds))
+        sim.wall_momenta = []
 
-    n = sim.N / sim.size**2
-    kBT = 0.5 * mass * v_rms**2
+        seconds = 10000
+        sim.run_simulation(seconds=seconds)
 
-    print(n * kBT)
-    print(total_pressure)
-    print(total_pressure / (n * kBT))
+        sim_val.append(np.sum(sim.wall_momenta) / (4 * sim.size) / seconds)
+
+        speeds = np.sqrt(np.sum(sim.vel**2, axis=1))
+        v_rms = np.sqrt(np.mean(speeds))
+
+        n = sim.N / sim.size**2
+        kBT = 0.5 * mass * v_rms**2
+
+        an_val.append(n * kBT)
+
+        print("N =", N, "done")
+        print("  ", len(sim.wall_momenta))
+
+    fig, axes = plt.subplots(1, 2, figsize=(18, 7))
+
+    axes[0].scatter(N_range, an_val, label=r"$n k_B T$")
+    axes[0].scatter(N_range, sim_val, label=r"$P$")
+
+    axes[1].scatter(N_range, np.divide(sim_val, an_val), label=r"$P / n k_B T$")
+
+    for ax in axes:
+        ax.legend()
+        ax.set_xlabel("Number of particles")
+
+    plt.show()
 
 
 if __name__ == "__main__":
