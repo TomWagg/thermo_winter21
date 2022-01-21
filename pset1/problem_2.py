@@ -33,8 +33,8 @@ def energy_dist(E, m, v_rms):
     return 1 / kBT * np.exp(-E / kBT)
 
 
-def part_b(steps=10000):
-    assert steps >= 100
+def part_b(seconds=10000):
+    assert seconds >= 100
 
     # create a new class for the simulation with some randomish variable choices
     sim = Simulation(N=300, E=1, size=750, radius=3, masses=1, delay=10, visualise=False)
@@ -44,13 +44,13 @@ def part_b(steps=10000):
     velocities = []
 
     # run the simulation until the given number of steps and save the new velocities
-    sim.run_simulation(steps=steps)
+    sim.run_simulation(seconds=seconds)
     velocities.extend(np.sqrt(np.sum(sim.vel**2, axis=1)))
 
     # keep running the simulation 100 more times but for 100x less time each
     # motivation behind this is to increase the sample size and make a nicer histogram
     for _ in range(100):
-        sim.run_simulation(steps=steps // 100)
+        sim.run_simulation(seconds=seconds // 100)
         velocities.extend(np.sqrt(np.sum(sim.vel**2, axis=1)))
     velocities = np.array(velocities)
     print("Runtime: {:1.2f}s".format(time() - start))
@@ -94,7 +94,7 @@ def part_b(steps=10000):
     plt.show()
 
 
-def part_c(steps=10000):
+def part_c(seconds=10000):
     # create a new class for the simulation with some randomish variable choices
     N = 300
     low_mass = 1
@@ -107,13 +107,13 @@ def part_c(steps=10000):
     velocities = []
 
     # run the simulation until the given number of steps and save the new velocities
-    sim.run_simulation(steps=steps)
+    sim.run_simulation(seconds=seconds)
     velocities.extend(np.sqrt(np.sum(sim.vel**2, axis=1)))
 
     # keep running the simulation 100 more times but for 100x less time each
     # motivation behind this is to increase the sample size and make a nicer histogram
     for _ in range(100):
-        sim.run_simulation(steps=steps // 100)
+        sim.run_simulation(seconds=seconds // 100)
         velocities.extend(np.sqrt(np.sum(sim.vel**2, axis=1)))
     velocities = np.array(velocities)
     print("Runtime: {:1.2f}s".format(time() - start))

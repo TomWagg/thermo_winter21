@@ -41,7 +41,7 @@ def get_N_comparison(size=1000, radius=20, E=0.1, mass=1, repeats=10):
         t_relax = []
         for _ in range(repeats):
             sim = Simulation(N=N, E=E, size=size, radius=radius, masses=mass, visualise=False)
-            t_relax.append(sim.run_simulation(run_until_steadstate=True))
+            t_relax.append(sim.run_simulation(run_until_steadystate=True))
         print("N =", N, "done", t_relax)
         t_relax_list.append(t_relax)
     np.save("data/t_relax_N.npy", t_relax_list)
@@ -60,7 +60,7 @@ def get_r_comparison(N=100, size=1000, E=0.1, mass=1, repeats=10):
         t_relax = []
         for _ in range(repeats):
             sim = Simulation(N=N, E=E, size=size, radius=radius, masses=mass, visualise=False)
-            t_relax.append(sim.run_simulation(run_until_steadstate=True))
+            t_relax.append(sim.run_simulation(run_until_steadystate=True))
         print("r =", radius, "done", t_relax)
         t_relax_list.append(t_relax)
     np.save("data/t_relax_r.npy", t_relax_list)

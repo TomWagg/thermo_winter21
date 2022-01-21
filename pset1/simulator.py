@@ -81,6 +81,9 @@ class Simulation():
             positions.append(possible_pos)
         self.pos = np.array(positions)
         self.radius = radius
+        self.pressure = []
+        self.wall_momenta = []
+        self.time = 0
 
         # save the masses as an array, whatever is inputted
         if isinstance(masses, (int, float)):
@@ -168,7 +171,7 @@ class Simulation():
 
         self.particle_handles[pid] = self.canvas.create_oval(x0, y0, x1, y1, fill=fill, outline=outline)
 
-    def reached_steadstate(self):
+    def reached_steadystate(self):
         """ Assess whether the simulation has reached a steady state. NOTE: this assumes equal masses """
         # calculate the speeds and root-mean-square speed
         self.speeds = np.sqrt(np.sum(self.vel**2, axis=1))
@@ -220,15 +223,29 @@ class Simulation():
 
     def resolve_wall_collisions(self):
         """Reverse the direction of any particles that hit walls"""
-        outside_x = np.logical_or(self.pos[:, 0] + self.radius >= self.size,
-                                  self.pos[:, 0] - self.radius <= 0)
-        outside_y = np.logical_or(self.pos[:, 1] + self.radius >= self.size,
-                                  self.pos[:, 1] - self.radius <= 0)
+        # check whether the particles are beyond any of the walls and moving further
+        left_wall = np.logical_and(self.pos[:, 0] - self.radius <= 0, self.vel[:, 0] < 0)
+        right_wall = np.logical_and(self.pos[:, 0] + self.radius >= self.size, self.vel[:, 0] > 0)
+        bottom_wall = np.logical_and(self.pos[:, 1] - self.radius <= 0, self.vel[:, 1] < 0)
+        top_wall = np.logical_and(self.pos[:, 1] + self.radius >= self.size, self.vel[:, 1] > 0)
 
+        # if so, move them back to right at the edge
+        self.pos[:, 0][left_wall] = self.radius - self.pos[:, 0][left_wall]
+        self.pos[:, 0][right_wall] = 2 * self.size - self.pos[:, 0][right_wall] - self.radius
+        self.pos[:, 1][bottom_wall] = self.radius - self.pos[:, 1][bottom_wall]
+        self.pos[:, 1][top_wall] = 2 * self.size - self.pos[:, 1][top_wall] - self.radius
+
+        # and reflect the velocities
+        outside_x = np.logical_or(left_wall, right_wall)
+        outside_y = np.logical_or(bottom_wall, top_wall)
         self.vel[:, 0][outside_x] = -self.vel[:, 0][outside_x]
         self.vel[:, 1][outside_y] = -self.vel[:, 1][outside_y]
 
-    def run_simulation(self, seconds=1000, run_until_steadstate=False):
+        # then also keep track of the momentum of the interaction (to calculate the pressure)
+        self.wall_momenta.extend(2 * self.masses[outside_x] * np.abs(self.vel[:, 0][outside_x]))
+        self.wall_momenta.extend(2 * self.masses[outside_y] * np.abs(self.vel[:, 1][outside_y]))
+
+    def run_simulation(self, seconds=1000, run_until_steadystate=False):
         """Run the simulation of particles! It can either be run for a set amount of time or until a steady
         state is reached.
 
@@ -236,7 +253,7 @@ class Simulation():
         ----------
         seconds : `int`, optional
             How many seconds to evolve for (ignored if `run_until_steady_state=True`), by default 1000
-        run_until_steadstate : `bool`, optional
+        run_until_steadystate : `bool`, optional
             Whether to run until steady state, by default False
 
         Returns
@@ -267,12 +284,14 @@ class Simulation():
                 # change the timestep message as well
                 self.canvas.itemconfig(self.timestep_message, text="Timestep = {}".format(time))
 
+            self.time += 1
+
             # only update time when we're stepping a set number of times
-            if not run_until_steadstate:
+            if not run_until_steadystate:
                 time += 1
             else:
                 # check if we've reached steady state and return if so
-                if self.reached_steadstate():
+                if self.reached_steadystate():
                     return t_relax
                 # otherwise update the relaxation time
                 t_relax += 1

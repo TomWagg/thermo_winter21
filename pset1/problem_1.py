@@ -48,7 +48,7 @@ def main():
     fig, axes[0, 0] = plot_positions(positions=sim.pos, radius=sim.radius**2, fig=fig, ax=axes[0, 0])
     fig, axes[0, 1] = plot_velocities(velocities=np.sqrt(np.sum(sim.vel**2, axis=1)), fig=fig, ax=axes[0, 1])
 
-    sim.run_simulation(steps=10000)
+    sim.run_simulation(seconds=10000)
 
     fig, axes[1, 0] = plot_positions(positions=sim.pos, radius=sim.radius**2, fig=fig, ax=axes[1, 0])
     fig, axes[1, 1] = plot_velocities(velocities=np.sqrt(np.sum(sim.vel**2, axis=1)), fig=fig, ax=axes[1, 1])
