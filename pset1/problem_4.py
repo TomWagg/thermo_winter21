@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use("TkAgg")
 import numpy as np
-from time import time
 
 plt.rc('font', family='serif')
 plt.rcParams['text.usetex'] = False
@@ -29,22 +28,22 @@ def main():
     an_val = []
     sim_val = []
 
-    N_range = [10, 20, 50, 70, 100]
+    N_range = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     for N in N_range:
 
         mass = 1
-        sim = Simulation(N=N, E=0.1, size=1000, radius=20, masses=mass, visualise=False)
-        sim.run_simulation(run_until_steadystate=True)
+        sim = Simulation(N=N, E=0.1, size=1000, radius=20, masses=mass, delay=0, visualise=False)
+        # sim.run_simulation(run_until_steadystate=True)
 
         sim.wall_momenta = []
 
-        seconds = 10000
+        seconds = 100000
         sim.run_simulation(seconds=seconds)
 
         sim_val.append(np.sum(sim.wall_momenta) / (4 * sim.size) / seconds)
 
         speeds = np.sqrt(np.sum(sim.vel**2, axis=1))
-        v_rms = np.sqrt(np.mean(speeds))
+        v_rms = np.sqrt(np.mean(speeds**2))
 
         n = sim.N / sim.size**2
         kBT = 0.5 * mass * v_rms**2
@@ -52,18 +51,30 @@ def main():
         an_val.append(n * kBT)
 
         print("N =", N, "done")
-        print("  ", len(sim.wall_momenta))
 
-    fig, axes = plt.subplots(1, 2, figsize=(18, 7))
+    np.save("data/an_val_4.npy", an_val)
+    np.save("data/sim_val_4.npy", sim_val)
 
-    axes[0].scatter(N_range, an_val, label=r"$n k_B T$")
-    axes[0].scatter(N_range, sim_val, label=r"$P$")
+    fig, axes = plt.subplots(2, 1, figsize=(10, 7), gridspec_kw={"height_ratios": [3, 2]})
+    fig.subplots_adjust(hspace=0)
 
-    axes[1].scatter(N_range, np.divide(sim_val, an_val), label=r"$P / n k_B T$")
+    axes[0].plot(N_range, sim_val, label=r"$P$", color=plt.get_cmap("viridis")(0.9),
+                 marker="o", markersize=12)
+    axes[0].plot(N_range, an_val, label=r"$n k_B T$", color=plt.get_cmap("viridis")(0.3),
+                 marker="o", markersize=12)
 
-    for ax in axes:
-        ax.legend()
-        ax.set_xlabel("Number of particles")
+    axes[1].scatter(N_range, np.divide(sim_val, an_val), label=r"$P / n k_B T$",
+                    color=plt.get_cmap("viridis")(0.5), s=100)
+    axes[1].set_ylim(0.5, 1.5)
+    axes[1].axhspan(0.8, 1.2, color="grey", alpha=0.2, zorder=-1)
+    axes[1].axhline(1, color="black", linestyle="dotted", lw=1, zorder=0)
+
+    axes[0].legend()
+    axes[0].set_ylabel("Pressure")
+    axes[1].set_xlabel(r"Number of particles, $N$")
+    axes[1].set_ylabel(r"Ratio, $P / n k_B T$")
+
+    plt.savefig("figures/4.pdf", format="pdf", bbox_inches="tight")
 
     plt.show()
 
