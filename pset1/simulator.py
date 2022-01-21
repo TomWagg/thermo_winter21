@@ -230,10 +230,10 @@ class Simulation():
         top_wall = np.logical_and(self.pos[:, 1] + self.radius >= self.size, self.vel[:, 1] > 0)
 
         # if so, move them back to right at the edge
-        self.pos[:, 0][left_wall] = -self.pos[:, 0][left_wall]
-        self.pos[:, 0][right_wall] = 2 * self.size - self.pos[:, 0][right_wall]
-        self.pos[:, 1][bottom_wall] = -self.pos[:, 1][bottom_wall]
-        self.pos[:, 1][top_wall] = 2 * self.size - self.pos[:, 1][top_wall]
+        self.pos[:, 0][left_wall] = self.radius - self.pos[:, 0][left_wall]
+        self.pos[:, 0][right_wall] = 2 * self.size - self.pos[:, 0][right_wall] - self.radius
+        self.pos[:, 1][bottom_wall] = self.radius - self.pos[:, 1][bottom_wall]
+        self.pos[:, 1][top_wall] = 2 * self.size - self.pos[:, 1][top_wall] - self.radius
 
         # and reflect the velocities
         outside_x = np.logical_or(left_wall, right_wall)
