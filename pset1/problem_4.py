@@ -30,14 +30,16 @@ def main():
 
     N_range = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     for N in N_range:
+        print("N =", N, "starting")
 
         mass = 1
-        sim = Simulation(N=N, E=0.1, size=1000, radius=20, masses=mass, delay=0, visualise=False)
-        # sim.run_simulation(run_until_steadystate=True)
+        sim = Simulation(N=N, E=10, size=1000, radius=5, masses=mass, delay=0, visualise=True)
+        steady = sim.run_simulation(run_until_steadystate=True)
+        print("  steady state reached after {:1.2f} steps".format(steady))
 
         sim.wall_momenta = []
 
-        seconds = 100000
+        seconds = 1000
         sim.run_simulation(seconds=seconds)
 
         sim_val.append(np.sum(sim.wall_momenta) / (4 * sim.size) / seconds)
@@ -50,7 +52,7 @@ def main():
 
         an_val.append(n * kBT)
 
-        print("N =", N, "done")
+        print("  done")
 
     np.save("data/an_val_4.npy", an_val)
     np.save("data/sim_val_4.npy", sim_val)

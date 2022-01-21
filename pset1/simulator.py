@@ -83,7 +83,6 @@ class Simulation():
         self.radius = radius
         self.pressure = []
         self.wall_momenta = []
-        self.time = 0
 
         # save the masses as an array, whatever is inputted
         if isinstance(masses, (int, float)):
@@ -173,8 +172,7 @@ class Simulation():
 
     def reached_steadystate(self):
         """ Assess whether the simulation has reached a steady state. NOTE: this assumes equal masses """
-        # calculate the speeds and root-mean-square speed
-        self.speeds = np.sqrt(np.sum(self.vel**2, axis=1))
+        # calculate the root-mean-square speed and energies
         self.energies = 0.5 * self.masses * self.speeds**2
         v_rms = np.sqrt(np.mean(self.speeds**2))
 
@@ -245,7 +243,7 @@ class Simulation():
         self.wall_momenta.extend(2 * self.masses[outside_x] * np.abs(self.vel[:, 0][outside_x]))
         self.wall_momenta.extend(2 * self.masses[outside_y] * np.abs(self.vel[:, 1][outside_y]))
 
-    def run_simulation(self, seconds=1000, run_until_steadystate=False):
+    def run_simulation(self, seconds=1000, run_until_steadystate=False, max_distance=1):
         """Run the simulation of particles! It can either be run for a set amount of time or until a steady
         state is reached.
 
@@ -255,6 +253,8 @@ class Simulation():
             How many seconds to evolve for (ignored if `run_until_steady_state=True`), by default 1000
         run_until_steadystate : `bool`, optional
             Whether to run until steady state, by default False
+        max_distance : `float`, optional
+            Maximum distance a particle can move in a single timestep relative to their radius, by default 0.1
 
         Returns
         -------
@@ -264,12 +264,16 @@ class Simulation():
         time = 0
         t_relax = 0
         while time < seconds:
+            # decide on timestep
+            self.speeds = np.sqrt(np.sum(self.vel**2, axis=1))
+            dt = max_distance * self.radius / np.max(self.vel)
+
             # 1. update all particle positions based on current speeds
-            self.pos += self.vel
+            self.pos += self.vel * dt
 
             if self.visualise:
                 for j in range(self.N):
-                    self.canvas.move(self.particle_handles[j], self.vel[j, 0], self.vel[j, 1])
+                    self.canvas.move(self.particle_handles[j], self.vel[j, 0] * dt, self.vel[j, 1] * dt)
 
             # 2. resolve whether any hit the wall and reflect them
             self.resolve_wall_collisions()
@@ -284,17 +288,15 @@ class Simulation():
                 # change the timestep message as well
                 self.canvas.itemconfig(self.timestep_message, text="Timestep = {}".format(time))
 
-            self.time += 1
-
             # only update time when we're stepping a set number of times
             if not run_until_steadystate:
-                time += 1
+                time += dt
             else:
                 # check if we've reached steady state and return if so
                 if self.reached_steadystate():
                     return t_relax
                 # otherwise update the relaxation time
-                t_relax += 1
+                t_relax += dt
 
         # if visualising then block until the canvas is closed by the user
         if self.visualise:
