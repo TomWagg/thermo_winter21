@@ -1,0 +1,128 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{Astro 507; Problem Set 2}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle
+
+\question{\textbf{1. Heat Capacities}}
+\answer{
+    The definition of heat capacity gives that
+    \begin{equation}
+        C \equiv \dv{Q}{T}
+    \end{equation}
+    $C_P$ and $C_V$ are $C$ but with the pressure, $P$, and volume, $V$, each held constant respectively. Applying the first law of thermodynamics, this gives
+    \begin{equation}
+        C_V = \dv{U}{T},\qquad C_P = \dv{U}{T} + P \dv{V}{T}
+    \end{equation}
+    Therefore the difference of the two is found as follows (applying the ideal gas law).
+    \begin{align}
+        C_P - C_V &= P \dv{V}{T} \\
+                  &= P \dv{T} \qty(\frac{N k_B T}{P}) \\
+                  &= P \qty(\frac{N k_B}{P}) \\
+        \Aboxed{ C_P - C_V &= N k_B }
+    \end{align}
+    Now we can additionally find the ratio of the two
+    \begin{align}
+        \frac{C_P}{C_V} &= \frac{\dv{U}{T} + P \dv{V}{T}}{\dv{U}{T}} \\
+                        &= 1 + P \dv{V}{T} \dv{T}{U} \\
+                        &= 1 + P \dv{V}{U}
+    \end{align}
+    \todo{not sure where to go now}
+}
+
+\pagebreak
+
+\question{\textbf{2. The Fastest Electron}}
+\answer{
+    We are given the following information:
+    \begin{equation}
+        V = (40 \unit{kpc})^3, \qquad n = 0.01 \unit{cm^{-3}}, \qquad T = 10^6 \unit{K}
+    \end{equation}
+    This means that the total number of particles in this volume is approximately
+    \begin{equation}
+        N = n V = 1.88 \times 10^{67}
+    \end{equation}
+    I think that this means that the fastest particle would have a probability of $1 / N$. We of course know that the Maxwell-Boltzmann distribution is
+    \begin{equation}
+        f(v) = \qty( \frac{m}{2 \pi k_B T} )^{3/2} 4 \pi v^2 \exp \qty(- \frac{m v^2}{2 k_B T})
+    \end{equation}
+    In order to find the maximum velocity we can set the following integral equal to $1 / N$ since we need to find the velocity above which the probability of finding a particle is $1 / N$ (such that we expect to find a single particle).
+    \begin{align}
+        \frac{1}{N} &= \int_{v_{\rm max}}^{\infty} f(v) \dd{v} \\
+                    &= \int_{v_{\rm max}}^{\infty} \dd{v} \qty( \frac{m}{2 \pi k_B T} )^{3/2} 4 \pi v^2 \exp \qty(- \frac{m v^2}{2 k_B T}) \\
+                    &= \sqrt{\frac{2}{\pi}} \int_{v_{\rm max}}^{\infty} \dd{v} \qty( \frac{m}{2 k_B T} )^{3/2} v^2 \exp \qty(- \frac{m v^2}{2 k_B T}) \\
+                    &= \sqrt{\frac{2}{\pi}} \int_{v_{\rm max}}^{\infty} \dd{v} A^{3/2} v^2 \exp \qty(- A v^2) \\
+                    &\approx \sqrt{\frac{2}{\pi}} \cdot \frac{\sqrt{A}}{2} v_{\rm max} \exp \qty(-A v_{\rm max}^2) \tag{apply hint} \\
+        \frac{1}{N} &\approx \sqrt{\frac{A}{2 \pi}} v_{\rm max} \exp \qty(-A v_{\rm max}^2)
+    \end{align}
+    At this point I wasn't entirely sure how to solve this so I plugged the whole lot into mathematica (using the values for $N$ and $T$ above plus assuming $m = m_e$). After also asserting that $v_{\rm max}$ is large, this gives
+    \begin{equation}
+        \boxed{ v_{\rm max} = 6.9 \times 10^7 \unit{m}{s^{-1}} }
+    \end{equation}
+    Given that $0.99 c \approx 3 \times 10^8$, $v_{\rm max}$ is approximately 23\% of the speed of cosmic rays. This implies to me that cosmic rays \textbf{cannot} be thermal in origin.
+}
+
+\pagebreak
+
+\question{\textbf{3. Atmospheric Escape}}\\
+
+\question{3a. Compute number density}
+\answer{
+    We know that the mean free path is defined as
+    \begin{equation}
+        \lambda_{\rm esc} \equiv \frac{1}{n_{\rm esc} \sigma},
+    \end{equation}
+    thus we can simply set this equal to the scale height and solve for the number density.
+    \begin{align}
+        \lambda_{\rm esc} &= H \\
+        \frac{1}{n_{\rm esc} \sigma} &= \frac{k_B T}{m g} \\
+        \Aboxed{ n_{\rm esc} &= \frac{m g}{\sigma k_B T} }
+    \end{align}
+}
+
+\question{3b. Find particle flux}
+\answer{
+    Integration time!
+    \begin{align}
+        \phi(v) \dd{v} &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta}
+                       &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta}
+    \end{align}
+}
+
+\end{document}
+
+ 
