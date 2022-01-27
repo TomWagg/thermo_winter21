@@ -114,12 +114,12 @@
 \answer{
     Integration time! Basically just applying the double angle rule and doing some integrals.
     \begin{align}
-        \phi(v) \dd{v} &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta} \\
+        \Phi(v) \dd{v} &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta} \\
                        &= \frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \frac{1}{2} \int_0^{\pi/2} \sin (2 \theta) \dd{\theta} \\
                        &= -\frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} -\frac{1}{4} \qty[\cos (2 \theta)]_0^{\pi/2} \\
                        &= -\frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} -\frac{1}{4} \cdot \qty(-1 - 1) \\
                        &= \frac{v f(v)}{8 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \\
-        \Aboxed{ \phi(v) \dd{v}  &= \frac{v f(v)}{4} \dd{v} }
+        \Aboxed{ \Phi(v) \dd{v}  &= \frac{v f(v)}{4} \dd{v} }
     \end{align}
 }
 
@@ -127,12 +127,12 @@
 \answer{
     Right, let's see if I can remember how to do integrals! Let's start by performing a substitution.
     \begin{align}
-        \phi &= \int_{\rm v_{\rm esc}}^{\infty} \phi(v) \dd{v} \\
+        \Phi &= \int_{\rm v_{\rm esc}}^{\infty} \Phi(v) \dd{v} \\
              &= \frac{1}{4} \int_{\rm v_{\rm esc}}^{\infty} v f(v) \dd{v} \\
              &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}}^{\infty} \qty( \frac{m}{2 k_B T} )^{3/2} v^3 \exp \qty(- \frac{m v^2}{2 k_B T}) \dd{v} \\
              &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}}^{\infty} A^{3/2} v^3 \exp \qty(- A v^2) \dd{v} \\
            u &= v^2, \qquad \dv{u}{v} = 2 v \\
-        \phi &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} A^{3/2} v^3 \exp \qty(- A v^2) \frac{\dd{u}}{2 v} \\
+        \Phi &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} A^{3/2} v^3 \exp \qty(- A v^2) \frac{\dd{u}}{2 v} \\
              &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} \frac{1}{2} A^{3/2} u \exp \qty(- A u) \dd{u} \\
              &= \sqrt{\frac{A^3}{32 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} u \exp \qty(- A u) \dd{u}
     \end{align}
@@ -157,12 +157,12 @@
     \end{align}
     Okay phew, we made it. Now let's go and plug that back in!
     \begin{align}
-        \phi &= \sqrt{\frac{A^3}{32 \pi}} \qty( \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2) + \frac{\exp(- A v_{\rm esc}^2)}{A^2} ) \\
+        \Phi &= \sqrt{\frac{A^3}{32 \pi}} \qty( \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2) + \frac{\exp(- A v_{\rm esc}^2)}{A^2} ) \\
              &= \frac{(1 + A v_{\rm esc}^2) e^{- A v_{\rm esc}^2}}{\sqrt{32 \pi A}}
     \end{align}
     Now let's put this into the format that you asked for. My constant $A$ is related to $v_s$ as $A = v_s^{-2}$ and thus we can write that $A v_{\rm esc}^2 = \lambda_{\rm esc}$. Additionally, we want this in terms of the total number of particles and so we multiply by the number density.
     \begin{equation}
-        \boxed{ \phi = \frac{n_{\rm esc} v_s (1 + \lambda_{\rm esc}) e^{- \lambda_{\rm esc}}}{\sqrt{32 \pi}} }
+        \boxed{ \Phi = \frac{n_{\rm esc} v_s (1 + \lambda_{\rm esc}) e^{- \lambda_{\rm esc}}}{\sqrt{32 \pi}} }
     \end{equation}
 }
 
