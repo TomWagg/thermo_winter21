@@ -32,6 +32,7 @@
 \makeatother
 
 \newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
 \allowdisplaybreaks
 
 \begin{document}
@@ -114,13 +115,99 @@
     \end{align}
 }
 
-\question{3b. Find particle flux}
+\question{3b. Particle flux expression}
 \answer{
-    Integration time!
+    Integration time! Basically just applying the double angle rule and doing some integrals.
     \begin{align}
-        \phi(v) \dd{v} &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta}
-                       &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta}
+        \phi(v) \dd{v} &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta} \\
+                       &= \frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \frac{1}{2} \int_0^{\pi/2} \sin (2 \theta) \dd{\theta} \\
+                       &= -\frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} -\frac{1}{4} \qty[\cos (2 \theta)]_0^{\pi/2} \\
+                       &= -\frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} -\frac{1}{4} \cdot \qty(-1 - 1) \\
+                       &= \frac{v f(v)}{8 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \\
+        \Aboxed{ \phi(v) \dd{v}  &= \frac{v f(v)}{4} \dd{v} }
     \end{align}
+}
+
+\question{3c. Total particle flux}
+\answer{
+    Right, let's see if I can remember how to do integrals! Let's start by performing a substitution.
+    \begin{align}
+        \phi &= \int_{\rm v_{\rm esc}}^{\infty} \phi(v) \dd{v} \\
+             &= \frac{1}{4} \int_{\rm v_{\rm esc}}^{\infty} v f(v) \dd{v} \\
+             &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}}^{\infty} \qty( \frac{m}{2 k_B T} )^{3/2} v^3 \exp \qty(- \frac{m v^2}{2 k_B T}) \dd{v} \\
+             &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}}^{\infty} A^{3/2} v^3 \exp \qty(- A v^2) \dd{v} \\
+           u &= v^2, \qquad \dv{u}{v} = 2 v \\
+        \phi &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} A^{3/2} v^3 \exp \qty(- A v^2) \frac{\dd{u}}{2 v} \\
+             &= \sqrt{\frac{1}{8 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} \frac{1}{2} A^{3/2} u \exp \qty(- A u) \dd{u} \\
+             &= \sqrt{\frac{A^3}{32 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} u \exp \qty(- A u) \dd{u}
+    \end{align}
+    Okay let's pause for a second. That covers the substitution part, now we need to do integration by parts. Since I'm already using $u$ let's call the two variables in integration by parts $a$ and $b$ such that
+    \begin{equation}
+        \int a \dd{b} = a b - \int b \dd{a}
+    \end{equation}
+    In our case, we have that
+    \begin{equation}
+        a = u,\qquad \dd{b} = \exp(- A u)
+    \end{equation}
+    and thus we can also write that
+    \begin{equation}
+        \dd{a} = 1,\qquad b = - \frac{1}{A} \exp(- A u)
+    \end{equation}
+    So now putting that all together, we can write that the integral in full is
+    \begin{align}
+        &= \qty[ u \cdot - \frac{1}{A} \exp(- A u)]_{\rm v_{\rm esc}^2}^{\infty} - \int_{\rm v_{\rm esc}^2}^{\infty} - \frac{1}{A} \exp(- A u) \dd{u} \\
+        &= \qty[ - \frac{u}{A} \exp(- A u)]_{\rm v_{\rm esc}^2}^{\infty} + \frac{1}{A} \int_{\rm v_{\rm esc}^2}^{\infty} \exp(- A u) \dd{u} \\
+        &= \qty(0 + \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2)) - \qty[\frac{\exp(- A u)}{A^2}]_{\rm v_{\rm esc}^2}^{\infty} \\
+        &= \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2) + \frac{\exp(- A v_{\rm esc}^2)}{A^2}
+    \end{align}
+    Okay phew, we made it. Now let's go and plug that back in!
+    \begin{align}
+        \phi &= \sqrt{\frac{A^3}{32 \pi}} \qty( \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2) + \frac{\exp(- A v_{\rm esc}^2)}{A^2} ) \\
+             &= \frac{(1 + A v_{\rm esc}^2) e^{- A v_{\rm esc}^2}}{\sqrt{32 \pi A}}
+    \end{align}
+    Now let's put this into the format that you asked for. My constant $A$ is related to $v_s$ as $A = v_s^{-2}$ and thus we can write that $A v_{\rm esc}^2 = \lambda_{\rm esc}$. Additionally, we want this in terms of the total number of particles and so we multiply by the number density.
+    \begin{equation}
+        \boxed{ \phi = \frac{n_{\rm esc} v_s (1 + \lambda_{\rm esc}) e^{- \lambda_{\rm esc}}}{\sqrt{32 \pi}} }
+    \end{equation}
+}
+
+\question{3d. Earth Hydrogen Loss}
+\answer{
+    Let's just quickly write down the constants that we've been given:
+    \begin{equation}
+        m \approx 2 \unit{amu} = 3.32 \times 10^{-27} \unit{kg},\quad T = 1000 K,\quad \sigma = \pi \angstrom^2 = \pi \times 10^{-20} \unit{m^2}
+    \end{equation}
+    where the mass has come from them being hydrogen molecules. Now let's evaluate $\lambda_{\rm esc}, n_{\rm esc}, v_s$ so that we can find $\phi$.
+    \begin{align}
+        v_{\rm esc} &= 11200 \unit{m}{s^{-1}} \\
+        n_{\rm esc} &= \frac{m_{\rm H2} \cdot g}{\sigma k_B T} = \frac{3.35 \times 10^{-27} \unit{kg} \cdot 10 \unit{m}{s^{-2}}}{\pi \times 10^{-20} \unit{m^2} \cdot 1.38 \times 10^{-23} \unit{m^2}{kg}{s^{-2}}{K^{-1}} \cdot 1000 \unit{K}} = 7.66 \times 10^{13} \unit{m^{-3}} \\
+        v_s &= \sqrt{\frac{2 k_B T}{m_{\rm H2}}} = \sqrt{\frac{2 \cdot 1.38 \times 10^{-23} \unit{m^2}{kg}{s^{-2}}{K^{-1}} \cdot 1000 \unit{K}}{3.35 \times 10^{-27} \unit{kg}}} = 2883 \unit{m}{s^{-1}} \\
+        \lambda_{\rm esc} &= \qty(\frac{11200}{2883})^2 = 15.1
+    \end{align}
+    Cool, now it's time to just plug those numbers in to find about $\phi$.
+    \begin{equation}
+        \phi_{\rm H2} = 9.91 \times 10^{10} \unit{m^{-2} s^{-1}}
+    \end{equation}
+    Finally, we need to multiply this by the area through which the particles move. Since we are given that $H \ll R$, we can say the surface at this height is essentially the same as the surface area of the Earth.
+    \begin{align}
+        \mathcal{R}_{\rm H2} &= \phi \cdot 4 \pi R_{\oplus}^2 \\
+                    &= 9.91 \times 10^{10} \unit{m^{-2} s^{-1}} \cdot 4 \pi (6.4 \times 10^{6} \unit{m})^2 \\
+        \Aboxed{ \mathcal{R}_{\rm H2} &= 5.1 \times 10^{25} \unit{molecules}{s^{-1}} }
+    \end{align}
+    Therefore, if we were to evolve forwards for $1 \unit{Gyr}$, the total number of molecules that would be lost are
+    \begin{equation}
+        \boxed{ N_{\rm H2, lost} = 1.6 \times 10^{42} }
+    \end{equation}
+    and so this is comparable to the current hydrogen content of the Earth's atmosphere, approximately a factor of 6 lower.
+}
+
+\question{3d. Earth Oxygen Loss}
+\answer{
+    This calculation will be exactly the same except we now change the mass from $m \approx 2\unit{amu}$ to $m \approx 32\unit{amu}$. This drastically changes things due to the exponential terms and so the rate of oxygen loss is an extremely low
+    \begin{equation}
+        \boxed{ \mathcal{R}_{\rm O2} = 1.6 \times 10^{-71} \unit{molecules}{s^{-1}} }
+    \end{equation}
+    Meaning that over a billion years we wouldn't expect the loss of \textit{any} oxygen. I therefore conclude that over time the abundance of atmospheric oxygen relative to hydrogen will increase (assuming no other sources or sinks).
 }
 
 \end{document}
