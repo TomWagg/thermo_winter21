@@ -45,19 +45,30 @@
     \begin{equation}
         C \equiv \dv{Q}{T}
     \end{equation}
-    $C_P$ and $C_V$ are $C$ but with the pressure, $P$, and volume, $V$, each held constant respectively. Applying the first law of thermodynamics, this gives
+    $C_P$ and $C_V$ are the same as $C$ but with the pressure, $P$, and volume, $V$, each held constant respectively. Applying the first law of thermodynamics, this gives
     \begin{equation}
-        C_V = \dv{U}{T},\qquad C_P = \dv{U}{T} + P \dv{V}{T}
+        C_V = \qty(\dv{U}{T})_{V, N}\qquad C_P = \qty(\dv{U}{T})_{P} + P \qty(\dv{V}{T})_{P}
     \end{equation}
-    Therefore the difference of the two is found as follows (applying the ideal gas law).
+    Now let's apply the equipartition theorem and therefore write that
+    \begin{equation}
+        U = \frac{1}{2} N f k_B T
+    \end{equation}
+    where $f$ is the number of degrees of freedom. Now let's do some derivatives and apply the ideal gas law ($V = N k_B T / P$)
     \begin{align}
-        C_P - C_V &= P \dv{V}{T} \\
-                  &= P \dv{T} \qty(\frac{N k_B T}{P}) \\
-                  &= P \qty(\frac{N k_B}{P}) \\
-        \Aboxed{ C_P - C_V &= N k_B }
+        C_{V} &= \dv{T} \qty(\frac{1}{2} N f k_B T)\\
+              &= N k_B \cdot \frac{f}{2} \\
+        C_{P} &= \dv{T} \qty(\frac{1}{2} N f k_B T) + P \dv{T} \qty(\frac{N k_B T}{P})\\
+              &= \frac{1}{2} N f k_B + N k_B \\
+              &= N k_B \qty(1 + \frac{f}{2}) \\
     \end{align}
-    Now we also need to find the ratio of the two and show that it's equal to the adiabatic index.
-    \todo{check with Eric that we are doing this for the case of the ideal gas}
+    Therefore, the difference between the two is
+    \begin{equation}
+        \boxed{ C_P - C_V = N k_B }
+    \end{equation}
+    And dividing the two gives the adiabatic index
+    \begin{equation}
+        \boxed{ \frac{C_P}{C_V} = 1 + \frac{2}{f} = \gamma }
+    \end{equation}
 }
 
 \pagebreak
