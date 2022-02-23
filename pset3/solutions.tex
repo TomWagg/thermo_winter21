@@ -39,11 +39,55 @@
 
 \maketitle
 
-\question{\textbf{1. COBE}}
+\question{1. \textbf{FIRAS}}
 
-\question{\textbf{2. Entropy}}
+\answer{}
 
-\question{\textbf{2. Entropy}}
+\question{2a. \textbf{Entropy}}
+\answer{
+    Let's derive the entropy for an ideal, non-relativistic Fermi gas (in terms of $V$, $z$ and $T$). For this I will follow Lecture 10. The entropy is defined as
+    \begin{equation}
+        S = \frac{U + PV - N \mu}{T},
+    \end{equation}
+    so we just need to use definitions of $U$, $P$, $N$ and $\mu$. The definitions of $\mu$ is trivial when using the fugacity
+    \begin{equation}
+        \mu = k_B T \ln z
+    \end{equation}
+    For the others, I refer to lecture 10 where we can find the definition of $n$ on slide 5
+    \begin{equation}
+        N = n V = \frac{2(2s + 1)}{\pi^{1/2} \lambda^3} V F_{1/2}(z)
+    \end{equation}
+    and the definition of $P$ on slide 7
+    \begin{equation}
+        P = \frac{4(2s + 1)}{3 \pi^{1/2}} k_B T \lambda^{-3} F_{3/2}(z)
+    \end{equation}
+    For the total energy, we don't have it from the slides but we can derive it in the same way using Fermi-Dirac integrals. It starts in the same way as $n$ but with an extra factor of $\epsilon$ in the numerator, then we use the substitution $w = \epsilon / k_B T$
+    \begin{align}
+        U &= (2s + 1) \frac{V}{h^3} \int \frac{\epsilon}{e^{\frac{\epsilon - \mu}{k_B T}} + 1} \dd{\va{p}} \\
+        U &= \frac{4\pi (2s + 1)}{2 h^3} (2 m k_B T)^{3/2} k_B T \int_0^\infty \dd{w} \frac{w^{3/2}}{e^w z^{-1} + 1} \\
+        U &= \frac{2(2s + 1)}{\pi^{1/2} \lambda^3} V k_B T F_{3/2}(z)
+    \end{align}
+    Now it's simply a matter of plugging all of these into the entropy expression.
+    \begin{align}
+        S &= \frac{U + PV - N \mu}{T} \\
+          &= \frac{1}{T} \qty[ \frac{2(2s + 1)}{\pi^{1/2} \lambda^3} V k_B T F_{3/2}(z) + \frac{4(2s + 1)}{3 \pi^{1/2}} V k_B T \lambda^{-3} F_{3/2}(z) + \frac{2(2s + 1)}{\pi^{1/2} \lambda^3} V k_B T \ln z F_{1/2}(z)] \\
+          &= \frac{2(2s + 1) V k_B T}{\pi^{1/2} \lambda^3} \qty[ F_{3/2}(z) + \frac{2}{3} F_{3/2}(z) + \ln z F_{1/2}(z)] \\
+        \Aboxed{ S &= \frac{2(2s + 1) V k_B T}{\pi^{1/2} \lambda^3} \qty[ \frac{5}{3} F_{3/2}(z) + F_{1/2}(z) \ln z] }
+    \end{align}
+}
+
+\question{2b. \textbf{Expanding pressure}}
+\answer{
+    \begin{align}
+        \frac{P}{n k_B T} &= \frac{4(2s + 1)}{3 \pi^{1/2}} k_B T \lambda^{-3} F_{3/2}(z) \qty[\frac{2(2s + 1)}{\pi^{1/2} \lambda^3} k_B T F_{1/2}(z)]^{-1} \\
+                          &= \frac{2 F_{3/2}(z)}{3 F_{1/2}(z)}
+    \end{align}
+    \todo{come back to this on Thursday}
+}
+
+\question{\textbf{3. Brown Dwarf}}
+
+\answer{}
 
 \end{document}
 
