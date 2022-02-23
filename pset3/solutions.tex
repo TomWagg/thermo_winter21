@@ -115,7 +115,7 @@
     \end{equation}
     Now let's use this with the equation for the number density from Lecture 10 and solve for the Fermi-Dirac integral (plugging in values in the final equation).
     \begin{align}
-        n &= \frac{2(2s + 1)}{n \pi^{1/2} \lambda^3} F_{1/2}(z) \\
+        n &= \frac{2(2s + 1)}{\pi^{1/2} \lambda^3} F_{1/2}(z) \\
         F_{1/2}(z) &= \frac{n \pi^{1/2} \lambda^3}{2(2s + 1)} \\
         F_{1/2}(z) &= \frac{\pi^{1/2}}{2(2s + 1)} \frac{1.2 \rho_c}{1.4 m_p} \qty(\frac{h}{\sqrt{2 \pi m_e k_B T_c}})^3 \\
         F_{1/2}(z) &= 2.08
@@ -152,6 +152,19 @@
     \begin{equation}
         \boxed{ \rho_c \ll \rho_{\rm rel} \implies \text{non-relativistic} }
     \end{equation}
+}
+
+\question{3d. \textbf{Ideal Gas}}
+\answer{
+    For this part we simply need to calculate the pressure assuming that it was an ideal gas. In this case
+    \begin{equation}
+        P_{\rm ideal} = n k_B T
+    \end{equation}
+    We found $n$ in part a and $T = 6 \times 10^6 \unit{K}$ and thus we can quickly plug these in to find that
+    \begin{equation}
+        \boxed{P_{\rm ideal} = 1.38 \times 10^{16} \unit{Pa}}
+    \end{equation}
+    We can therefore see that the degeneracy contributes significantly since the pressure is about 40\% larger when including degeneracy effects.
 }
 
 \end{document}
