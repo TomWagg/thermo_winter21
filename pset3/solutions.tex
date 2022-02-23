@@ -87,7 +87,44 @@
 
 \question{\textbf{3. Brown Dwarf}}
 
-\answer{}
+\question{3a. \textbf{Fugacity}}
+\answer{
+    The general goal here is to find the number density based on the central temperature and density and then solve for the Fermi-Dirac integral and we can then invert that to find the fugacity. To start, we know that
+    \begin{equation}
+        \rho = m_e n_e + m_{\rm H} n_{\rm H} + m_{\rm He} n_{\rm He}
+    \end{equation}
+    We can rewrite this (and neglect the electron term) as
+    \begin{equation}
+        \rho = n_{\rm H} \qty(m_{\rm H} + m_{\rm He} \frac{n_{\rm He}}{n_{\rm H}})
+    \end{equation}
+    Now we can plug in the masses of hydrogen and helium as well as their relative abundance (given as 0.1 in the problem description).
+    \begin{equation}
+        n_{\rm H} = \frac{\rho_c}{1.4 m_p}
+    \end{equation}
+    Now we just relate this to the electron number density simply as
+    \begin{equation}
+        n = \qty(2 \frac{n_{\rm He}}{n_{\rm H}} + 1) n_{\rm H}
+    \end{equation}
+    And combining the two gives an expression for the number density in terms of the central density
+    \begin{equation}
+        n = \frac{1.2 \rho_c}{1.4 m_p}
+    \end{equation}
+    The other part that we need is the de-Broglie wavelength which depends on the central temperature as
+    \begin{equation}
+        \lambda = \frac{h}{\sqrt{2 \pi m k_B T_c}}
+    \end{equation}
+    Now let's use this with the equation for the number density from Lecture 10 and solve for the Fermi-Dirac integral (plugging in values in the final equation).
+    \begin{align}
+        n &= \frac{2(2s + 1)}{n \pi^{1/2} \lambda^3} F_{1/2}(z) \\
+        F_{1/2}(z) &= \frac{n \pi^{1/2} \lambda^3}{2(2s + 1)} \\
+        F_{1/2}(z) &= \frac{\pi^{1/2}}{2(2s + 1)} \frac{1.2 \rho_c}{1.4 m_p} \qty(\frac{h}{\sqrt{2 \pi m k_B T_c}})^3 \\
+        F_{1/2}(z) &= 2.08
+    \end{align}
+    I took this value and inverted it using the approximate analytic expressions from the paper (Aymerich-Humet+1981) to find the fugacity.
+    \begin{equation}
+        \boxed{ z = 1.65 }
+    \end{equation}
+}
 
 \end{document}
 
