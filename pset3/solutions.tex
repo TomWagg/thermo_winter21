@@ -40,9 +40,23 @@
 
 \maketitle
 
-\question{1. \textbf{FIRAS}}
+\question{1. \textbf{Maximum photon chemical potential}}
 \answer{
-    \todo{copy over stuff from jupyter notebook}
+    For this problem I used a couple of simple things. First the blackbody equation with a nonzero chemical potential
+    \begin{equation}
+        B_\nu (T) = \frac{2 h \nu^3}{c^2} \frac{1}{\exp(\frac{h \nu - \mu}{k_B T}) + 1}
+    \end{equation}
+    where we've just inserted the $\mu$ term in the exponential. We also need to calculate $\chi^2$ for this and we do this by
+    \begin{equation}
+        \chi^2 = \sum_i \frac{(\text{measured}_i - \text{model}_i)^2}{\text{uncertainty}_i^2}
+    \end{equation}
+    So then it's just a matter of reading in the FIRAS data file, converting the (honestly baffling) units into more familiar things and calculating the $\chi^2$ over a grid of temperatures and chemical potentials. Then the maximum allowed chemical potential with a 3-$\sigma$ uncertainty is just the maximum chemical potential within $\Delta \chi^2 \approx 6.63$ of $\chi^2_{\rm min}$ (as the reading says).
+
+    \noindent You can find the code that I used to calculate this \href{https://github.com/TomWagg/thermo_winter22/blob/tom/pset3/code/problem_1.ipynb}{in my GitHub repo} and I found that
+    \begin{equation}
+        \boxed{ \mu_{\rm max} \approx 3.55 \times 10^{-20} \unit{erg} \approx 1.1 \times 10^{-4} \, k_B T_{\rm CMB} }
+    \end{equation}
+    I also visualised this on a contour plot which you can see in the plot on the next page.
 }
 
 \question{2a. \textbf{Entropy}}
@@ -63,6 +77,9 @@
     \begin{equation}
         P = \frac{4(2s + 1)}{3 \pi^{1/2}} k_B T \lambda^{-3} F_{3/2}(z)
     \end{equation}
+    \begin{center}
+        \includegraphics[width=\textwidth]{figures/max_mu.pdf}
+    \end{center}
     For the total energy, we don't have it from the slides but we can derive it in the same way using Fermi-Dirac integrals. It starts in the same way as $n$ but with an extra factor of $\epsilon$ in the numerator, then we use the substitution $w = \epsilon / k_B T$
     \begin{align}
         U &= (2s + 1) \frac{V}{h^3} \int \frac{\epsilon}{e^{\frac{\epsilon - \mu}{k_B T}} + 1} \dd{\va{p}} \\
@@ -107,6 +124,8 @@
     \end{equation}
 }
 
+\pagebreak
+
 \question{\textbf{3. Brown Dwarf}}
 
 \question{3a. \textbf{Fugacity}}
@@ -148,6 +167,8 @@
     \end{equation}
 }
 
+\pagebreak
+
 \question{3b. \textbf{Pressure}}
 \answer{
     In order to calculate the pressure we need to apply the same pressure equation as 2a
@@ -188,6 +209,8 @@
     \end{equation}
     We can therefore see that the degeneracy contributes significantly since the pressure is about 40\% larger when including degeneracy effects.
 }
+
+\pagebreak
 
 \question{3e. \textbf{Polytropes}}
 \answer{
