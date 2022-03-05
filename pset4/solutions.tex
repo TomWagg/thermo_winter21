@@ -1,0 +1,82 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{Astro 507; Problem Set 4}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle
+
+\question{1. \textbf{Impossible Astronomy}}
+
+\question{1a. \textbf{Dense Planet}}
+\answer{
+    Let's operate under the assumption that the planet is made entirely from a single element. The density of the planet is
+    \begin{align}
+        \rho &= \frac{M}{\frac{4}{3} \pi R^3} = \frac{3 M_{\rm jup}}{\frac{4}{3} \pi R_{\rm earth}^3} \\
+        \Aboxed{ \rho &= 5239 \unit{g}{cm^{-3}} }
+    \end{align}
+    However, we know that the density of iron is $\rho_{\rm iron} \approx 8 \unit{g}{cm^{-3}}$. Therefore, the planet is much more dense than iron. Since iron is the densest common element that could make up this planet, that means that it must be impossible.
+}
+
+\question{1b. \textbf{Cold planet}}
+\answer{
+    Looking at the plot on Slide 9 of Lecture 12, we see that in the low temperature limit, for a planet with mass $3 M_{\rm jup}$, the maximum possible radius is $R_{\rm max} = R_{\rm jup}$. Therefore the radius of $5 M_{\rm jup}$ is not possible.
+}
+
+\question{1c. \textbf{Overgrown Neutron Star}}
+\answer{
+    We showed in class that the absolute upper bound on the mass of a neutron star is $2.9 \unit{M_{\odot}}$ based on the setting that the sound speed must be less that the speed of light. Therefore, a neutron star of mass $4 \unit{M_{\odot}}$ cannot possibly exist.
+}
+
+\question{1d. \textbf{Overgrown White Dwarf}}
+\answer{
+    The maximum white dwarf mass is the Chandrasekhar mass, $M_{\rm ch} = 1.44 \unit{M_{|odot}}$. So twice the mass of the sun is not possible.
+}
+
+\question{1e. \textbf{Chilly White Dwarf}}
+\answer{
+    Using the white dwarf cooling relation and that the age of the high-$\alpha$ disc is around $12 \unit{Gyr}$, we know that the coolest white dwarf that can exist is around $1500 \unit{K}$. Therefore this white dwarf is too cold and hasn't had enough time to cool.
+}
+
+\question{1f. \textbf{Baby black hole}}
+\answer{
+    If the black hole is a stellar remnant then it must have collapsed in on itself and overcome both electron and neutron degeneracy pressure. Since the ``black hole'' is less than the mass of the sun, it is below the Chandrasekhar mass and so couldn't have overcome this pressure.
+}
+
+\end{document}
+
+ 
