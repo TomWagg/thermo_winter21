@@ -157,12 +157,51 @@
 
 \question{3a. \textbf{Temperature expression}}
 \answer{
-    See notebook but $1/n$ and so stiffer.
+    Applying hydrostatic equilibrium, we know that
+    \begin{equation}
+        \frac{P_{\rm centre}}{R} \approx \frac{G M^2}{R^5}
+    \end{equation}
+    If we assume that $P_{\rm centre} = P_{\rm rad} = a_{\rm rad} T^4$ then we can find the expression for the temperature.
+    \begin{align}
+        \frac{a_{\rm rad} T^4}{R} &\approx \frac{G M^2}{R^5}\\
+        \Aboxed{ T &\approx \qty(\frac{G M^2}{a_{\rm rad} R^4})^{1/4} }
+    \end{align}
 }
 
 \question{3b. \textbf{Lower-limit on mass}}
 \answer{
-
+    Okay strap in folks, it's time for lots of equations! Let's set up the inequality between the radiation and gas pressure first of all (using the ideal gas law and results from part a)
+    \begin{align}
+        P_{\rm rad} &> P_{\rm gas} \\
+        a_{\rm rad} T^4 &> n k_B T \\
+        a_{\rm rad} &> n k_B T^{-3}
+    \end{align}
+    For the next steps we'll need to apply the expression for temperature from the first part. But this expression contains the radius and we don't want that! Never fear, we can simply write the radius in terms of density since $\rho = 4/3 \pi R^3$ (dropping factors of order unity)
+    \begin{equation}
+        T \approx \qty(\frac{G M^2}{a_{\rm rad}})^{1/4} \qty(\frac{M}{\rho})^{-1/3}
+    \end{equation}
+    Great! Now one last thing that would be useful here is to get rid of that pesky $n$ term. We could instead turn this number density into a regular density (and once again neglecting factors of order unity)
+    \begin{equation}
+        n \approx \frac{\rho}{m_p}
+    \end{equation}
+    You're sitting there thinking, wait a moment Tom, you've just added $\rho$ terms which we \textit{also} don't know!? Don't worry dear reader, as for my next trick I will make them disappear (with some other fun algebra along the way!)
+    \begin{align}
+        a_{\rm rad} &> \frac{\rho}{m_p} k_B \qty(\frac{G M^2}{a_{\rm rad}})^{-3/4} \qty(\frac{M}{\rho}) \\
+        a_{\rm rad} &> \frac{M}{m_p} k_B \qty(\frac{G M^2}{a_{\rm rad}})^{-3/4} \\
+        M^{1/2} a_{\rm rad} &> \frac{k_B}{m_p} \qty(\frac{G}{a_{\rm rad}})^{-3/4} \\
+        M^{1/2} &> \frac{k_B G^{-3/4}}{m_p} a_{\rm rad}^{-1/4} \\
+        M &> \frac{k_B^2}{m_p^2} G^{-3/2} a_{\rm rad}^{-1/2}
+    \end{align}
+    What a journey it's been, now in our final step we can simply apply a definition of $a_{\rm rad}$ that we are given in the question,
+    \begin{equation}
+        a_{\rm rad} = \frac{k_B^4}{c^3 h^3},
+    \end{equation}
+    in order to get our final expression for the lower limit on the mass.
+    \begin{align}
+        M &> \frac{k_B^2}{m_p^2} G^{-3/2} \frac{c^{3/2} h^{3/2}}{k_B^2} \\
+          &> \frac{1}{m_p^2} \qty(\frac{G}{c h})^{-3/2} \\
+        \Aboxed{ M_{\rm rad} &> m_p \qty(\frac{G m_p^2}{c h})^{-3/2} }
+    \end{align}
 }
 
 \question{3c. \textbf{Evaluate mass}}
