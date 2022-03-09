@@ -115,7 +115,42 @@
 
 \question{2d. \textbf{Maximum Mass}}
 \answer{
-
+    In order to find the maximum mass that a constant density is a good approximation, we can use the equations for the conservation of mass
+    \begin{equation}
+        \dv{M}{r} = 4 \pi r^2 \rho,
+    \end{equation}
+    and hydrostatic equilibrium
+    \begin{equation}
+        \dv{P}{r} = - \frac{G M}{r^2} \rho
+    \end{equation}
+    in the one-zone model, applying the boundary conditions that
+    \begin{align}
+        P_{\rm centre} &= P_{\rm trans},\quad P_{\rm edge} = 0\\
+        \rho_{\rm centre} &= \rho_{\rm edge} = \rho_0\\
+        r_{\rm centre} &= 0
+    \end{align}
+    In class we showed that for the innermost bin of the planet, the hydrostatic equilibrium equation becomes
+    \begin{equation}
+        P_{\rm centre} - P_{\rm edge} = \frac{2 \pi}{3} G \rho_{\rm centre}^2 r_{\rm edge}^2
+    \end{equation}
+    which, using the definitions of the various $P$ and $\rho$s, we can write as
+    \begin{equation}
+        r_{\rm edge} = \sqrt{\frac{3}{2} \frac{P_{\rm trans}}{G \pi \rho_0^2}}
+    \end{equation}
+    Now we can use this in the conservation of mass equation. In this equation we find that
+    \begin{align}
+        \dd{M} &= M_{\rm edge} - M_{\rm centre} = M \\
+        M &= 4 \pi \rho_0 r_{\rm edge}^2 (r_{\rm edge} - r_{\rm centre}) 
+    \end{align}
+    And therefore putting the two together gives that the maximum mass is
+    \begin{equation}
+        M_{\rm max} = 4 \pi \rho_0 \qty(\frac{3}{2} \frac{P_{\rm trans}}{G \pi \rho_0^2})^{\frac{3}{2}}
+    \end{equation}
+    which, using $P_{\rm trans} = 1.17 \times 10^{11} \unit{Pa}$ and $\rho_0 = 1.46 \unit{g}{cm^{-3}}$, gives
+    \begin{equation}
+        \boxed{ M_{\rm max} = 23.9 \unit{M_{\oplus}} }
+    \end{equation}
+    This is therefore much larger than the mass of the Earth, implying that the constant density assumption for the Earth is reasonable. I expect that the power low slope would flatten out beyond the transition pressure since the material would start to be crushed by the pressure, thus increasing less in radius for the same increase in mass.
 }
 
 \question{\textbf{Radiation-dominated star}}
