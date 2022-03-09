@@ -81,7 +81,22 @@
 
 \question{2a. \textbf{Sketch}}
 \answer{
-    See notebook but $1/n$ and so stiffer.
+    I struggled with sketching this so I instead just plotted the functions directly. In the plot below, the blue curve shows the approximate equation of state which is given by
+    \begin{equation}
+        \rho(P) = \rho_0 + K P^{n}
+    \end{equation}
+    The orange curve is in the regime in which $P$ is very large and so we can assume that the first term can be neglected such that
+    \begin{equation}
+        \rho(P) = K P^n
+    \end{equation}
+    Rearranging this into a polytrope form gives
+    \begin{equation}
+        \boxed{ P(\rho) = \qty(\frac{\rho}{K})^{1/n} } 
+    \end{equation}
+    and so the adiabatic index in this case is $\Gamma = 1 / n$. Since $n = 0.513$, this means that the water is stiffer than an adiabatic ideal gas at high pressure since $\Gamma = 1 / 0.513 = 1.95$ is larger than $5/3$.
+    \begin{center}
+        \includegraphics[width=\textwidth]{figures/2a.pdf}
+    \end{center}
 }
 
 \question{2b. \textbf{Transition pressure}}
