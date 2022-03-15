@@ -1,0 +1,221 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{Astro 507; Problem Set 2}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle
+
+\question{\textbf{1. Heat Capacities}}
+\answer{
+    The definition of heat capacity gives that
+    \begin{equation}
+        C \equiv \dv{Q}{T}
+    \end{equation}
+    $C_P$ and $C_V$ are the same as $C$ but with the pressure, $P$, and volume, $V$, each held constant respectively. Applying the first law of thermodynamics, this gives
+    \begin{equation}
+        C_V = \qty(\dv{U}{T})_{V, N}\qquad C_P = \qty(\dv{U}{T})_{P} + P \qty(\dv{V}{T})_{P}
+    \end{equation}
+    Now let's apply the equipartition theorem and therefore write that
+    \begin{equation}
+        U = \frac{1}{2} N f k_B T
+    \end{equation}
+    where $f$ is the number of degrees of freedom. Now let's do some derivatives and apply the ideal gas law ($V = N k_B T / P$)
+    \begin{align}
+        C_{V} &= \dv{T} \qty(\frac{1}{2} N f k_B T)\\
+              &= N k_B \cdot \frac{f}{2} \\
+        C_{P} &= \dv{T} \qty(\frac{1}{2} N f k_B T) + P \dv{T} \qty(\frac{N k_B T}{P})\\
+              &= \frac{1}{2} N f k_B + N k_B \\
+              &= N k_B \qty(1 + \frac{f}{2}) \\
+    \end{align}
+    Therefore, the difference between the two is
+    \begin{equation}
+        \boxed{ C_P - C_V = N k_B }
+    \end{equation}
+    And dividing the two gives the adiabatic index
+    \begin{equation}
+        \boxed{ \frac{C_P}{C_V} = 1 + \frac{2}{f} = \gamma }
+    \end{equation}
+}
+
+\pagebreak
+
+\question{\textbf{2. The Fastest Electron}}
+\answer{
+    We are given the following information:
+    \begin{equation}
+        V = (40 \unit{kpc})^3, \qquad n = 0.01 \unit{cm^{-3}}, \qquad T = 10^6 \unit{K}
+    \end{equation}
+    This means that the total number of particles in this volume is approximately
+    \begin{equation}
+        N = n V = 1.88 \times 10^{67}
+    \end{equation}
+    I think that this means that the fastest particle would have a probability of $1 / N$. We of course know that the Maxwell-Boltzmann distribution is
+    \begin{equation}
+        f(v) = \qty( \frac{m}{2 \pi k_B T} )^{3/2} 4 \pi v^2 \exp \qty(- \frac{m v^2}{2 k_B T})
+    \end{equation}
+    In order to find the maximum velocity we can set the following integral equal to $1 / N$ since we need to find the velocity above which the probability of finding a particle is $1 / N$ (such that we expect to find a single particle).
+    \begin{align}
+        \frac{1}{N} &= \int_{v_{\rm max}}^{\infty} f(v) \dd{v} \\
+                    &= \int_{v_{\rm max}}^{\infty} \dd{v} \qty( \frac{m}{2 \pi k_B T} )^{3/2} 4 \pi v^2 \exp \qty(- \frac{m v^2}{2 k_B T}) \\
+                    &= \sqrt{\frac{2}{\pi}} \int_{v_{\rm max}}^{\infty} \dd{v} \qty( \frac{m}{2 k_B T} )^{3/2} v^2 \exp \qty(- \frac{m v^2}{2 k_B T}) \\
+                    &= \sqrt{\frac{2}{\pi}} \int_{v_{\rm max}}^{\infty} \dd{v} A^{3/2} v^2 \exp \qty(- A v^2) \\
+                    &\approx \sqrt{\frac{2}{\pi}} \cdot \frac{\sqrt{A}}{2} v_{\rm max} \exp \qty(-A v_{\rm max}^2) \tag{apply hint} \\
+        \frac{1}{N} &\approx \sqrt{\frac{A}{2 \pi}} v_{\rm max} \exp \qty(-A v_{\rm max}^2)
+    \end{align}
+    At this point I wasn't entirely sure how to solve this so I plugged the whole lot into mathematica (using the values for $N$ and $T$ above plus assuming $m = m_e$). After also asserting that $v_{\rm max}$ is large, this gives
+    \begin{equation}
+        \boxed{ v_{\rm max} = 6.9 \times 10^7 \unit{m}{s^{-1}} }
+    \end{equation}
+    Given that $0.99 c \approx 3 \times 10^8$, $v_{\rm max}$ is approximately 23\% of the speed of cosmic rays. This implies to me that cosmic rays \textbf{cannot} be thermal in origin.
+}
+
+\pagebreak
+
+\question{\textbf{3. Atmospheric Escape}}\\
+
+\question{3a. Compute number density}
+\answer{
+    We know that the mean free path is defined as
+    \begin{equation}
+        \lambda_{\rm esc} \equiv \frac{1}{n_{\rm esc} \sigma},
+    \end{equation}
+    thus we can simply set this equal to the scale height and solve for the number density.
+    \begin{align}
+        \lambda_{\rm esc} &= H \\
+        \frac{1}{n_{\rm esc} \sigma} &= \frac{k_B T}{m g} \\
+        \Aboxed{ n_{\rm esc} &= \frac{m g}{\sigma k_B T} }
+    \end{align}
+}
+
+\question{3b. Particle flux expression}
+\answer{
+    Integration time! Basically just applying the double angle rule and doing some integrals.
+    \begin{align}
+        \Phi(v) \dd{v} &= \frac{f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \int_0^{\pi/2} v \cos \theta \sin \theta \dd{\theta} \\
+                       &= \frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \frac{1}{2} \int_0^{\pi/2} \sin (2 \theta) \dd{\theta} \\
+                       &= -\frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} -\frac{1}{4} \qty[\cos (2 \theta)]_0^{\pi/2} \\
+                       &= -\frac{v f(v)}{4 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} -\frac{1}{4} \cdot \qty(-1 - 1) \\
+                       &= \frac{v f(v)}{8 \pi} \dd{v} \int_0^{2\pi} \dd{\phi} \\
+        \Aboxed{ \Phi(v) \dd{v}  &= \frac{v f(v)}{4} \dd{v} }
+    \end{align}
+}
+
+\question{3c. Total particle flux}
+\answer{
+    Right, let's see if I can remember how to do integrals! Let's start by performing a substitution.
+    \begin{align}
+        \Phi &= \int_{\rm v_{\rm esc}}^{\infty} \Phi(v) \dd{v} \\
+             &= \frac{1}{4} \int_{\rm v_{\rm esc}}^{\infty} v f(v) \dd{v} \\
+             &= \sqrt{\frac{1}{\pi}} \int_{\rm v_{\rm esc}}^{\infty} \qty( \frac{m}{2 k_B T} )^{3/2} v^3 \exp \qty(- \frac{m v^2}{2 k_B T}) \dd{v} \\
+             &= \sqrt{\frac{1}{\pi}} \int_{\rm v_{\rm esc}}^{\infty} A^{3/2} v^3 \exp \qty(- A v^2) \dd{v} \\
+           u &= v^2, \qquad \dv{u}{v} = 2 v \\
+        \Phi &= \sqrt{\frac{1}{\pi}} \int_{\rm v_{\rm esc}^2}^{\infty} A^{3/2} v^3 \exp \qty(- A v^2) \frac{\dd{u}}{2 v} \\
+             &= \sqrt{\frac{1}{\pi}} \int_{\rm v_{\rm esc}^2}^{\infty} \frac{1}{2} A^{3/2} u \exp \qty(- A u) \dd{u} \\
+             &= \sqrt{\frac{A^3}{4 \pi}} \int_{\rm v_{\rm esc}^2}^{\infty} u \exp \qty(- A u) \dd{u}
+    \end{align}
+    Okay let's pause for a second. That covers the substitution part, now we need to do integration by parts. Since I'm already using $u$ let's call the two variables in integration by parts $a$ and $b$ such that
+    \begin{equation}
+        \int a \dd{b} = a b - \int b \dd{a}
+    \end{equation}
+    In our case, we have that
+    \begin{equation}
+        a = u,\qquad \dd{b} = \exp(- A u)
+    \end{equation}
+    and thus we can also write that
+    \begin{equation}
+        \dd{a} = 1,\qquad b = - \frac{1}{A} \exp(- A u)
+    \end{equation}
+    So now putting that all together, we can write that the integral in full is
+    \begin{align}
+        &= \qty[ u \cdot - \frac{1}{A} \exp(- A u)]_{\rm v_{\rm esc}^2}^{\infty} - \int_{\rm v_{\rm esc}^2}^{\infty} - \frac{1}{A} \exp(- A u) \dd{u} \\
+        &= \qty[ - \frac{u}{A} \exp(- A u)]_{\rm v_{\rm esc}^2}^{\infty} + \frac{1}{A} \int_{\rm v_{\rm esc}^2}^{\infty} \exp(- A u) \dd{u} \\
+        &= \qty(0 + \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2)) - \qty[\frac{\exp(- A u)}{A^2}]_{\rm v_{\rm esc}^2}^{\infty} \\
+        &= \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2) + \frac{\exp(- A v_{\rm esc}^2)}{A^2}
+    \end{align}
+    Okay phew, we made it. Now let's go and plug that back in!
+    \begin{align}
+        \Phi &= \sqrt{\frac{A^3}{4 \pi}} \qty( \frac{v_{\rm esc}^2}{A} \exp(- A v_{\rm esc}^2) + \frac{\exp(- A v_{\rm esc}^2)}{A^2} ) \\
+             &= \frac{(1 + A v_{\rm esc}^2) e^{- A v_{\rm esc}^2}}{2 \sqrt{\pi A}}
+    \end{align}
+    Now let's put this into the format that you asked for. My constant $A$ is related to $v_s$ as $A = v_s^{-2}$ and thus we can write that $A v_{\rm esc}^2 = \lambda_{\rm esc}$. Additionally, we want this in terms of the total number of particles and so we multiply by the number density.
+    \begin{equation}
+        \boxed{ \Phi = \frac{n_{\rm esc} v_s (1 + \lambda_{\rm esc}) e^{- \lambda_{\rm esc}}}{2 \sqrt{\pi}} }
+    \end{equation}
+}
+
+\question{3d. Earth Hydrogen Loss}
+\answer{
+    Let's just quickly write down the constants that we've been given:
+    \begin{equation}
+        m \approx 2 \unit{amu} = 3.32 \times 10^{-27} \unit{kg},\quad T = 1000 K,\quad \sigma = \pi \angstrom^2 = \pi \times 10^{-20} \unit{m^2}
+    \end{equation}
+    where the mass has come from them being hydrogen molecules. Now let's evaluate $\lambda_{\rm esc}, n_{\rm esc}, v_s$ so that we can find $\Phi$.
+    \begin{align}
+        v_{\rm esc} &= 11200 \unit{m}{s^{-1}} \\
+        n_{\rm esc} &= \frac{m_{\rm H2} \cdot g}{\sigma k_B T} = \frac{3.35 \times 10^{-27} \unit{kg} \cdot 10 \unit{m}{s^{-2}}}{\pi \times 10^{-20} \unit{m^2} \cdot 1.38 \times 10^{-23} \unit{m^2}{kg}{s^{-2}}{K^{-1}} \cdot 1000 \unit{K}} = 7.66 \times 10^{13} \unit{m^{-3}} \\
+        v_s &= \sqrt{\frac{2 k_B T}{m_{\rm H2}}} = \sqrt{\frac{2 \cdot 1.38 \times 10^{-23} \unit{m^2}{kg}{s^{-2}}{K^{-1}} \cdot 1000 \unit{K}}{3.35 \times 10^{-27} \unit{kg}}} = 2883 \unit{m}{s^{-1}} \\
+        \lambda_{\rm esc} &= \qty(\frac{11200}{2883})^2 = 15.1
+    \end{align}
+    Cool, now it's time to just plug those numbers in to find about $\Phi$.
+    \begin{equation}
+        \Phi_{\rm H2} = 2.80 \times 10^{10} \unit{m^{-2} s^{-1}}
+    \end{equation}
+    Finally, we need to multiply this by the area through which the particles move. Since we are given that $H \ll R$, we can say the surface at this height is essentially the same as the surface area of the Earth.
+    \begin{align}
+        \mathcal{R}_{\rm H2} &= \Phi \cdot 4 \pi R_{\oplus}^2 \\
+                    &= 2.80 \times 10^{11} \unit{m^{-2} s^{-1}} \cdot 4 \pi (6.4 \times 10^{6} \unit{m})^2 \\
+        \Aboxed{ \mathcal{R}_{\rm H2} &= 1.4 \times 10^{26} \unit{molecules}{s^{-1}} }
+    \end{align}
+    Therefore, if we were to evolve forwards for $1 \unit{Gyr}$, the total number of molecules that would be lost are
+    \begin{equation}
+        \boxed{ N_{\rm H2, lost} = 4.5 \times 10^{42} }
+    \end{equation}
+    and so this is approximately within a factor of two of the current hydrogen content of the Earth's atmosphere!
+}
+
+\question{3d. Earth Oxygen Loss}
+\answer{
+    This calculation will be exactly the same except we now change the mass from $m \approx 2\unit{amu}$ to $m \approx 32\unit{amu}$. This drastically changes things due to the exponential terms and so the rate of oxygen loss is an extremely low
+    \begin{equation}
+        \boxed{ \mathcal{R}_{\rm O2} = 4.4 \times 10^{-71} \unit{molecules}{s^{-1}} }
+    \end{equation}
+    Meaning that over a billion years we wouldn't expect the loss of \textit{any} oxygen. I therefore conclude that over time the abundance of atmospheric oxygen relative to hydrogen will increase (assuming no other sources or sinks).
+}
+
+\end{document}
+
+ 
