@@ -1,2 +1,2 @@
-# Stat mech and Thermo with our man Eric
-Repo for shared code for the thermo problem sets
+# UW Grad Classes
+This repo contains all of my work for the various core classes that I am taking at UW
