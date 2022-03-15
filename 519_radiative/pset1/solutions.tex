@@ -1,0 +1,273 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{Astro 519A; Problem Set 1 - \textbf{Tom Wagg}}
+% \author{Due Oct~22 by 5pm (in McQuinn's mailbox)}
+
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}\\#1\\
+}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\begin{document}
+
+\maketitle
+
+Please use cgs units for all calculations.
+
+
+{\it \noindent 1.  {\it (10/5 class)} The visible light emitted by planets/moons is star-light diffusely reflected from their surfaces.  To calculate this accurately can be complicated, but some insight can be gained by using a simple approximation know as ``Lambert's law''.  In this approximation, a fraction $a$ (the ``albedo'') of the radiation incident on a small area element of the surface is assumed to be diffusely reflected with uniform brightness in the outward hemisphere.
+
+
+ a)Show that the diffusely reflected flux seen at earth due to one such surface element $dA$ on the planet is
+$$ dF = \frac{L a \cos \theta_0 \cos \theta_1 dA}{4\pi^2 D^2 d^2},$$
+where $D$ is the distance of the planet from the star, and $\theta_0$ is the angle of the star's rays w.r.t. the outward normal of $dA$.  Likewise $d$ is the distance of the planet from earth, and $\theta_1$ is the angle between the earth-planet direction and the outward normal of $dA$.  $L$ is the stellar luminosity.}
+
+\answer{
+    We can show this result in several steps. First, it is useful to find the flux onto on the small surface element $\dd{A}$ on the planet. This is given by
+    \begin{equation}
+        \dd{F_{p, {\rm in}}} = \frac{L \cos \theta_0}{4 \pi D^2},
+    \end{equation}
+    where the factor of $\cos \theta_0$ accounts for the fact that only a project surface area $\dd{A} \cos \theta_0$ receives the flux. Next we can write that the flux \textit{off} the small surface element is
+    \begin{equation}
+        \dd{F_{p, {\rm out}}} = \frac{a L \cos \theta_0}{4 \pi D^2},
+    \end{equation}
+    as only a fraction $a$ of the flux is reflected. Since we know that the flux at a surface of uniform brightness is $F = \pi I$, we can write that
+    \begin{equation}
+        \dd{I_{p, {\rm out}}} = \frac{a L \cos \theta_0}{4 \pi^2 D^2},
+    \end{equation}
+    where we have divided by $\pi$. Since intensity is conserved over rays, this is also the intensity at the observer. Therefore, we can convert this to the flux at the observer by multiplying by the solid angle
+    \begin{align}
+        \dd{F_{o}} &= \frac{a L \cos \theta_0}{4 \pi^2 D^2} \dd{\Omega},\\
+        &= \frac{a L \cos \theta_0}{4 \pi^2 D^2} \frac{\dd{A_{\rm eff}}}{d^2},\\
+        &= \frac{a L \cos \theta_0}{4 \pi^2 D^2} \frac{\dd{A} \cos \theta_1}{d^2},
+    \end{align}
+    which gives us the final desired expression:
+    \begin{equation}
+        \boxed{ \dd{F} = \frac{L a \cos \theta_0 \cos \theta_1 \dd{A}}{4 \pi^2 D^2 d^2} }
+    \end{equation}
+}
+
+{\it b) Let's take the case for the full moon, and it's fine to evaluate in the limit that the sun and earth are very far so that $\cos \theta_0  \approx \cos \theta_1$.  It's also best to choose a coordinate system where these angles become the polar angle when integrating over the moon's surface. Integrate $dF$ over the exposed surface of the moon to calculate the total reflected flux seen on earth.  Then, use that the moon's albedo is $a=0.1$ and its radius is $R_m = 1.7\times10^8$cm to calculate the reflected flux seen on earth in cgs units.  The other values are easy to look up: $D=1.5\times10^{13}$cm,  $d=3.8\times10^{10}$cm, $L_\odot = 3.9\times10^{33}$erg/s.  How much smaller is the flux of the moon's than the sun's direct flux?   }
+
+\answer{
+    To start, we need to integrate the flux over the surface of the moon. To get the total flux we therefore write (assuming $\theta_0 = \theta_1$)
+    \begin{align}
+        F_m &= \int \frac{L a \cos \theta^2 \dd{A}}{4 \pi^2 D^2 d^2}, \\
+        F_m &= \frac{L a}{4 \pi^2 D^2 d^2} \int_{\rm moon} \cos \theta^2 \dd{A}.
+    \end{align}
+    Next, we need to integrate the surface element over the moon. For this purpose, since the distances are much greater than the sizes of the sun and moon, $\theta$ also represents the azimuthal angle in spherical coordinates. We therefore need to integrate over the half of the moon that is visible to us. This can be written as
+    \begin{align}
+        F_m &= \frac{L a}{4 \pi^2 D^2 d^2} \int_0^{2\pi} \dd{\phi} \int_0^{\pi / 2} R_m^2 \sin \theta \cos \theta^2 \dd{\theta},\\
+        &= \frac{L a R_m^2}{4 \pi^2 D^2 d^2} \cdot 2 \pi \int_0^{\pi / 2} \sin \theta \cos \theta^2 \dd{\theta},\\
+        &= \frac{L a R_m^2}{4 \pi^2 D^2 d^2} \cdot \frac{2 \pi}{3},\\
+        F_m &= \frac{L a}{6 \pi} \qty(\frac{R_m}{D d})^2.
+    \end{align}
+    At this point it is simply a matter of plugging in numbers to find the flux:
+    \begin{align}
+        F_m &= \frac{3.9 \times 10^{33} \cdot 0.1}{6 \pi} \qty(\frac{1.7 \times 10^8}{1.5 \times 10^{13} \cdot 3.8 \times 10^{10}})^2,\\
+        \Aboxed{ F_m &= 1.8 \unit{erg}{s^{-1}}{cm^{-2}} }
+    \end{align}
+    Then we know that the flux from the sun is simply
+    \begin{equation}
+        F_{\odot} = \frac{L_\odot}{4 \pi D^2},
+    \end{equation}
+    where we have assumed that $D$ is also approximately the distance to the Earth. Therefore we can write that the ratio of the two is
+    \begin{equation}
+        \boxed{ \frac{F_m}{F_{\odot}} = \frac{2 a}{3} \qty(\frac{R_m}{d})^2 = 1.3 \times 10^{-6} }
+    \end{equation}
+}
+
+{\it c) How much less intense on average is the moon than the sun using that they both span the same angular angular area on the sky? (Note that `intense' here refers to `intensity'.)  Ignoring Limb darkening which primarily affects the edge of the sun,\footnote{We will consider Limb darkening towards the end of the class when we discuss atmospheres.  This darkening owes to the sun's emission not coming from a single surface.} to good approximation the Sun is the same intensity at all points. How is the intensity profile of the moon different?}
+
+\answer{
+    The intensity is given by the flux integrated over the solid angle. However, since the angular area of the sun and the moon is equal, the ratio of the intensity is equivalent to the ratio of the flux and thus
+    \begin{equation}
+        \boxed{ \frac{I_m}{I_\odot} = \frac{F_m}{F_\odot} = 1.3 \times 10^{-6} }    
+    \end{equation}
+    The intensity profile of the moon is different because the albedo of the surface is not equal in all areas, the highlands can have $a \approx 0.3$ whilst the mares can have $a \approx 0.08$. In contrast, the sun is essentially uniform except for sunspots and of course is radiating directly rather than reflecting.\\
+}
+
+{\it 2. {\it (10/7 class)} Imagine a homogeneous disk with height $H$ and radius $R$ that is emitting thermally with a single temperature $T$.  A skewer with impact parameter $r<R$ parallel to the disk axis has optical depth $\tau_\nu$ .  The disk is observed at an angle $\theta$ w.r.t. the disk axis at a distance $d \gg R$.  Calculate the following: \\
+a)  the observed $I_\nu$ for the sightline that intersects the disk center}
+
+\answer{
+    To start, we can write that the solution to the radiative transfer equation is
+    \begin{equation}
+        I_\nu = I_\nu(0) e^{-\tau_\nu} + \int_0^{\tau_\nu(s)} \dd{\tau^\prime} S_{\nu} (\tau^\prime) e^{-(\tau_\nu - \tau^{\prime})}.
+    \end{equation}
+    Since the disc is thermally emitting, we can assume that the source function if $S_\nu = B_\nu (T)$ and assume that it is constant. This allows us to instead write that the intensity is
+    \begin{equation}
+        I_\nu = I_\nu(0) e^{-\tau_\nu} + B_\nu(T) (1 - e^{-\tau}).
+    \end{equation}
+    There is no emission from behind the galaxy and so we can drop the first term to get
+    \begin{equation}
+        I_\nu = B_\nu(T) (1 - e^{-\tau}).
+    \end{equation}
+    Finally, since the sightline is inclined at an angle $\theta$, this means that the effective optical depth is larger than the optical depth when going perpendicular to the disc and this gives the solution
+    \begin{equation}
+        \boxed{ I_\nu = B_\nu(T) \qty(1 - e^{-\tau / \cos \theta}) }
+    \end{equation}
+}
+
+{\it b)  the observed $F_\nu$ of the disk  (assume $H\ll R$ so you can ignore edge effects)}
+
+\answer{
+    The flux is the intensity integrated over the solid angle, which gives
+    \begin{equation}
+        F_\nu = \int I_\nu \dd{\Omega},
+    \end{equation}
+    which since $d \gg R$ can simply be written as
+    \begin{align}
+        F_\nu &= I_\nu \frac{\pi R^2}{d^2},\\
+        \Aboxed{ F_\nu &= B_\nu(T) \qty(1 - e^{-\tau / \cos \theta}) \frac{\pi R^2}{d^2} }
+    \end{align}
+}
+
+{\it c)  the optically thick and thin limits of $F_\nu$ from part (b).  {\it For the optically thin limit, keep the linear order term in $\tau_\nu$ -- the correct answer is not zero!}}
+
+\answer{
+    Let's explore each limit. In the optically thick limit we have $\tau \gg 1$ and therefore the exponential term ($e^{-\tau / \cos \theta}$) goes to zero and so we have
+    \begin{equation}
+        \boxed{ \text{optically thick: } F_\nu = B_\nu(T) \frac{\pi R^2}{d^2} }
+    \end{equation}
+    In the optically thin limit $\tau \ll 1$ and so we can Taylor expand the exponential term
+    \begin{align}
+        F_\nu &= B_\nu(T) \qty(1 - e^{-\tau / \cos \theta}) \frac{\pi R^2}{d^2} \\
+        &= B_\nu(T) \qty(1 - \qty[1 - \frac{\tau}{\cos \theta}]) \frac{\pi R^2}{d^2} \\
+        \Aboxed{ \text{optically thin: } F_\nu &= B_\nu(T) \frac{\tau}{\cos \theta} \frac{\pi R^2}{d^2} }
+    \end{align}
+}
+
+{\it 3. {\it   (10/7 class)} A graduate student was upset about the quality of the pizza at Friday Pizza Lunch.  He proceeded to throw all the pizza slices on the ground in a manner that was more or less random so that any area on the ground had an equal probability to be covered in pizza.  Each pizza slice has area $P$, and the student threw down $N$ slices in a room of area $A$.  Assume that, once a pizza slice is on the floor, it does not affect the probability of a pizza slice landing on the same area.  You can also take $P \ll A$.  \\
+a) What is the ``optical depth'' in pizza slices between the ground and someone looking down?}
+
+\answer{
+    The optical depth (assuming we have integrated over all frequencies) is defined as
+    \begin{equation}
+        \tau = \int \dd{s} \alpha,
+    \end{equation}
+    where $\alpha$ is the absorption coefficient and it can be written as
+    \begin{equation}
+        \alpha = n \sigma.
+    \end{equation}
+    In this problem the number density of pizza slices is $n = N / (A \dd{s})$ and the cross section is $\sigma = P$. Thus we can simply write that $\tau$ is
+    \begin{align}
+        \tau &= \frac{N}{A \dd{s}} \cdot P \cdot \dd{s},\\
+        \Aboxed{ \tau &= \frac{N P}{A} }
+    \end{align}
+}
+
+{\it b) Using mathematics similar to the radiative transfer equation, calculate the fraction of the ground that is still visible and not covered by a pizza slice? Please justify your approach.}
+
+\answer{
+    The ``fraction of the ground that is still visible'' could instead be thought of as the probability that ``radiation'' will pass through the medium without being absorbed. In this case the fraction is simply
+    \begin{equation}
+        \boxed{ \text{fraction still visible} = e^{-\tau} = \exp(-\frac{NP}{A}) }
+    \end{equation}
+}
+
+{\it c) What fraction of the ground is covered by exactly two pizza slices? {\it (Hint: First derive the part b result using the Poisson probability distribution $P(\tau | \lambda) = \lambda^\tau \exp[-\lambda]/\tau!$, where $\lambda = P N/A$ is the average number of slices at every point.)}}
+
+\answer{
+    For clarity, I will instead write the Poisson probability distribution as $P(n | \tau) = \tau^n \exp(-\tau) / n!$. In this case, we want to find the probability that a light ray would hit exactly two pizza slices given that the average number of slices at each point is $\tau$. This probability is simply
+    \begin{equation}
+        \boxed{ P(2 | \tau) = \frac{1}{2} \tau^2 \exp(-\tau),\qquad \text{where } \tau = \frac{NP}{A} }
+    \end{equation}
+}
+
+{\it 4.)   {\it (10/12 class)} Imagine a spherical dust-free HII region in which the ionized gas has electron/proton density $n=10^4 \;$cm$^{-3}$ out to a radius $1$ pc, where the HII bubble ends.  This HII region is at a distance of $1\,$kpc from the earth. 
+
+\noindent a) What is the flux of Ly$\alpha$ photons from the region [photons cm$^{-2}$ s$^{-1}$]?   You may use that the recombination rate coefficient of hydrogen is $\alpha_B= 4\times10^{-13}$cm$^3$~s$^{-1}$ such that the rate density of recombinations is $\alpha_b n^2$ and that every recombination results in $0.66$ of a Ly$\alpha$ photon. Note that in the absence of dust, Ly$\alpha$ photons can be scattered but they cannot be destroyed.}
+
+\answer{
+    The flux can be written as
+    \begin{equation}
+        F = \frac{L}{4 \pi d^2},
+    \end{equation}
+    where $L$ is the luminosity and $d$ is the distance. We can find the luminosity by multiplying the rate density of the HII bubble by its volume and the number of photons produced per recombination
+    \begin{equation}
+        L = \alpha_B n^2 \cdot \frac{4 \pi}{3} r^3 \cdot \frac{2}{3},
+    \end{equation}
+    where I've assumed that $0.66 = 2/3$ is what you mean in the question. Overall, we can therefore write that the flux is
+    \begin{equation}
+        F = \frac{2}{9} \frac{\alpha_B n^2 r^3}{d^2},
+    \end{equation}
+    where we have the values of each of these quantities and thus we find that the flux is
+    \begin{equation}
+        \boxed{ F = 2.74 \times 10^7 \unit{photons}{cm^{-2}}{s^{-1}} }
+    \end{equation}
+}
+
+
+{\it \noindent b) The gas in the HII region is at temperature $T=10^4$K.  In the optical through radio, thermal free-free emission dominates the emission from the HII region (AKA bremsstrahlung emission).  This is emission from free electrons scattering off of free ions.  We will discuss free free emission later in the class, but it suffices to note that it's specific emissivity from gas is $\epsilon_\nu \approx 7\times10^{38} n^2 T^{-1/2} \exp[h\nu/kT]$ in cgs units, ignoring an order unity `Gaunt factor' (eqn 5.14 in RL).  Remember that this emission is thermal so $B_\nu(T) = \epsilon_\nu/(4\pi \alpha_\nu)$.
+
+What is the brightness temperature of the free-free emission through the cloud center?  You can assume that we are observing $h \nu \ll k T$ such that the Rayleigh-Jeans law applies (but that the emission is still optically thin), and that the sightline does not intersect a dense star.}
+
+\answer{
+    Let's first apply RL Eq.~1.62 (a solution to the RT equation with temperature brightness) which gives
+    \begin{equation}
+        T_b = T_b(0) e^{-\tau_\nu} + T (1 - e^{-\tau_\nu}).
+    \end{equation}
+    In the case of this problem we are assuming there is nothing behind the gas and thus $T_b(0) = 0$ meaning that
+    \begin{equation}
+        T_b = T (1 - e^{-\tau_\nu}).
+    \end{equation}
+    Since we are given $T$, the last unknown is therefore $\tau_\nu$. We know that the optical depth can be found as
+    \begin{equation}
+        \tau_\nu = \int \dd{s} \alpha_\nu,
+    \end{equation}
+    and since we assume that the gas is uniformly dense then this integral is trivial and so
+    \begin{equation}
+        \tau_\nu = 2 r \alpha_\nu,
+    \end{equation}
+    where $r$ is the radius of the bubble. In order to find the absorption coefficient, $\alpha_\nu$, we can apply the fact that the emission is thermal and thus $B_\nu(T) = \epsilon_\nu / (4 \pi \alpha_\nu)$ and that $B_\nu(T)$ is a blackbody (in Rayleigh-Jeans limit) and so solve for $\alpha_\nu$
+    \begin{align}
+        B_\nu = \frac{2 \nu^2}{c^2} k_B T &= \frac{\epsilon_\nu}{4 \pi \alpha_\nu} \\
+        \alpha_\nu &= \frac{\epsilon_\nu}{4 \pi} \frac{c^2}{2 \nu^2} \frac{1}{k_B T}
+    \end{align}
+    We can then plug \textit{alllll} of this in to get that the brightness temperature is
+    \begin{align}
+        T_b &= T \qty(1 - \exp[- 2 r \alpha_\nu]) \\
+        T_b &= T \qty(1 - \exp[- 2 r \frac{\epsilon_\nu}{4 \pi} \frac{c^2}{2 \nu^2} \frac{1}{k_B T}]) \\
+        T_b &= T \qty(1 - \exp[- (1 \unit{pc}) \frac{7 \times 10^{-38} \unit{cm^3}{erg}{K^{1/2}} (10^4 \unit{cm^{-3}})^2 (10^4 \unit{K})^{-1/2})}{4 \pi k_B (10^4 \unit{K})} \frac{c^2}{\nu^2}]) \\
+        \Aboxed{ T_b &= 10^4 \qty(1 - e^{-1.1 \times 10^{19} (\nu / \unit{Hz})^{-2}}) \unit{K} }
+    \end{align}
+}
+
+{\it \noindent c) How does the brightness temperature change if the HII region were at ten times the distance?}
+
+\answer{
+    Since the brightness temperature is analogous to an intensity it is not affected by distance. \textbf{Therefore the brightness temperature would stay the same.}
+}
+
+{\it \noindent d) Below some frequency the emission is not optically thin.  What frequency?  What is the brightness temperature well below this critical frequency?}
+
+\answer{
+    The switch between optically thin and thick occurs at $\tau_\nu = 1$. Therefore since the quantity in the exponential is $\tau_\nu$ we can write that
+    \begin{align}
+        (\nu / \unit{Hz})^2 &= 1.1 \times 10^{19} \\
+        \Aboxed{ \nu &= 3.31 \unit{GHz} }
+    \end{align}
+    At this frequency, the brightness temperature is equal to
+    \begin{align}
+        T_b &= T(1 - e^{-1}) \\
+        \Aboxed{ T_b &= 6300 \unit{K} }
+    \end{align}
+}
+
+\end{document}
+
+ 

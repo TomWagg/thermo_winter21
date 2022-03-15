@@ -1,0 +1,87 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{Astro 519A; Problem Set 4, some of it at least}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}\\#1\\
+}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle
+
+{\it 1.  The temperature in a star varies with depth.   Assume that we can approximate the source function $S_\nu$ of a star as $S_\nu = a_\nu +b_\nu \tau_\nu$, where $\tau_\nu$ is defined as the optical depth from the surface to some depth (i.e. along a vector {\bf normal} to the surface...not necessarily along the path you are considering later on). We will show in class that this $S_\nu$ is actually a reasonable model: even more amazingly we will find that  for a grey atmosphere in the Eddington approximation not only does this form apply but with $a_\nu =b_\nu$.\\ 
+a) What is the intensity at the surface and how does it relate to the source function evaluated at $\tau_\nu = 1$?  (Assume a ray perpendicular to the surface.)}
+
+\answer{
+    \begin{align}
+        \dv{I_\nu}{\tau_\nu} &= I_\nu - S_\nu \\
+        \dv{I_\nu}{\tau_\nu} &= I_\nu - (a_\nu + b_\nu \tau_\nu) \\
+        I_v(\tau_\nu) &= a_\nu + b_\nu (1 + \tau_\nu) + C e^{\tau_\nu} \tag{use Wolfram Alpha to solve} \\
+        I_v(\tau_\nu) &= a_\nu + b_\nu (1 + \tau_\nu) \tag{apply boundary condition} \\
+        \Aboxed{ I_v(0) &= a_\nu + b_\nu }
+    \end{align}
+    From comparison, we have that $S_{\nu}(\tau_\nu = 1) = a_\nu + b_\nu$ and thus $S_{\nu}(\tau_\nu = 1) = I_v(\tau_\nu = 0)$.
+}
+
+{\it b) Apply the result in part (a) to stellar lines versus the stellar continuum.  How does the intensity at the center of a line differ from the continuum intensity? Please discuss both the case where the temperature decreases with increasing radial coordinate and the case where there is an inversion such that it increases with increasing radial coordinate.  (See problem 3 where we work out a somewhat more specific example.)}
+
+\answer{
+    First let's consider the case in which the temperature decreases with increasing radial coordinate. In this case, the continuum source function is greater than the line source function. Applying our result from part a we can therefore say that the intensity of the continuum is greater than the intensity of the line centre.
+    
+    For the case in which the temperature increases with increasing radial coordinate the continuum source function is less than the line source function. Applying our result from part a we can therefore say that the opposite relation and so the intensity of the continuum is less than the intensity of the line centre.
+}
+
+{\it c) The source function we have assumed does not apply in the chromosphere of the Sun, which has a temperature increasing with  increasing radius (whereas in the photosphere temperature is decreasing with radius). Is it lines that have larger or that have smaller optical depths that are more likely to be seen in emission? Justify your answer.}
+
+\answer{
+    The \textbf{larger} optical depths! If the optical depth was too small (specifically, smaller than the continuum optical depth) then you would not be able to distinguish the line emission from the continuum as the optical depth increases inwards for the photosphere but outwards for the chromosphere.
+}
+
+{\it d) Now we will generalize what we did in part a) to sum rays from different angles.  Argue that the emergent specific intensity for a ray with an angle $\theta$ normal to the (planar) stellar surface is given by $I_\nu = S_\nu(\tau_\nu = \cos(\theta))$.  Remember that $\tau_\nu$ in this expression is the optical depth normal to the surface.  This is known as the Eddington-Barbier approximation, where the `approximation' is in the form of the source function (which we will motivate in class).}
+
+\answer{
+    If the ray come at an angle $\theta$ normal to the plane this means that the \textit{effective} optical depth is $\tau_\nu / \cos \theta$. Therefore, since we know that the intensity at the surface is $S_\nu(\tau_\nu = 1)$, in order to get an effective optical depth of 1, the optical depth normal to the plane would need to be $\cos \theta$ instead of $1$. 
+}
+
+{\it e) From $I_\nu = S_\nu(\tau_\nu = \cos(\theta))$, calculate the flux at the surface and find $F_\nu =  \pi (a_\nu + b_\nu \times 2 /3)$.  Thus, $F_\nu = \pi S_\nu(\tau_\nu = 2/3)$!  The vaunted two-thirds law!  Of course, the flux at the surface is easy to relate to the flux at any distance from the star by $(R_*/r)^2$ dilution.}
+
+\answer{
+    \begin{align}
+        F_\nu &= \int \dd{\Omega} I_\nu \cos \theta \\
+              &= \int \dd{\Omega} \cos \theta \qty(a_\nu + b_\nu \cos \theta) \\
+              &= 2 \pi \int_0^1 \dd{\mu} \mu (a_\nu + b_\nu \mu) \\
+        \Aboxed {F_\nu &= \pi \qty(a_\nu + \frac{2}{3}b_\nu) }
+    \end{align}
+}
+
+{\it f) Reason (qualitatively) how the above calculations relate to stellar limb darkening.  Assume that the temperature decreases with increasing radius.}
+
+\answer{
+    Stellar limb darkening is where the edges of a star appear darker than the centre. When viewing the limbs we are looking at a region of lower temperature as the question states. Since the temperature is lower, this mean that the source function will be lower. In the previous part we found that the flux at the surface is proportional to the source function and thus this means the flux in the limbs is lower, leading to stellar limb darkening.
+}
+
+\end{document}
+
+ 
+ 

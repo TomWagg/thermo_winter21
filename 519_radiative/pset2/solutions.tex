@@ -1,0 +1,429 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{Astro 519A; Problem Set 2}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}\\#1\\
+}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\allowdisplaybreaks
+
+\begin{document}
+\maketitle
+
+\noindent {\it 1) [10/19 class, beginning] {\bf Sobolev approximation and HI 21cm from the galactic disk.}
+
+a) Remember the optical depth we see in terms of the Einstein B-coefficients is given by 
+$$
+\tau_\nu = \int ds \frac{h \nu_0}{4\pi} n_1 B_{12} \left(1 - \frac{g_1 n_2}{ g_2 n_1} \right) \phi(\nu -\nu_{\rm line-center})  
+$$
+where the densities can depend on $s$ and I've centered $\phi(\Delta \nu)$ so that it peaks at $\Delta \nu=0$ zero, which is different than in class. Doppler shift results in the line center redshifting with respect to us at $s=0$ so that
+$$
+\nu_{\rm line-center} = \nu_0 (1+ \frac{dv}{ c ds} s),
+$$
+where $\nu_0$ is the frequency of the transition.   Use this setup and that the densities vary slowly compared to $\phi$ with $s$ at fixed $\nu$ (i.e. assume they are constant) to derive the Sobolev approximation for the optical depth 
+$$
+\tau_\nu = \frac{h c }{4\pi dv/ds} n_1 B_{12} \left(1 - \frac{g_1 n_2}{ g_2 n_1} \right).,
+$$
+where the density here is the one at $s$ such that $\nu = \nu_0 (1+ \frac{dv}{ c ds} s)$.\\
+
+{\it Hint: It may be helpful to stick in a Gaussian for $\phi$ or even a Dirac delta function to derive this noting that $\int ds \delta^D( y s) =  |y|^{-1}$.}\\}
+
+\answer{
+    As an initial step, we can move the quantities that are constant across $\dd{s}$ out of the integral
+    \begin{equation}\label{eq:q1_init}
+        \tau_\nu = \frac{h \nu_0}{4 \pi} n_1 B_{12} \qty(1 - \frac{g_1 n_2}{g_2 n_1}) \int \dd{s} \phi(\nu - \nu_{\rm line-center}).
+    \end{equation}
+    Now let's focus on that integral (which I'll refer to as $X$ for brevity) and substitute in the expression that we are given for $\nu_{\rm line-center}$. We can also follow the hint and assume that the linewidth function is a Dirac delta function.
+    \begin{equation}
+        X \equiv \int \dd{s} \phi\qty[\nu - \nu_0 \qty(1 + \frac{1}{c} \dv{v}{s} s)] = \int \dd{s} \delta^D\qty[\nu - \nu_0 \qty(1 + \frac{1}{c} \dv{v}{s} s)]
+    \end{equation}
+    Since the integral of a Dirac delta function will be the same independent of how far it is shifted, we can ignore any terms that don't involve $s$ within the delta function. This allows us to then apply the hint!
+    \begin{align}
+        X &= \int \dd{s} \delta^D\qty[\frac{\nu_0}{c} \dv{v}{s} s] \\
+        &= \abs{ \frac{\nu_0}{c} \dv{v}{s}}^{-1}\\
+        X &= \frac{c}{\nu_0} \frac{1}{\dd{v}/\dd{s}}
+    \end{align}
+    Now that we've got an expression for the integral we can return to Eq.~\ref{eq:q1_init} and substitute the integral with $X$ in order to obtain the Sobolev approximation
+    \begin{align}
+        \tau_\nu &= \frac{h \nu_0}{4 \pi} n_1 B_{12} \qty(1 - \frac{g_1 n_2}{g_2 n_1}) \cdot X \\
+        &= \frac{h \nu_0}{4 \pi} n_1 B_{12} \qty(1 - \frac{g_1 n_2}{g_2 n_1}) \cdot \frac{c}{\nu_0} \frac{1}{\dd{v}/\dd{s}} \\
+        \Aboxed{ \tau_\nu&= \frac{h c}{4 \pi \dd{v}/\dd{s}} n_1 B_{12} \qty(1 - \frac{g_1 n_2}{g_2 n_1}) }
+    \end{align}
+}
+
+{\it b.)  Let's apply this formula to calculate 21cm emission from neutral hydrogen in the Galactic Disk. Assume the temperature $T_S$ of 21cm transition is $100$K, which sets the ratio in the upper and lower levels $g_1 n_2/ g_2 n_1 = \exp[- h \nu_0/ k_bT_S]$. Using your favorite equation $T_b = T_S \left(1 -\exp(-\tau_\nu) \right)$ and this plot, what would you estimate for the optical depth of the Milky Way to this transition at the frequencies that are most absorbed?}
+
+\answer{
+    Let's rearrange the given equation to solve for $\tau_\nu$
+    \begin{align}
+        T_b &= T_S \qty(1 -\exp(-\tau_\nu)) \\
+        \frac{T_b}{T_S} &= 1 -\exp(-\tau_\nu) \\
+        \exp(-\tau_\nu) &= 1 - \frac{T_b}{T_S} \\
+        -\tau_\nu &= \ln \qty(1 - \frac{T_b}{T_S}) \\
+        \tau_\nu &= - \ln \qty(1 - \frac{T_b}{T_S})
+    \end{align}
+    And so we arrive at an expression for the optical depth. We are given that $T_S = 100 \unit{K}$ and we are also told that the linewidth function is centred on the peak optical depth and thus from inspection of the plot we see that $T_b = 70 \unit{K}$ at this peak. This gives the optical depth
+    \begin{equation}
+        \boxed{ \tau_\nu = -\ln(1 - 70/100) \approx 1.2 }
+    \end{equation}
+}
+
+\newpage
+
+{\it c.)  Let's now try to estimate the typical optical depth for a sightline through the Milky Way disk. First, $\nu_0 = 1.4$GHz and $A_{21} = 2.85\times10^{-15}$s$^{-1}$ or equivalently the f-value is $5.85\times10^{-21}$.  It takes $A_{21}^{-1} = 10$Myr for hydrogen to transition spontaneously from the excited hyperfine state to the ground state.  Also, for the Milky Way disk, roughly a sightline has $dv/ds = 10$ km/s /kpc extending over $\sim 10$kpc (or spanning a velocity of 100 km/s), and let's assume an average density of hydrogen is $n=1$cm$^{-3}$ characteristic of the average ISM.
+
+To simplify our expression for the Sobolev optical depth, take the limit that $h \nu_0/ k_bT_S \ll 1$ as $h \nu_0/k_b = 0.07\,$K. Plugging in all the factors, what optical depth do you find? Is it of the same order of magnitude with the one you inferred from the plot?}
+ 
+\answer{
+    First, it is convenient to convert $A_{21}$ to $B_{12}$ before continuing
+    \begin{align*}
+        A_{21} = \frac{2 h \nu^3}{c^2} B_{21} &= \frac{2 h \nu^3}{c^2} \frac{g_1}{g_2} B_{12} \tag{RL 1.72ab} \\
+        B_{12} &= \frac{c^2}{2 h \nu^3} \frac{g_2}{g_1} A_{21} \\
+               &= \frac{3 c^2}{2 h \nu^3} A_{21} \tag{$g_2 = 3, g_1 = 1$} \\
+        B_{12} &= 2 \times 10^5 \unit{s}{g^{-1}}
+    \end{align*}
+    Then we can go through and plug in all of the factors to find the optical depth
+    \begin{align*}
+        \tau_\nu &= \frac{h c}{4 \pi \dd{v}/\dd{s}} n B_{12} \qty(1 - \frac{g_1 n_2}{g_2 n_1}) \\
+        &= \frac{h c}{4 \pi \dd{v}/\dd{s}} \frac{n_1}{4} B_{12} \qty(1 - \exp(- h \nu_0 / k_b T_S)) \tag{assume fixed $T_S$} \\
+        &= \frac{h c}{4 \pi \dd{v}/\dd{s}} \frac{n_1}{4} B_{12} \qty(1 - (1 - h \nu_0 / k_b T_S)) \tag{$h \nu_0 / k_b T_S \ll 1$} \\
+        &= \frac{h c}{4 \pi \dd{v}/\dd{s}} \frac{n_1}{4} B_{12} \frac{0.07 \unit{K}}{T_S} \tag{$h \nu_0 / k_b = 0.07 \unit{K}$} \\
+        &= \frac{(2 \times 10^{-16} \unit{erg}{cm})}{4 \pi (10 \unit{km}{s^{-1}}{kpc^{-1}})} \frac{(1 \unit{cm^{-3}})}{4} (2 \times 10^5)  \frac{0.07 \unit{K}}{100 \unit{K}} \\
+        \Aboxed{ \tau_\nu &= 1.7 }
+    \end{align*}
+    This is the same order of magnitude as the optical depth that I inferred from the plot!
+}
+
+{\it 2) [10/21 class] {\bf energy densities}
+a) the cosmic microwave background, which is a spatially uniform black body with $T=2.7$K. Outside of galaxies, this energy density likely dominates over all of the below energy densities.}
+
+\answer{
+    We can find the energy density by applying the Stefan Boltzmann law:
+    \begin{align}
+        u = a T^4 &= \frac{4 \sigma T^4}{c} \\
+        &= \frac{4 \cdot 5.67 \times 10^{-8} \cdot 2.7^4}{3 \times 10^8} \unit{J}{m^{-3}} \\
+        &= \frac{4 \cdot 5.67 \times 10^{-8} \cdot 2.7^4}{3 \times 10^8} \frac{10^{-6}}{1.6 \times 10^{-19}} \unit{eV}{cm^{-3}} \\
+        \Aboxed{ u &= 0.25 \unit{eV}{cm^{-3}} }
+    \end{align}
+}
+
+{\it b) the Milky Way magnetic field (assuming $B \approx 10\mu$ G)}
+
+\answer{
+    \begin{align}
+        u &= \frac{B_0^2}{8 \pi} \\
+        &= \frac{10^{-10}}{8 \pi} \unit{G^2} \\
+        &= \frac{10^{-10}}{8 \pi} \unit{cm^{-1}}{g}{s^{-2}} = \frac{10^{-10}}{8 \pi} \unit{erg}{cm^{-3}} \\
+        &= \frac{10^{-17}}{8 \pi} \unit{J}{cm^{-3}} = \frac{10^{-17}}{8 \pi \cdot 1.6 \times 10^{-19}} \unit{eV}{cm^{-3}} \\
+        \Aboxed{ u &= 2.5 \unit{eV}{cm^{-3}} }
+    \end{align}
+}
+
+{\it c)  starlight in the Milky Way assuming a luminosity of $10^{10}L_\odot$. To simplify, assume a uniform disk of radius $R=10$kpc and height $H=100$pc.  A further simplification is that the $\Delta \Omega \approx 2\pi \times H/R$ of the sky you see through a distance of $R$ of the disk. The average distance through the disk over full sky is $\sim H$ times an order-one prefactor that we don't care about since this is a rough estimate. Use this to estimate the average intensity and then the energy density.}
+
+\answer{
+    We worked out in an earlier quiz that the intensity when looking through a disc of this nature is
+    \begin{equation}
+        I = \frac{n L H}{4 \pi},
+    \end{equation}
+    where we are still using $H$ since the hint in the question explains that the average distance through the disc is $H$. Then we know that the number density times a luminosity is the \textit{total} luminosity over the whole volume, meaning
+    \begin{equation}
+        n L = \frac{L_{\rm tot}}{\pi R^2 H},
+    \end{equation}
+    where $L_{\rm tot} = 10^{10} L_{\odot}$. We can then write that the intensity is
+    \begin{equation}
+        I = \frac{L_{\rm tot}}{4 \pi^2 R^2}.
+    \end{equation}
+    Next we want to find the mean intensity, which using RL Eq.~1.8 is
+    \begin{equation}
+        J = \frac{1}{4 \pi } \int I \dd{\Omega} = \frac{1}{4\pi} I \cdot 4 \pi = I
+    \end{equation}
+    Then to find the energy density we simply apply RL Eq.~1.9
+    \begin{align}
+        u &= \frac{4 \pi}{c} J \\
+        &= \frac{4 \pi}{c} \frac{L_{\rm tot}}{4 \pi^2 R^2} \\
+        &= \frac{L_{\rm tot}}{\pi R^2c } \\
+        \Aboxed{ u &= 0.27 \unit{eV}{cm^{-3}}}
+    \end{align}
+}
+
+{\it d) $10^4$K warm gas in the ISM at a characteristic number density of $n=1$cm$^{-3}$  {\it (okay, this one wasn't covered in class, but you should know the formula!)}.}
+
+\answer{
+    \begin{align}
+        u &= E \cdot n \\
+        u &= \frac{3}{2} k_B T \cdot n \\
+        \Aboxed{ u &= 1.3 \unit{eV}{cm^{-3}} }
+    \end{align}
+}
+
+{\it 3). [10/26 class]   { {\bf Solar corona and Thomson scattering} (but this problem also uses tools from Ch 1)}\\
+\noindent    The corona of the Sun, as seen during a total solar eclipse, consists of very hot, ionized gas, which scatters light from the Sun by means of Thomson scattering ($\sigma_T = 6.65\times10^{-25}$cm$^{2}$).  The annotated photo below is of a total solar eclipse.  The black disk is the Moon just blocking out the Sun.  
+\noindent a) For the light from point P, what would the direction of linear polarization relative to the dashed line be? Would you expect to see $100\%$ polarization?  Please explain, but a quantitative answer is not required. }
+
+\answer{
+    Due to symmetry, most of the incident radiation will cancel out and the only remaining linear polarisation will be perpendicular to the dashed line. I would expect it to be 100\% polarised from Eq.~3.41 in RL, since $\Pi(\pi / 2) = 1$.
+}
+ 
+{\it \noindent b) The surface brightness of the corona at a few solar radii is roughly $\sim 10^{-9}$ of the surface brightness of the Sun itself, sufficiently dim that it will not blind you.  Assume that Thomson scattering is isotropic and assume the density profile of electrons beyond the solar radius of $R_\odot =7\times10^{10}$cm falls off as $r^{-2}$.   Estimate the electron density in the solar corona at point P.}
+
+\answer{
+    The aim of the problem is to find $n_e(r_p)$, the electron density at the radius $r_p$ (where $r_p$ is the distance from the centre of the Sun to the point P). To start, let's write out the radiative transfer equation for pure scattering (RL Eq.~1.86)
+    \begin{equation}
+        \dv{I}{s} = - \sigma (I - J(r)),
+    \end{equation}
+    where we can additionally remove the $I$ term as this deals with absorption which is negligible for Thomson scatter (except for huge column densities), as Matt told us in class. Therefore we can simply write that
+    \begin{equation}
+        \dv{I}{s} = \sigma J(r).
+    \end{equation}
+    Next we know that in this case, the mean intensity at a radius $r$ is just a function of the emission coefficient from RL Eq.~1.84
+    \begin{equation}
+        J(r) = \frac{j(r)}{\sigma}.
+    \end{equation}
+    Now we can apply an earlier equation from RL (Eq.~1.16) to relate the emission coefficient to the power per volume.
+    \begin{equation}
+        j(r) = \frac{P(r) n_e(r)}{4 \pi},
+    \end{equation}
+    where $P(r)$ is the power and $n_e(r) = A r^{-2}$ is the electron density. We also know that $P(r) = F(r) \sigma$ and that $F$ is
+    \begin{equation}
+        F(r) = \pi B_{\odot} \qty(\frac{R_\odot}{r})^2,
+    \end{equation}
+    there we can combine all of these and write that
+    \begin{align}
+        \dv{I}{s} &= \sigma J(r) = j(r) \\
+                  &= \frac{B_\odot \sigma R_\odot^2}{4 r^2} \cdot \frac{A}{r^2}.
+    \end{align}
+    We can also note that $r = (r_p^2 + s^2)^{1/2}$ and now perform the integral to find the intensity at the point $P$
+    \begin{align}
+        I_P &= \frac{A \sigma B_{\odot} R_\odot^2}{4} \int \dd{s} r^{-4}, \\
+            &= \frac{A \sigma B_{\odot} R_\odot^2}{4} \int_0^{\infty} \dd{s} (r_p^2 + s^2)^{-2}, \\
+            &= \frac{A \pi \sigma B_{\odot} R_\odot^2}{16 r_p^3}
+    \end{align}
+    Then finally we are given that $I_r = 10^{-9} B_\odot$ and so we can solve for the value of $A$
+    \begin{align}
+       I_P = 10^{-9} B_\odot &= \frac{A \sigma B_{\odot} R_\odot^2}{4} \cdot \frac{\pi}{4 r_p^3} \\
+       A &= \frac{16 \times 10^{-9} \cdot r_p^3}{\pi \sigma R_\odot^2}
+    \end{align}
+    This gives that the electron density at the point P is (assuming $r_p \approx 2 R_\odot$)
+    \begin{align}
+        n_e(r_p) &= \frac{16 \times 10^{-9} \cdot r_p^3}{\pi \sigma  R_\odot^2} \cdot \frac{1}{r_p^2} \\
+        &= \frac{16 \times 10^{-9} \cdot r_p}{\pi \sigma R_\odot^2} \\
+        n_e(r_p) &= \frac{16 \times 10^{-9} \cdot r_p}{\pi \sigma R_\odot^2} \\
+        \Aboxed{ n_e(r_p) &= 2.2 \times 10^5 \unit{cm^{-3}} }
+    \end{align}
+}
+
+{\it \noindent c) Once the eclipse is no longer total, part of the very intense solar photosphere is seen.  On your retina, why are the cells that have the emerging photosphere projected onto them just as damaged as they would be if you were looking at a totally unobstructed sun?} 
+
+\answer{
+    Intensity is conserved and so the intensity on any cell on the retina that is exposed to the sun will be the same as the intensity on the sun. Therefore, even though every cell on the retina may not have light on it, those cells that \textit{are} exposed will be just as damaged.
+}
+
+{\it 4) [10/28 class]  {\bf scattering from a classical bound electron:} This problem follows the end of Ch.~3 in Rybicki and Lightman.
+
+In the case of scattered radiation from a free electron, we considered
+the acceleration of the electron due to an incident (plane polarized)
+electromagnetic wave:
+\begin{equation}
+\dot v = \ddot r = \frac{-e E_{\rm inc}}{m_e} ~~~~~{\rm where}~~~~~ E_{\rm inc} = E_0 \sin \omega t.
+\end{equation}
+
+In the case of the harmonically bound electron (i.e. sitting in a potential well with $U = m_e \omega_e^2 r^2/2$), the analogous
+equation of motion is that of a forced oscillator
+\begin{equation}
+\ddot r + \omega_e^2 r = \frac{-e E_{\rm inc}}{m_e} .
+\end{equation}
+
+\noindent (a) Verify that a solution of the forced oscillator equation
+of motion is
+\begin{equation}
+    r = -\frac{e E_{\rm inc}}{m_e} \frac{1}{\omega_e^2 - \omega^2}.
+\end{equation}
+(This is not the unique solution and note that the only part that depends on time is $E_{\rm inc}$.)}
+
+\answer{
+    First we can differentiate $r$ a bunch of times
+    \begin{align}
+        r &= -\frac{e E_0}{m_e} \frac{1}{\omega_e^2 - \omega^2} \sin \omega t \\
+        \dot{r} &= - \omega \cdot \frac{e E_0}{m_e} \frac{1}{\omega_e^2 - \omega^2} \cos \omega t \\
+        \ddot{r} &= \omega^2 \cdot - \frac{e E_0}{m_e} \frac{1}{\omega_e^2 - \omega^2} \sin \omega t \\
+        &= - \omega^2 r
+    \end{align}
+    Now we plug it into the LHS and show that it gives the RHS
+    \begin{align}
+        \ddot{r} + \omega_e^2 r &= -\omega^2 r + \omega_e^2 r \\
+        &= r (\omega_e^2 - \omega^2) \\
+        &= \frac{-e E_{\rm inc}}{m_e} \frac{1}{\omega_e^2 - \omega^2} (\omega_e^2 - \omega^2) \\
+        &= \frac{-e E_{\rm inc}}{m_e}
+    \end{align}
+}
+
+{\it \noindent 
+(b) Show that the total cross section for scattered radiation
+in the forced oscillator case is 
+\begin{equation}
+\sigma = \sigma_T \left(1-\frac{\omega_e^2}{\omega^2} \right)^{-2}.
+\end{equation}}
+
+\answer{
+    Here's like 20 lines of algebra to show this is true! :D
+    \begin{align*}
+        \dv{P}{\Omega} &= \frac{q^2 \ddot{x}^2}{4 \pi c^3} \sin^2 \theta \tag{RL 3.23} \\
+        \ddot{x}^2 &= \qty(- \omega_e^2 r - \frac{e E_0 \sin \omega t}{m_e})^2 \tag{square expression from question} \\
+        \ddot{x}^2 &= \omega_e^4 r^2 + \frac{e^2 E_0^2 \sin^2 (\omega t)}{m_e^2} - 2 \frac{e E_0 \sin (\omega t) \omega_e^2 r}{m_e} \\
+        \dv{P}{\Omega} &= \frac{e^2}{4 \pi c^3} \sin^2 \theta \qty( \omega_e^4 r^2 + \frac{e^2 E_0^2 \sin^2 (\omega t)}{m_e^2} - 2 \frac{e E_0 \sin (\omega t) \omega_e^2 r}{m_e} ) \tag{substitute} \\
+        \avg{\dv{P}{\Omega}} &= \frac{e^2}{4 \pi c^3} \sin^2 \theta \qty( \omega_e^4 r^2 + \frac{e^2 E_0^2}{2 m_e^2} ) \tag{average over time} \\
+        \avg{S} \dv{\sigma_T}{\Omega} &= \avg{\dv{P}{\Omega}} \tag{RL 3.36} \\
+        \dv{\sigma}{\Omega} &= \frac{2 e^2}{E_0^2 c^4} \sin^2 \theta \qty( \omega_e^4 r^2 + \frac{e^2 E_0^2}{2 m_e^2} ) \tag{apply $\avg{S} = c E_0^2 / (8 \pi)$} \\
+        &= \sin^2 \theta \qty( \frac{2 e^2 \omega_e^4 r^2}{E_0^2 c^4} + \frac{e^4}{m_e^2 c^4} ) \\
+        &= \sin^2 \theta \qty( \frac{2 e^2 \omega_e^4 r^2}{E_0^2 c^4} + r_0^2 ) \tag{RL 3.38} \\
+        &= \sin^2 \theta \qty[ \frac{2 e^2 \omega_e^4}{E_0^2 c^4} \qty(\frac{e^2 E_0^2}{2 m_e^2} \frac{1}{(\omega_e^2 - \omega^2)^2}) + r_0^2 ] \tag{definition of $r$ from part a} \\
+        &= \sin^2 \theta \qty[ r_0^2 \qty(1 + \frac{\omega_e^4}{(\omega_e^2 - \omega^2)^2}) ] \\
+        &= \sin^2 \theta r_0^2 \qty(1 - \frac{\omega_e^2}{\omega^2})^{-2} \tag{reformulate expression} \\
+        \sigma &= \int \dd{\Omega} \sin^2 \theta r_0^2 \qty(1 - \frac{\omega_e^2}{\omega^2})^{-2} \\
+        \sigma &= \frac{8 \pi}{3} r_0^2 \qty(1 - \frac{\omega_e^2}{\omega^2})^{-2} \\
+        \Aboxed{ \sigma &= \sigma_T \qty(1 - \frac{\omega_e^2}{\omega^2})^{-2} }
+    \end{align*}
+}
+
+\newpage
+
+{\it \noindent (c) Evaluate the limit of $\sigma$ for when $\omega \gg \omega_{e}$. Justify why your result makes intuitive sense. Also evaluate the limit in the alternate limit, when $\omega_{e}\gg\omega$.}
+
+\answer{
+    In the limit of $\omega \gg \omega_e$, the cross section is simply the Thomson cross section 
+    \begin{equation}
+        \boxed{ \sigma = \sigma_T }.
+    \end{equation}
+    This makes intuitive sense since, if $\omega$ is much larger than $\omega_e$, the electron is barely oscillating within the potential well and so the wave has the same effect as if it wasn't in a well at all.
+    
+    In the case of $\omega \ll \omega_e$, we find the following expression
+    \begin{align}
+        \sigma &= \sigma_T \qty(1 - \frac{\omega_e^2}{\omega^2})^{-2} \\
+        \sigma &\approx \sigma_T \qty(-\frac{\omega_e^2}{\omega^2})^{-2} \\
+        \Aboxed{ \sigma &\approx \sigma_T \qty(\frac{\omega}{\omega_e})^4 }
+    \end{align}
+}
+
+
+{\it \noindent
+(d) Write an expression for $F_{\rm rad}$ using this {\it initial} harmonic assumption in terms of $m_e$, $\Gamma\equiv 2 e^2 \omega^2/[3 m_e c^3]$ and \emph{one power of} $\dot r$.
+\begin{equation}
+F_{\rm rad} = \frac{2e^2}{3 c^3} \frac{d^3 r}{dt^3},
+\end{equation}
+\begin{equation}
+r \propto \cos (\omega t).  {\rm ~~~~~~~~(zeroth ~order~ guess)}
+\end{equation}}
+
+\answer{
+    First, we can differentiate the expression for $r$ a bunch of times.
+    \begin{align*}
+        r &\propto \cos (\omega t) \\
+        \dot{r} &\propto - \omega \sin (\omega t) \\
+        \ddot{r} &\propto - \omega^2 \cos (\omega t) \\
+        \dddot{r} &\propto \omega^3 \sin (\omega t) = - \omega^2 \dot{r}
+    \end{align*}
+    Now we can plug that into the given expression for $F_{\rm rad}$ to find the solution.
+    \begin{align*}
+        F_{\rm rad} &= \frac{2e^2}{3 c^3} \omega^3 \sin (\omega t) \\
+        F_{\rm rad} &= - \frac{2e^2 \omega^2}{3 c^3} \omega \sin (\omega t) \\
+        \Aboxed{ F_{\rm rad} &= - \Gamma m_e \dot{r} }
+    \end{align*}
+}
+
+\newpage
+
+{\it \noindent (e) Imagine now that we have an incident (plane-polarized)
+electromagnetic wave of frequency $\omega$, scattering off a ``harmonically
+bound" electron, but we now also account
+for the damping of the radiation reaction force in the equation of motion
+for the electron. This leads to an even more general equation of motion,
+that of a forced harmonic oscillator {\it with damping}:
+\begin{equation}
+\ddot r + \Gamma \dot r + \omega_e^2 r = \frac{-eE_{\rm inc}}{m_e}, {\rm ~~~~~~~~~~ where~~~~} E_{\rm inc} = E_0 e^{-i\omega t}.
+\end{equation}
+
+Verifiy that a solution of the above forced oscillator 
+with damping equation is
+\begin{equation}
+r = \frac{-eE_{\rm inc}}{m_e} \left [ \frac{1}{(\omega_e^2 - \omega^2) - i \omega \Gamma} \right].
+\end{equation}}
+
+\answer{
+    Let's show that the left hand side is the same as the right hand side for this $r$
+    \begin{align}
+        \dot{r} = - i \omega r \\
+        \ddot{r} = - \omega^2 r \\
+        \ddot{r} + \Gamma \dot{r} + \omega_e^2 r &= - \omega^2 r - i \omega \Gamma + \omega_e^2 r \\
+        &= r (\omega_e^2 - \omega^2 - i \omega \Gamma) \\
+        &= \frac{-eE_{\rm inc}}{m_e} \left [ \frac{1}{(\omega_e^2 - \omega^2) - i \omega \Gamma} \right] (\omega_e^2 - \omega^2 - i \omega \Gamma) \\
+        &= \frac{-eE_{\rm inc}}{m_e}
+    \end{align}
+}
+
+{\it \noindent (f) Show that the total cross section for scattered radiation in this case is 
+\begin{equation}
+\sigma = \frac{4\pi e^2}{m_e c} \left [ \frac{\Gamma \omega^2}{(\omega_e^2-\omega^2)^2 + \omega^2 \Gamma^2} \right].
+\end{equation}}
+
+Basically the same as part b but with a different expression:
+\begin{align*}
+        \dv{P}{\Omega} &= \frac{e^2 \abs{\ddot{r}}^2}{4 \pi c^3} \sin^2 \theta \tag{hint} \\
+        \abs{\ddot{r}}^2 &= \abs{-\omega^2 \frac{-eE_{\rm inc}}{m_e} \qty[ \frac{1}{(\omega_e^2 - \omega^2) - i \omega \Gamma}]}^2 \tag{square the expression} \\
+        &= \omega^4 \frac{e^2 E_{\rm inc}^2}{m_e^2} \qty[ \frac{1}{(\omega_e^2 - \omega^2) - i \omega \Gamma}] \qty[ \frac{1}{(\omega_e^2 - \omega^2) + i \omega \Gamma}] \\
+        &= \frac{e^2 E_{\rm inc}^2 \omega^4}{m_e^2} \qty[ \frac{1}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \\
+        \dv{P}{\Omega} &= \frac{e^2}{4 \pi c^3} \sin^2 \theta \frac{e^2 E_{\rm inc}^2 \omega^4}{m_e^2} \qty[ \frac{1}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \tag{substitute} \\
+        &= \frac{e^2 E_{\rm inc}^2}{4 \pi m_e} \sin^2 \theta \frac{e^2 \omega^2}{m_e c^3} \omega^2 \qty[ \frac{1}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \tag{collect terms} \\
+        &= \frac{3 e^2 E_{\rm inc}^2}{8 \pi m_e} \sin^2 \theta \qty[ \frac{\Gamma \omega^2}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \tag{convert to $\Gamma$} \\
+        \avg{\dv{P}{\Omega}} &= \frac{3 e^2 E_0^2}{16 \pi m_e} \sin^2 \theta \qty[ \frac{\Gamma \omega^2}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \tag{$\avg{E_{\rm inc}^2} = E_0^2$} \\
+        \avg{S} \dv{\sigma}{\Omega} &= \avg{\dv{P}{\Omega}} \tag{RL 3.36} \\
+        \dv{\sigma}{\Omega} &= \frac{3 e^2}{2 m_e c} \sin^2 \theta \qty[ \frac{\Gamma \omega^2}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \tag{apply $\avg{S} = c E_0^2 / (8 \pi)$} \\
+        \sigma &= \int \dd{\Omega} \frac{3 e^2}{2 m_e c} \sin^2 \theta \qty[ \frac{\Gamma \omega^2}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \\
+        \sigma &= \frac{8 \pi}{3} \frac{3 e^2}{2 m_e c} \qty[ \frac{\Gamma \omega^2}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \\
+        \Aboxed{ \sigma &= \frac{4 \pi e^2}{m_e c} \qty[ \frac{\Gamma \omega^2}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] }
+\end{align*}
+
+
+{\it \noindent (g) Now consider the case when the incident radiation has frequency
+with $\omega\sim\omega_{e}$ so that $\omega_e^2 -\omega^2 =  (\omega+\omega_e) (\omega-\omega_e)  \approx 2 \omega_e  (\omega-\omega_e)$. Show that your result in this case leads to a cross-section of the form
+\begin{equation}
+\sigma \approx \left( \frac{\pi e^2}{m_e c}\right) {\cal L},
+\end{equation}
+\noindent
+where ${\cal L}$ is known as the Lorentz profile and it integrates to one ($\int d\nu {\cal L} = 1$) :
+\begin{equation}
+ {\cal L} = \frac{1}{\pi} \left[ \frac{\Gamma/4\pi}{(\nu - \nu_e)^2 + (\Gamma/4\pi)^2} \right].
+ \end{equation}}
+ 
+ \answer{
+    \begin{align*}
+        \sigma &= \frac{4 \pi e^2}{m_e c} \qty[ \frac{\Gamma \omega^2}{(\omega_e^2 - \omega^2)^2 + \omega^2 \Gamma^2}] \tag{result from part f} \\
+        &= \frac{4 \pi e^2}{m_e c} \qty[ \frac{\Gamma \omega_e^2}{(2 \omega_e (\omega - \omega_e))^2 + \omega_e^2 \Gamma^2}] \tag{apply approximation, set $\omega=\omega_e$} \\
+        &= \frac{4 \pi e^2}{m_e c} \qty[ \frac{\Gamma \omega_e^2}{ 4 \omega_e^2 (\omega - \omega_e)^2 + \omega_e^2 \Gamma^2}] \tag{square expression} \\
+        &= \frac{4 \pi e^2}{m_e c} \qty[ \frac{\Gamma}{ 4 (\omega - \omega_e)^2 + \Gamma^2}] \tag{cancel $\omega_e$} \\
+        &= \qty(\frac{\pi e^2}{m_e c}) \cdot \frac{1}{\pi} \qty[ \frac{\pi \Gamma}{ (\omega - \omega_e)^2 + \frac{\Gamma^2}{4}}] \\
+        &= \qty(\frac{\pi e^2}{m_e c}) \cdot \frac{1}{\pi} \qty[ \frac{\pi \Gamma}{ 4 \pi^2 (\nu - \nu_e)^2 + \frac{\Gamma^2}{4}}] \tag{$\omega = 2 \pi \nu$} \\
+        \Aboxed{ \sigma &\approx \qty(\frac{\pi e^2}{m_e c}) \cdot \frac{1}{\pi} \qty[ \frac{\Gamma / 4 \pi}{ (\nu - \nu_e)^2 + (\Gamma / 4 \pi)^2}] }  \\
+    \end{align*}
+}
+
+\end{document}
+
+ 
