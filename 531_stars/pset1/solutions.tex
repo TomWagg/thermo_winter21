@@ -1,0 +1,113 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{Astro 531; Problem Set 1}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle
+
+\question{\textbf{2.1 - Stellar Properties}}
+
+\question{Part a - Radius}
+\answer{
+    \begin{align}
+        L &= 4 \pi R^2 \sigma T_{\rm eff}^4 \\
+        R &= \sqrt{\frac{L}{4 \pi \sigma T_{\rm eff}^4}} \\
+        \Aboxed{ R &= 2570 \unit{R_{\odot}} }
+    \end{align}
+}
+
+\question{Part b - Density}
+\answer{
+    If we assume that the star is a constant density throughout then we can use the definition of density and the radius we calculated above.
+    \begin{align}
+        \rho &= \frac{M}{\frac{4}{3} \pi R^3} \\
+        \Aboxed{ \rho &= 1.66 \times 10^{-6} \unit{kg}{m^{-3}} }
+    \end{align}
+}
+
+\question{Part c - Escape velocity}
+\answer{
+    \begin{equation}
+        \boxed{ v_{\rm esc} = \sqrt{ \frac{2 G M}{R} } = 54500 \unit{m}{s^{-1}} }
+    \end{equation}
+}
+
+\question{Part d - Comparisons to Sun}
+\answer{
+    This star is clearly much larger than the sun (by a factor of 2570) but is \textbf{much} less dense (since the mean density of the sun is approximately $1400 \unit{kg}{m^{-3}}$, so the density is $10^{9}$ times lower than the sun). Finally, the escape velocity is lower than the sun (around 0.088 times lower). 
+}
+
+\pagebreak
+
+\question{\textbf{3.5 - Kepler's 3rd Law from Virial Theorem}}
+\answer{
+    The virial theorem gives the following relations between energies
+    \begin{equation}
+        E_{\rm kin} = - \frac{1}{2} E_{\rm pot}
+    \end{equation}
+    For the orbits of planets around the sun, their potential energy will come from the gravitational potential and so
+    \begin{equation}
+        E_{\rm pot} = - \frac{G m_1 m_2}{a},
+    \end{equation}
+    and the kinetic energy is simply
+    \begin{equation}
+        E_{\rm kin} = \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2.
+    \end{equation}
+    For the next part, it will be useful to define the distance from each body to the centre of mass, $a_i$, in terms of the masses
+    \begin{equation}
+        a_i = \frac{a \cdot m_{1 - i}}{m_1 + m_2} \\
+    \end{equation}
+    and additionally, it's useful to write the velocity in terms of the period and masses
+    \begin{align}
+        v_i &= \frac{2 \pi a_i}{P} \\
+        v_i &= \frac{2 \pi}{P} \frac{a \cdot m_{1 - i}}{m_1 + m_2}
+    \end{align}
+    Now we can put this all together in the expression for the virial theorem.
+    \begin{align}
+        \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2 &= \frac{1}{2} \cdot \frac{G m_1 m_2}{a}, \\
+        \frac{1}{2} m_1 \qty(\frac{2 \pi}{P} \frac{a \cdot m_2}{m_1 + m_2})^2 + \frac{1}{2} m_2  \qty(\frac{2 \pi}{P} \frac{a \cdot m_1}{m_1 + m_2})^2 &= \frac{G m_1 m_2}{2 a} \\
+        \frac{2 \pi^2 a^2}{P^2 M^2} \qty( m_1 m_2^2 + m_2 m_1^2 ) &= \frac{G m_1 m_2}{2 a} \\
+        \frac{a^3}{P^2} &= \frac{G}{4 \pi^2} \frac{M^2 m_1 m_2}{\qty( m_1 m_2^2 + m_2 m_1^2 )} \\
+        \frac{a^3}{P^2} &= \frac{G}{4 \pi^2} \frac{M^2}{\qty( m_1 + m_2 )} \\
+        \Aboxed{ \frac{a^3}{P^2} &= \frac{G M}{4 \pi^2} }
+    \end{align}
+}
+
+\end{document}
+
+ 
