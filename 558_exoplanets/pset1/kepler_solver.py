@@ -3,6 +3,7 @@ import numpy as np
 # ANSI colour codes
 RED = "\033[0;31m"
 GREEN = "\033[0;32m"
+BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 END = "\033[0m"
 
@@ -78,7 +79,7 @@ def test_kepler_solver(n_tests=10000, **kwargs):
     e, M, E : `tuple of array of floats` :p
         Eccentricity and anomalies, returned only when tests fail, otherwise None returned
     """
-    print(f"Running {UNDERLINE}{n_tests}{END} tests of the solver")
+    print(f"Running {n_tests} tests of the Kepler equation solver")
 
     # create random e in [0, 1) and random M in [0, 2 pi)
     e = np.random.uniform(0, 1, size=n_tests)
@@ -103,6 +104,8 @@ def test_kepler_solver(n_tests=10000, **kwargs):
 
 
 def main():
+    print()
+    print(f"{BOLD}{UNDERLINE}Problem 1 - Create Kepler equation solver and show it works{END}")
     test_kepler_solver(tol=1e-9)
 
 
