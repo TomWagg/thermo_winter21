@@ -15,7 +15,16 @@
 \usepackage[letterpaper,
             margin=0.8in]{geometry}
 
-\title{Astro 531; Problem Set 1}
+\newcommand{\psetnum}{1}
+\newcommand{\class}{ASTR 531 - Stellar Interiors}
+
+\newcommand{\tomtitle}{
+    \noindent {\huge \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Problem Set \psetnum \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Problem Set \psetnum}
 \author{\textbf{Tom Wagg}}
 
 \newcommand{\question}[1]{{\noindent \it #1}}
@@ -38,11 +47,11 @@
 
 \begin{document}
 
-\maketitle
+\tomtitle
 
 \question{\textbf{2.1 - Stellar Properties}}
 
-\question{Part a - Radi  us}
+\question{Part a - Radius}
 \answer{
     \begin{align}
         L &= 4 \pi R^2 \sigma T_{\rm eff}^4 \\
@@ -123,8 +132,6 @@
     Finally, the $120 \unit{M_{\odot}}$ star very closely follows the radiation-ideal gas boundary, particularly during its main sequence. After this it moves more clearly into the ideal gas regime and, though it appears to end its life here, the models only evolve through carbon burning. In reality, we would expect more complex evolution beyond this point and that the star would end as a black hole (given that its final mass is still around $30 \unit{M_{\odot}}$ even with all of the mass loss).
 }
 
-\pagebreak
-
 \question{\textbf{5.1 - Contribution to Opacity}}
 
 \question{Part a - Identifying regimes}
@@ -146,8 +153,6 @@
     We can also check the density dependence by checking the values at a fixed temperature. At a value of $\log T = 6.2$, the opacities of the densities with $\log \rho \in [0, -2, -4]$ are approximately $\log \kappa = [2, 0.9, -0.1]$. So the change in opacity is about the same for the same change in the density, thus showing a linear dependence as we would expect.
 }
 
-% \clearpage
-
 \question{\textbf{6.1 - Mass Luminosity Relation}}
 
 \question{Part a - Check relation for Appendix D}
@@ -156,16 +161,41 @@
     We can see that the mass-luminosity relation agrees well with the data for most stars. It is only for stars above $30 \unit{M_{\odot}}$ where the relation seems to no longer apply. This coincides with the mass where stars start to be radiation dominated as we talked about in class so perhaps this is the reason for the deviation.
 }
 
+
+
+\begin{center}
+    \includegraphics[width=\textwidth]{figures/ml_relation.pdf}
+\end{center}   
+
 \question{Part b - Luminosities}
 \answer{
     As the question states, the luminosity of massive stars is about the same for both compositions, but the luminosity of the metal poor low-mass stars is \textit{higher} than those of $Z = 0.014$ stars. We can see this exactly in the figure above. Specifically, in the bottom panel I show the ratio of the two luminosities and we can see that for low mass stars, the luminosity of metal poor ones is higher.
 
-    The short answer to this trend is that \textbf{low-mass stars do not have electron scattering as a significant source of opacity}. To elaborate: low-mass stars tend to be cooler than higher-mass stars, and so they are less ionised and have less electron scattering. This means that the opacity of low-mass stars comes almost entirely from bound-free absorption (free-free absorption wouldn't be applicable since $\kappa_{bf} \gg \kappa_{ff}$ for a metal abundance of $Z > 0.001$). Now bound-free absorption is directly proportional to the metallicity and thus metal-poor low-mass stars have lower opacity (and so higher luminosity) than metal-rich low-mass stars. The same is not true for high-mass stars since electron scattering is independent of metallicity and so when the star is more metal-poor the electron scattering still limits the luminosity even when the bound-free absorption is low.
+    The short answer to this trend is that \textbf{low-mass stars do not have electron scattering as a significant source of opacity}. To elaborate: low-mass stars tend to be cooler than higher-mass stars, and so they are less ionised and have less electron scattering. This means that the opacity of low-mass stars comes almost entirely from bound-free absorption (free-free absorption wouldn't be applicable since $\kappa_{bf} \gg \kappa_{ff}$ for a metal abundance of $Z > 0.001$). Now bound-free absorption is directly proportional to the metallicity and thus metal-poor low-mass stars have lower opacity (and so higher luminosity) than metal-rich low-mass stars. The same is not true for high-mass stars since electron scattering is independent of metallicity and so when the star is more metal-poor the electron scattering still limits the luminosity even when the bound-free absorption is low. 
 }
 
-\begin{center}
-    \includegraphics[width=\textwidth]{figures/ml_relation.pdf}
-\end{center}
+\question{\textbf{7.2 - Convection Criterions}}
+
+\question{Part a and Part b - Convection zones with different criterions}
+\answer{
+    I combined these two parts since I put all of the information on the same plot:
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{figures/criterion_shift_zones.jpg}
+    \end{center}
+    The $\mu$ profile decreases with increasing radius since fusion is creating heavier elements in the core. As the question asks I adopted some arbitrary limits (red lines) for the convection zone when using the Schwarzschild criterion.
+
+    When instead adopting the Ledoux criterion, the convection zone will shrink (as shown by the green lines). I have two qualitative arguments for this. First, since the Ledoux criterion is identical to the Schwarzschild criterion except with an extra term for the $\mu$ gradient, this criterion is \textit{harder} to fulfill. This means that the fraction of the star that is convective should decrease and thus the zone should shrinks.
+
+    Additionally, I also considered the `blob' of gas. When switching from Schwarzschild to Ledoux, a `blob' travelling upwards now is not only at a different temperature than the surrounding regions, but also probably heavier due to the increased $\mu$ relative to the surroundings. This would decrease the upper limit of the convection zone since a `blob' could not travel to the same height. The same argument can be applied in the opposite direction and so a `blob' can't sink as far into the star, increasing the lower limit.
+}
+
+\question{Part c - Convection effects on $\mu$ gradient}
+\answer{
+    The $\mu$ gradient flattens out within the convection zone. This is because all of the material is mixed and thus the $\mu$ at all radii within the zone because the average of the $\mu$ values that were in the zone initially. See the image below for my sketch of this.
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{figures/mixing.jpg}
+    \end{center}
+}
 
 \end{document}
 
