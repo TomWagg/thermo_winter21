@@ -1,0 +1,17 @@
+name: astr558
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - scipy
+  - astropy
+  - pandas
+  - matplotlib
+  - jupyter
+  - jupyterlab
+  - ipython
+  - tqdm
+  - emcee
+  - corner

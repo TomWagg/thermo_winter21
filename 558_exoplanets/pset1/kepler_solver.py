@@ -1,4 +1,5 @@
 import numpy as np
+import astropy.units as u
 
 # ANSI colour codes
 RED = "\033[0;31m"
@@ -64,6 +65,14 @@ def solve_kepler_equation(e, M, tol=1e-10, max_steps=10000, verbose=False):
         steps += 1
 
     raise ValueError("Did not converge")
+
+
+def radial_velocity(k_star, omega, e, t, t_p, P, gamma):
+    M = 2 * np.pi / P * (t - t_p)
+    E = solve_kepler_equation(e, M)
+    f = 2 * np.arctan(((1 + e) / (1 - e))**(0.5) * np.tan(E / 2))
+
+    return k_star * (np.cos(omega + f) + e * np.cos(omega)) + gamma
 
 
 def test_kepler_solver(n_tests=10000, **kwargs):
