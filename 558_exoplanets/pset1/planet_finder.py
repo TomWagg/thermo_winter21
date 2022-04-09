@@ -5,6 +5,7 @@ from matplotlib.colors import LogNorm
 import astropy.units as u
 import astropy.constants as const
 import emcee
+import corner
 
 # ANSI colour codes
 RED = "\033[0;31m"
@@ -127,6 +128,30 @@ def test_kepler_solver(n_tests=10000, **kwargs):
 
 
 def radial_velocity(k_star, omega, e, t, t_p, P, gamma):
+    """Find the radial velocity of a star
+
+    Parameters
+    ----------
+    k_star : `float`
+        Velocity semi-amplitude
+    omega : `float`
+        Pericenter angle
+    e : `float`
+        Eccentricity
+    t : `float`
+        Time
+    t_p : `float`
+        Time of Perihelion
+    P : `float`
+        Period
+    gamma : `float`
+        CoM radial velocity
+
+    Returns
+    -------
+    v_rv : `float`
+        Radial velocity
+    """
     M = 2 * np.pi / P * (t - t_p)
     E = solve_kepler_equation(e, M)
     f = 2 * np.arctan(((1 + e) / (1 - e))**(0.5) * np.tan(E / 2))
@@ -135,12 +160,50 @@ def radial_velocity(k_star, omega, e, t, t_p, P, gamma):
 
 
 def get_rvs(times, P, k_star, t_p, gamma, omega, e):
+    """Get radial velocities over time for a system
+
+    Parameters
+    ----------
+    times : `list`
+        Times at which to evaluate
+    k_star : `float`
+        Velocity semi-amplitude
+    omega : `float`
+        Pericenter angle
+    e : `float`
+        Eccentricity
+    t_p : `float`
+        Time of Perihelion
+    P : `float`
+        Period
+    gamma : `float`
+        CoM radial velocity
+
+    Returns
+    -------
+    v_rv : `np.array`
+        Radial velocities
+    """
     return np.array([radial_velocity(P=P, k_star=k_star, t=t, t_p=t_p,
                                      gamma=gamma, omega=omega, e=e) for t in times])
 
 
-def log_prior(theta):
-    bounds = [(110, 112), (0.2, 0.7), (10.2, 11.2), (-1, 1), (0.01, 2 * np.pi), (0, 1)]
+def log_prior(theta, bounds):
+    """Find the log of the prior using some bounds. Basically don't let the MCMC choose values out of these
+    bounds
+
+    Parameters
+    ----------
+    theta : `list`
+        List of the 6 parameters (P, k_star etc.)
+    bounds : `list of tuples`
+        Bounds for each of the 6 parameters
+
+    Returns
+    -------
+    lg_prior: `float`
+        Log of the prior probability
+    """
     for i in range(len(bounds)):
         if theta[i] < bounds[i][0] or theta[i] >= bounds[i][1]:
             return -np.inf
@@ -148,6 +211,24 @@ def log_prior(theta):
 
 
 def log_likelihood(theta, data_times, data_rvs, data_errors):
+    """Find the log of the likelihood given the model parameters and data (following emcee tutorial)
+
+    Parameters
+    ----------
+    theta : `list`
+        List of parameters
+    data_times : `list`
+        Times from the data
+    data_rvs : `list`
+        Radial velocities from the data
+    data_errors : `list`
+        Errors on the RVs from the data
+
+    Returns
+    -------
+    lg_like : `float`
+        Log likelihood of these parameters
+    """
     P, k_star, t_p, gamma, omega, e = theta
     model_rvs = get_rvs(data_times, P=P, k_star=k_star, t_p=t_p,
                         gamma=gamma, omega=omega, e=e)
@@ -156,8 +237,28 @@ def log_likelihood(theta, data_times, data_rvs, data_errors):
     return -0.5 * np.sum((data_rvs - model_rvs)**2 / sigma2 + np.log(sigma2))
 
 
-def log_prob(theta, data_times, data_rvs, data_errors):
-    prior = log_prior(theta)
+def log_prob(theta, data_times, data_rvs, data_errors, bounds):
+    """Find the log probability of a set of parameters given data and bounds
+
+    Parameters
+    ----------
+    theta : `list`
+        List of parameters
+    data_times : `list`
+        Times from the data
+    data_rvs : `list`
+        Radial velocities from the data
+    data_errors : `list`
+        Errors on the RVs from the data
+    bounds : `list of tuples`
+        Bounds for each of the 6 parameters
+
+    Returns
+    -------
+    lg_prob : `float`
+        Log probability of these parameters
+    """
+    prior = log_prior(theta, bounds)
     if not np.isfinite(prior):
         return prior
     else:
@@ -165,11 +266,38 @@ def log_prob(theta, data_times, data_rvs, data_errors):
 
 
 def planet_mass(P, k_star, e, m_star, i):
+    """Find a planet mass given various parameters (NOTE: this assumes m_p << m_s)
+
+    Parameters
+    ----------
+    P : `float`
+        Period
+    k_star : `float`
+        Velocity semi-amplitude
+    e : `float`
+        Eccentricity
+    m_star : `float`
+        Mass of the star
+    i : `float`
+        Inclination
+
+    Returns
+    -------
+    m_planet : `float`
+        Mass of the planet
+    """
     return k_star * (2 * np.pi * const.G / (P * (1 - e**2)))**(-1/3) / np.sin(i) * m_star**(2/3)
 
 
 class PlanetFinder():
     def __init__(self, file):
+        """PlanetFinder class for fitting a planet from RV data. Initial function reads the data in.
+
+        Parameters
+        ----------
+        file : `string`
+            Path to the data
+        """
         self.file = file
 
         planet = pd.read_csv(self.file, sep="\t", names=["time", "rv", "rv_err"])
@@ -179,30 +307,73 @@ class PlanetFinder():
         self.period_lsq = None
 
     def least_squares_period(self, period_range):
+        """Estimate the period of the planet using least squares fitting when folding on the period. I.e. the
+        change in radial velocity between subsequent points after folding on the period should be minimised.
 
+        Parameters
+        ----------
+        period_range : `list`
+            List of periods to try
+
+        Returns
+        -------
+        period_lsq : `float`
+            Best fitting period
+        """
         least_squares = np.zeros_like(period_range)
+
+        # loop over each period
         for i, period in enumerate(period_range):
-            folded_period = self.time % period
-            order = np.argsort(folded_period)
-            folded_period = folded_period[order]
+            # folder the data on this period
+            folded_time = self.time % period
+
+            # sort the data by new folded times
+            order = np.argsort(folded_time)
+            folded_time = folded_time[order]
             rvs = self.rv[order].values
 
+            # calculate the sum of the squares for this period
             least_squares[i] = np.sum(((rvs[1:] - rvs[:-1]))**2)
 
+        # pick the minimum and return it
         self.period_lsq = period_range[least_squares.argmin()]
         return self.period_lsq
 
-    def run_mcmc(self, initial_guesses, perturbation=1e-5, n_walkers=16, steps=5000, burn_in=1000):
+    def run_mcmc(self, initial_guesses, bounds, perturbation=1e-5, n_walkers=16, steps=5000, burn_in=1000):
+        """Run an MCMC to find the best fits for [P, k_star, t_p, omega, gamma, e]
+
+        Parameters
+        ----------
+        initial_guesses : `list`
+            List of initial guesses for each parameter
+        bounds : `list of tuples`
+            Bounds on each parameters
+        perturbation : `float`, optional
+            How large a perturbation on the initial guesses to use for different walkers, by default 1e-5
+        n_walkers : `int`, optional
+            How many walkers to use, by default 16
+        steps : `int`, optional
+            How many steps for each walker to take, by default 5000
+        burn_in : `int`, optional
+            How many steps to discard to allow for a burn in phase, by default 1000
+        """
+        # get some initial positions by perturbing the initial guesses
         pos = initial_guesses + perturbation * np.random.randn(n_walkers, 6)
 
+        # instantiate a sampler
         sampler = emcee.EnsembleSampler(nwalkers=n_walkers, ndim=6, log_prob_fn=log_prob,
-                                        args=(self.time, self.rv, self.rv_err))
+                                        args=(self.time, self.rv, self.rv_err, bounds))
+
+        # run the MCMC with a progress bar
         _ = sampler.run_mcmc(pos, steps, progress=True)
 
+        # get the samples and the best fit
         self.samples = sampler.get_chain(discard=burn_in, flat=True)
         self.best_fit = np.median(self.samples, axis=0)
 
     def mcmc_corner_plot(self):
+        """Create a corner plot of the parameters that were fit by the MCMC"""
+        # make everything smaller to fit the corner plot
         params = {
             'axes.labelsize': 0.7 * fs,
             'xtick.labelsize': 0.4 * fs,
@@ -210,13 +381,14 @@ class PlanetFinder():
         }
         plt.rcParams.update(params)
 
-        fig = corner.corner(
+        corner.corner(
             self.samples, labels=[r"$P\, [{\rm days}]$", r"$k_{*}\, [{\rm m/s}]$", r"$t_p\, [{\rm days}]$",
                                   r"$\gamma\, [{\rm m / s}]$", r"$\omega \, [{\rm rad}]$", r"$e$"]
         )
 
         plt.savefig("figures/mcmc_corner.pdf", format="pdf", bbox_inches="tight")
 
+        # reset it all afterwards
         params = {
             'axes.labelsize': fs,
             'xtick.labelsize': 0.6 * fs,
@@ -225,34 +397,40 @@ class PlanetFinder():
         plt.rcParams.update(params)
 
     def plot_best_fit(self):
+        """Plot the best fit model against the folded data"""
         fig, ax = plt.subplots()
 
+        # get the period from the best fit
         period = self.best_fit[0]
+
+        # fold and sort the data
         folded_time = self.time % period
         order = np.argsort(folded_time)
         folded_time = folded_time[order]
         folded_rv = self.rv[order]
         folded_rv_err = self.rv_err[order]
 
+        # plot the data with errorbars
         ax.errorbar(x=folded_time, y=folded_rv, yerr=folded_rv_err, fmt=".",
                     color="black", markersize=10, label="Folded data")
 
+        # calculate the model and plot it
         model_times = np.linspace(0, period, 1000)
         model_rvs = get_rvs(model_times, *self.best_fit)
         ax.plot(model_times, model_rvs, color="tab:orange", lw=2, label="Best fit")
 
+        # add a line at zero to help guide the eye
         ax.axhline(0, color="grey", linestyle="dotted")
 
         ax.set_xlabel("Phase [days]")
         ax.set_ylabel(r"$v_{rv} \, [{\rm m /s}]$")
-
         ax.legend()
 
         plt.savefig("figures/best_fit.pdf", format="pdf", bbox_inches="tight")
-
         plt.show()
 
     def planet_mass_plot(self):
+        """Create a contour plot of the planet mass for different star masses and inclinations"""
         fig, ax = plt.subplots()
 
         m_star_range = np.logspace(-2, 1, 500) * u.Msun
@@ -305,15 +483,16 @@ def main():
 
     # last four initial guesses are done by eye
     initial_guesses = [finder.period_lsq, 0.5 * (finder.rv.max() - finder.rv.min()), 10.7, -0.1, 5, 0.92]
-    finder.run_mcmc(initial_guesses=initial_guesses)
+    bounds = [(110, 112), (0.2, 0.7), (10.2, 11.2), (-1, 1), (0.01, 2 * np.pi), (0, 1)]
+    finder.run_mcmc(initial_guesses=initial_guesses, bounds=bounds)
     print(f"Looks like the best fits are {GREEN}{BOLD}{finder.best_fit}{END}")
     finder.mcmc_corner_plot()
     finder.plot_best_fit()
 
-
     print()
     print(f"{BOLD}{UNDERLINE}Problem 4.5 - Tom wondered what the planet mass would be{END}")
     finder.planet_mass_plot()
+    print("And here's plot to show it!")
 
     print()
 
