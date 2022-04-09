@@ -335,6 +335,19 @@ class PlanetFinder():
             # calculate the sum of the squares for this period
             least_squares[i] = np.sum(((rvs[1:] - rvs[:-1]))**2)
 
+        fig, ax = plt.subplots()
+
+        ax.scatter(period_range, least_squares, s=0.5)
+
+        ax.axvline(period_range[least_squares.argmin()], color="grey", alpha=0.2, zorder=-1, lw=10)
+
+        ax.set_xlabel(r"Period, $P \, [{\rm days}]$")
+        ax.set_ylabel("Sum of squares of difference")
+
+        plt.savefig("figures/periodogram.pdf", format="pdf", bbox_inches="tight")
+
+        plt.show()
+
         # pick the minimum and return it
         self.period_lsq = period_range[least_squares.argmin()]
         return self.period_lsq
@@ -475,7 +488,7 @@ def main():
     print()
     print(f"{BOLD}{UNDERLINE}Problem 3 - Find period of planet{END}")
     finder = PlanetFinder(file="data/mystery_planet01.txt")
-    finder.least_squares_period(period_range=np.linspace(100, 120, 25000))
+    finder.least_squares_period(period_range=np.linspace(10, 500, 25000))
     print(f"Looks like the period of this planet is about {GREEN}{BOLD}{finder.period_lsq:1.4f}{END} days")
 
     print()
