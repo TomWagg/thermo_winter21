@@ -1,5 +1,10 @@
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
 import astropy.units as u
+import astropy.constants as const
+import emcee
 
 # ANSI colour codes
 RED = "\033[0;31m"
@@ -113,13 +118,28 @@ def radial_velocity(k_star, omega, e, t, t_p, P, gamma):
 
 
 class PlanetFinder():
-    def __init__(file):
+    def __init__(self, file):
         self.file = file
-    
+
         planet = pd.read_csv("data/mystery_planet01.txt", sep="\t", names=["time", "rv", "rv_err"])
-        self.data_time = planet["time"] - planet["time"].min()
-        self.data_rv = planet["rv"]
-        self.data_rv_err = planet["rv_err"]
+        self.time = planet["time"] - planet["time"].min()
+        self.rv = planet["rv"]
+        self.rv_err = planet["rv_err"]
+        self.period_lsq = None
+
+    def least_squares_period(self, period_range):
+
+        least_squares = np.zeros_like(period_range)
+        for i, period in enumerate(period_range):
+            folded_period = self.time % period
+            order = np.argsort(folded_period)
+            folded_period = folded_period[order]
+            rvs = self.rv[order].values
+
+            least_squares[i] = np.sum(((rvs[1:] - rvs[:-1]))**2)
+
+        self.period_lsq = period_range[least_squares.argmin()]
+        return self.period_lsq
 
 
 def main():
