@@ -67,14 +67,6 @@ def solve_kepler_equation(e, M, tol=1e-10, max_steps=10000, verbose=False):
     raise ValueError("Did not converge")
 
 
-def radial_velocity(k_star, omega, e, t, t_p, P, gamma):
-    M = 2 * np.pi / P * (t - t_p)
-    E = solve_kepler_equation(e, M)
-    f = 2 * np.arctan(((1 + e) / (1 - e))**(0.5) * np.tan(E / 2))
-
-    return k_star * (np.cos(omega + f) + e * np.cos(omega)) + gamma
-
-
 def test_kepler_solver(n_tests=10000, **kwargs):
     """Test whether the solver for Kepler's equation is working
 
@@ -110,6 +102,24 @@ def test_kepler_solver(n_tests=10000, **kwargs):
         fail_frac = len(should_be_zero[np.isclose(should_be_zero, np.zeros(n_tests))]) / len(should_be_zero)
         print(f"{RED}Ah sad, you failed, looks like {np.round(fail_frac * 100, 1)}% of tests failed{END}")
         return e, M, E
+
+
+def radial_velocity(k_star, omega, e, t, t_p, P, gamma):
+    M = 2 * np.pi / P * (t - t_p)
+    E = solve_kepler_equation(e, M)
+    f = 2 * np.arctan(((1 + e) / (1 - e))**(0.5) * np.tan(E / 2))
+
+    return k_star * (np.cos(omega + f) + e * np.cos(omega)) + gamma
+
+
+class PlanetFinder():
+    def __init__(file):
+        self.file = file
+    
+        planet = pd.read_csv("data/mystery_planet01.txt", sep="\t", names=["time", "rv", "rv_err"])
+        self.data_time = planet["time"] - planet["time"].min()
+        self.data_rv = planet["rv"]
+        self.data_rv_err = planet["rv_err"]
 
 
 def main():
