@@ -499,7 +499,7 @@ def main():
     bounds = [(110, 112), (0.2, 0.7), (10.2, 11.2), (-1, 1), (0.01, 2 * np.pi), (0, 1)]
     finder.run_mcmc(initial_guesses=initial_guesses, bounds=bounds)
 
-    formatted_fit = ', '.join(['{:.2e}']*len(finder.best_fit)).format(*finder.best_fit)
+    formatted_fit = ', '.join(['{:.4e}']*len(finder.best_fit)).format(*finder.best_fit)
     print(f"Looks like the best fits are {BOLD}{GREEN}[" + formatted_fit + f"]{END}")
     finder.mcmc_corner_plot()
     finder.plot_best_fit()
