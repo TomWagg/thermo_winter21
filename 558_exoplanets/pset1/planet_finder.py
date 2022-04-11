@@ -395,8 +395,8 @@ class PlanetFinder():
         plt.rcParams.update(params)
 
         corner.corner(
-            self.samples, labels=[r"$P\, [{\rm days}]$", r"$k_{*}\, [{\rm m/s}]$", r"$t_p\, [{\rm days}]$",
-                                  r"$\gamma\, [{\rm m / s}]$", r"$\omega \, [{\rm rad}]$", r"$e$"]
+            self.samples, labels=[r"$P\, [{\rm days}]$", r"$k_{*}\, [{\rm km / s}]$", r"$t_p\, [{\rm days}]$",
+                                  r"$\gamma\, [{\rm km / s}]$", r"$\omega \, [{\rm rad}]$", r"$e$"]
         )
 
         plt.savefig("figures/mcmc_corner.pdf", format="pdf", bbox_inches="tight")
@@ -436,7 +436,7 @@ class PlanetFinder():
         ax.axhline(0, color="grey", linestyle="dotted")
 
         ax.set_xlabel("Phase [days]")
-        ax.set_ylabel(r"$v_{rv} \, [{\rm m /s}]$")
+        ax.set_ylabel(r"$v_{rv} \, [{\rm km / s}]$")
         ax.legend()
 
         plt.savefig("figures/best_fit.pdf", format="pdf", bbox_inches="tight")
@@ -452,28 +452,39 @@ class PlanetFinder():
         MS, I = np.meshgrid(m_star_range, i_range)
 
         m_planets = planet_mass(self.best_fit[0] * u.day,
-                                self.best_fit[1] * u.m / u.s,
+                                self.best_fit[1] * u.km / u.s,
                                 self.best_fit[-1], i=I, m_star=MS).to(u.kg) / const.M_earth
 
-        cont = ax.contourf(i_range, m_star_range, m_planets.T, norm=LogNorm(),
-                           levels=np.logspace(np.log10(0.08), 3, 25), cmap="magma")
+        cont = ax.contourf(i_range.to(u.deg), m_star_range, m_planets.T, norm=LogNorm(),
+                   levels=np.logspace(np.log10(0.1), np.log10(20), 15), cmap="magma")
         cbar = fig.colorbar(cont)
+        cbar.set_ticks([0.1, 0.3, 1, 5, 20])
 
         ax.set_yscale("log")
-        ax.set_xlim(0, np.pi/2)
+        ax.set_xlim(0, 90)
         ax.set_ylim(1e-2, 1e1)
 
-        ax.set_xticks([0, np.pi / 8, np.pi / 4, 3 * np.pi / 8, np.pi / 2])
-        ax.set_xticklabels(["0", r"$\pi / 8$", r"$\pi / 4$", r"$3 \pi / 8$", r"$\pi / 2$"])
-
-        ax.set_xlabel(r"Inclination, $i \, [{\rm rad}]$")
+        ax.set_xlabel(r"Inclination, $i \, [{\rm deg}]$")
         ax.set_ylabel(r"Star Mass, $m_* \, [{\rm M_{\odot}}]$")
-        cbar.set_label(r"Planet Mass, $m_p \, [{\rm M_{\oplus}}]$")
+        cbar.set_label(r"Planet Mass, $m_p \, [{\rm M_{\rm Jup}}]$")
 
-        earth = ax.contour(i_range, m_star_range, m_planets.T, norm=LogNorm(),
-                           levels=[1, 17], colors="white", linewidths=2)
-        ax.clabel(earth, [1, 17], fmt=lambda x: "Earth" if x == 1 else "Neptune",
-                  use_clabeltext=True, fontsize=0.7 * fs, manual=[(0.2, 1e-1), (0.1, 3e0)])
+        ax.errorbar(x=89.6, y=0.98, xerr=0.4, yerr=0.1, color="black", lw=2)
+
+        big_names = ax.contour(i_range.to(u.deg), m_star_range, m_planets.T, norm=LogNorm(),
+                               levels=[0.3, 1, 12.7], colors="white", linewidths=2)
+
+        def planet_labels(x):
+            if x == 0.3:
+                return "Saturn"
+            elif x == 1:
+                return "Jupiter"
+            elif x == 12.7:
+                return "Kepler-25b"
+            else:
+                return "ERROR"
+
+        ax.clabel(big_names, [0.3, 1, 12.7], fmt=planet_labels,
+                  use_clabeltext=True, fontsize=0.7 * fs, manual=[(30, 1), (60, 5e-2), (80, 1.2e-2)])
 
         plt.savefig("figures/planet_mass.pdf", format="pdf", bbox_inches="tight")
 
