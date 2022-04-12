@@ -1,0 +1,97 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mhchem}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+\usepackage{wrapfig}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\newcommand{\psetnum}{2}
+\newcommand{\class}{ASTR 531 - Stellar Interiors and Evolution}
+
+\newcommand{\tomtitle}{
+    \noindent {\LARGE \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Problem Set \psetnum \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Problem Set \psetnum}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\tomtitle
+
+\question{\textbf{8.1 - Mass Defect Fraction}}
+\answer{
+    The mass defects of the respective equations are as follows
+    \begin{center}
+        \begin{tabular}{c|c|c}
+            Phase & Equation & $\Delta m / m$\\
+            \hline
+            Hydrogen & $4 \ce{^{1}H} \to \ce{^{4}He}$ & 0.007145 \\
+            Helium & $3 \ce{^{4}He} \to \ce{^{12}C}$ & 0.000650 \\
+            Carbon & $\ce{^{12}C} + \ce{^{4}He} \to \ce{^{16}O}$ & 0.000481 \\
+            Oxygen & $2 \ce{^{16}O} \to \ce{^{28}Si} + \ce{^{4}He}$ & 0.000322 \\
+            Silicon & $2 \ce{^{28}Si} \to \ce{^{56}Fe}$ & 0.000338 \\
+        \end{tabular}
+    \end{center}
+    You can see that the trend is that subsequent reactions have lower mass defect fractions and produce less energy per reaction (with the exception of Silicon vs. Oxygen fusion.) Since less energy is available to counter gravity in each phase, this implies that stars will spend the majority of their time in the hydrogen fusion phase and progressively less time in each fusion phase.
+}
+
+\question{\textbf{8.4 - Minimum Core Masses}}
+\answer{
+    Equation 8.24 in the textbook gives that the minimum core mass required to initiate a fusion phase with ignition temperature $T_{\rm ign}$ is
+    \begin{equation}
+        M_{\rm crit} \approx \qty[ \frac{\mathcal{R} K_1}{\mu_c \mu_e^{5/3} G^2} \cdot T_{\rm ign}]^{3/4}
+    \end{equation}
+    The only variables here are $\mu_c, \mu_e$ and $T_{\rm ign}$. The textbook gives us that $\mu_e = \mu_c = 2$ for all fusion phases after Helium. Thus, given that the minimum core mass for Helium fusion is $0.3 \unit{M_{\odot}}$ (and that we know the ignition temperature is $10^8 \unit{K}$ from Table 8.4), the core masses required for the subsequent phases will be
+    \begin{equation}
+        M_{\rm crit} \approx 0.3 \unit{M_{\odot}} \cdot \qty(\frac{T_{\rm ign}}{10^{8} \unit{K}})^{3/4}
+    \end{equation}
+    So we can tabulate all of this for brevity
+    \begin{center}
+        \begin{tabular}{c|c|c}
+            Phase & $T_{\rm ign} / \unit{K}$ & $M_{\rm crit} / \unit{M_{\odot}} $\\
+            \hline
+            Helium & $10^8$ & 0.3 \\
+            Carbon & $6 \times 10^8$ & 1.15 \\
+            Neon & $9 \times 10^8$ & 1.56 \\
+            Oxygen & $10^9$ & 1.69 \\
+            Silicon & $3 \times 10^9 $ & 3.85 \\
+        \end{tabular}
+    \end{center}
+}
+
+\end{document}
+
+ 
