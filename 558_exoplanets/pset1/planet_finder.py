@@ -453,7 +453,7 @@ class PlanetFinder():
 
         m_planets = planet_mass(self.best_fit[0] * u.day,
                                 self.best_fit[1] * u.km / u.s,
-                                self.best_fit[-1], i=I, m_star=MS).to(u.kg) / const.M_earth
+                                self.best_fit[-1], i=I, m_star=MS).to(u.kg) / const.M_jup
 
         cont = ax.contourf(i_range.to(u.deg), m_star_range, m_planets.T, norm=LogNorm(),
                    levels=np.logspace(np.log10(0.1), np.log10(20), 15), cmap="magma")
@@ -470,9 +470,6 @@ class PlanetFinder():
 
         ax.errorbar(x=89.6, y=0.98, xerr=0.4, yerr=0.1, color="black", lw=2)
 
-        big_names = ax.contour(i_range.to(u.deg), m_star_range, m_planets.T, norm=LogNorm(),
-                               levels=[0.3, 1, 12.7], colors="white", linewidths=2)
-
         def planet_labels(x):
             if x == 0.3:
                 return "Saturn"
@@ -482,6 +479,9 @@ class PlanetFinder():
                 return "Kepler-25b"
             else:
                 return "ERROR"
+
+        big_names = ax.contour(i_range.to(u.deg), m_star_range, m_planets.T, norm=LogNorm(),
+                               levels=[0.3, 1, 12.7], colors="white", linewidths=2)
 
         ax.clabel(big_names, [0.3, 1, 12.7], fmt=planet_labels,
                   use_clabeltext=True, fontsize=0.7 * fs, manual=[(30, 1), (60, 5e-2), (80, 1.2e-2)])
