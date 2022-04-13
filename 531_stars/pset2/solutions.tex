@@ -74,7 +74,7 @@
     \begin{equation}
         M_{\rm crit} \approx \qty[ \frac{\mathcal{R} K_1}{\mu_c \mu_e^{5/3} G^2} \cdot T_{\rm ign}]^{3/4}
     \end{equation}
-    The only variables here are $\mu_c, \mu_e$ and $T_{\rm ign}$. The textbook gives us that $\mu_e = \mu_c = 2$ for all fusion phases after Helium. Thus, given that the minimum core mass for Helium fusion is $0.3 \unit{M_{\odot}}$ (and that we know the ignition temperature is $10^8 \unit{K}$ from Table 8.4), the core masses required for the subsequent phases will be
+    The only variables here are $\mu_c, \mu_e$ and $T_{\rm ign}$. The textbook gives us that $\mu_e = \mu_c = 2$ for all fusion phases after helium. Thus, given that the minimum core mass for helium fusion is $0.3 \unit{M_{\odot}}$ (and that we know the ignition temperature is $10^8 \unit{K}$ from Table 8.4), the core masses required for the subsequent phases will be
     \begin{equation}
         M_{\rm crit} \approx 0.3 \unit{M_{\odot}} \cdot \qty(\frac{T_{\rm ign}}{10^{8} \unit{K}})^{3/4}
     \end{equation}
@@ -109,7 +109,7 @@
             0.6$\unit{M_{\odot}}$ WD & $5.5 \times 10^{00}$ & $3.0 \times 10^{19}$ & N/A & $1 : 5.4 \times 10^{18}$ \\
         \end{tabular}
     \end{center}
-    There's a couple of things to note here. First, in the general case of a lower mass main sequence star, the dynamical timescale is far shorter than both other timescales meaning that these stars are always in quasi-hydrostatic equilibrium. The thermal timescale is also shorter than the nuclear timescale and so the star is in thermal equilibrium for most of its life.
+    There's a couple of things to note here. First, in the general case of a lower mass main sequence star, the dynamical timescale is far shorter than both other timescales, meaning that these stars are always in quasi-hydrostatic equilibrium. The thermal timescale is also shorter than the nuclear timescale and so the star is in thermal equilibrium for most of its life.
 
     For higher mass main sequence stars, the nuclear timescale is significantly reduced (by a factor of 10,000), thus higher mass stars will run out of fuel much more quickly. The thermal timescale is also relatively closer to this nuclear timescale so we'd expect this star to spend more of its time out of thermal equilibrium.
 
@@ -118,16 +118,14 @@
 
 \question{\textbf{9.2 - Hey, where'd the sun go!?}}
 \answer{
-    If the sun were to suddenly stop nuclear fusion then how it would take us to realise would depend on what we were measuring. If we happen to have a fancy neutrino detector then the answer would be the photon travel time since the neutrinos would immediately stop appearing - I feel as though people would probably assume instrumental errors rather than the sun giving up on fusion though ;)
+    Well it depends what we are measuring. If we happen to have a fancy neutrino detector then the answer would be the photon travel time since the neutrinos would immediately stop appearing - though I think people would probably assume some sort of instrument error at first, rather than the sun kicking the hypothetical bucket ;)
 
-    Assuming we're just using good old EM detectors, then I think the answer is instead the \textbf{dynamical timescale}. We can immediately rule out the nuclear timescale since that's only relevant with nuclear fuel running out (rather than being arbitrarily cut off as in this case). One may argue for the thermal timescale, since this is how long it would actually take for the Sun's luminosity to reflect its lack of internal energy production. However, upon the removal of the central energy source, the sun would start to contract on the dynamical timescale to remain in hydrostatic equilibrium and thus we could measure this contraction and notice the sun has broken in this time (about an hour for the sun).
+    Assuming we're just using good old EM detectors, then I think the answer is instead the \textbf{dynamical timescale}. We can immediately rule out the nuclear timescale since that's only relevant with nuclear fuel running out (rather than being arbitrarily cut off). One may argue for the thermal timescale, since this is how long it would actually take for the Sun's luminosity to reflect its lack of nuclear energy production. However, upon the removal of the central energy source, the sun would start to contract on the dynamical timescale and thus we could measure this contraction and notice the sun has broken in this time (about an hour for the sun).
 }
 
 \question{\textbf{11.1 - Density structure}}
 \answer{
-    A star with $\gamma =4/3$ has a more concentrated density structure than a star with $\gamma =5/3$ since $\gamma = 4/3$\dots
-    \todo{I'm confused why this question isn't just trivial by the definition of a polytrope ($P = \rho^{\gamma}$)...? Planning to check with Emily on Wednesday}
-
+    A polytrope is defined to obey the relation $P \sim \rho^{\gamma}$, or equivalently $\rho \sim P^{1/\gamma}$. Therefore, a star with $\gamma =4/3$ has a more concentrated density structure than a star with $\gamma =5/3$. We can see this is true because $\rho$ follows a steeper power law with pressure when $\gamma = 4/3$ and thus more of the mass will be concentrated towards the centre and decrease quickly towards the surface when pressure declines.
 }
 
 \end{document}
