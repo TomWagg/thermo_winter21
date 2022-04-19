@@ -17,14 +17,16 @@ def overlap_area_touching(a, r1, r2):
 
 def overlap_area(a, r1, r2):
     overlaps = np.zeros_like(a)
+    rsmall = min(r1, r2)
+    rbig = max(r1, r2)
 
-    lower = np.maximum(r1, r2) - np.minimum(r1, r2)
+    lower = rbig - rsmall
     upper = r1 + r2
 
-    overlaps[a <= lower] = np.pi * lower[a <= lower]**2
+    overlaps[a < lower] = np.pi * lower**2
     overlaps[a >= upper] = 0
 
-    touching = np.logical_and(a > lower, a < upper)
-    overlaps[touching] = overlap_area_touching(a[touching], r1[touching], r2[touching])
+    touching = np.logical_and(a >= lower, a < upper)
+    overlaps[touching] = overlap_area_touching(a[touching], r1, r2)
 
     return overlaps
