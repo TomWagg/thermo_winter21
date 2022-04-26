@@ -60,12 +60,12 @@
 \noindent My name is Professor Daniel Eyemund and I'm reaching out to you with an exciting business idea - diamonds! I've realised that I could get around applying for grants by generating a large number of diamonds and discretely selling them! They might be rare on Earth but with the right conditions perhaps we could create a \textbf{bunch} of them out in space. The plan is as follows:
 \begin{enumerate}[nosep]
     \item Collect a big cloud of carbon
-    \item Squish it down and inject it into a white dwarf
-    \item Create diamonds
+    \item Squish it down and inject it into the centre a white dwarf
+    \item Create diamonds (and worry about extracting them later)
     \item \dots
     \item Profit?
 \end{enumerate}
-Your mission, should you choose to accept it (\dots which you have to because this is an exam), is to find out whether a white dwarf could produce diamonds, if so, what kind of white dwarf we need! I feel your experiences with stellar interiors, not to mention high pressure environments, would make you ideally suited to this task. Please note your timely response would be appreciated as I will be meeting with Elon to pitch the idea in 30 minutes.\\\\
+Your mission, should you choose to accept it (\dots which you have to because this is an exam), is to find out whether a white dwarf has enough pressure at the centre to produce diamonds, and if so, what mass of white dwarf we need! I feel your experiences with stellar interiors, not to mention the high pressure environment known as grad school, would make you ideally suited to this task. Please note your timely response would be appreciated as I will be meeting with Elon to pitch the idea in 30 minutes.\\\\
 Yours sincerely,
 
 \noindent Prof. D. Eyemund}
@@ -75,7 +75,28 @@ Yours sincerely,
 
 \question{Given that, for complete degeneracy, the $n_e(p)$ distribution is rectangular for $p < p_{\rm F}$ such that $n_e(p) = 2 / h^3$, show that the pressure scales as $P_e \propto n_e^{5/3}$.}
 
-\answer{}
+\answer{
+    First, we should solve for the Fermi momentum in terms of the number density from the fact that the integral should give the number density.
+    \begin{align}
+        n_e &= \int_0^{p_{\rm F}} n_e \dd[3]{p} \\
+            &= \frac{2}{h^3} \int_0^{p_{\rm F}} 4 \pi p^2 \dd{p} \\
+        n_e &= \frac{8 \pi p_{\rm F}^3}{3 h^3}
+    \end{align}
+    And so we can turn this around to get an expression for the Fermi momentum in terms of $n_e$
+    \begin{equation}
+        p_{\rm F} = \qty(\frac{3 n_e h^3}{8 \pi})^{1/3}
+    \end{equation}
+    Now, we can use this expression for the pressure integral (from Eq. 4.7) to find that the desired relation
+    \begin{align}
+        P_e &= \frac{1}{3} \int p \cdot v(p) \cdot n_e(p) \dd[3]{p} \\
+            &= \frac{1}{3} \int_0^{p_{\rm F}} p \cdot \frac{p}{m_e} \cdot \frac{2}{h^3} \dd[3]{p} \\
+            &= \frac{2}{3 m_e h^3} \int_0^{p_{\rm F}} p^2 \cdot 4 \pi p^2 \dd{p} \\
+            &= \frac{8 \pi}{3 m_e h^3} \cdot p_{\rm F}^5 \\
+            &= \frac{8 \pi}{3 m_e h^3} \cdot \qty(\frac{3 n_e h^3}{8 \pi})^{5/3} \\
+            &= \qty(\frac{3 h^3}{8 \pi})^{2/3} \cdot \frac{n_e^{5/3}}{m_e} \\
+        \Aboxed{ P_e &\propto n_e^{5/3} }
+    \end{align}
+}
 
 \question{\textbf{Part b - Polytrope central pressure}}
 
@@ -109,7 +130,7 @@ Yours sincerely,
     \begin{align}
         P_c &= \qty[\frac{(4 \pi)^{1/3} G}{(n + 1) M_n^{2/3}}] M^{2/3} \qty(\frac{M D_n}{\frac{4}{3} \pi R^3})^{4/3} \\
             &= \qty[\frac{(4 \pi)^{1/3} G}{(n + 1) M_n^{2/3}}] \qty(\frac{D_n}{\frac{4}{3} \pi})^{4/3} \frac{M^2}{R^4} \\
-        P_c &= \underbrace{\qty[\frac{(3 D_n)^{4/3}}{4 \pi (n + 1) M_n^{2/3}}]}_{=A} \frac{G M^2}{R^4}
+        \Aboxed{ P_c &= \underbrace{\qty[\frac{(3 D_n)^{4/3}}{4 \pi (n + 1) M_n^{2/3}}]}_{=A} \frac{G M^2}{R^4} }
     \end{align}
 }
 
@@ -129,19 +150,30 @@ Yours sincerely,
     where $B = 0.012 \unit{R_{\odot}} \unit{M_{\odot}}^{1/3}$ and $C = 10/3$.
 }
 
+\clearpage
+
 \question{\textbf{Part d - Minimum white dwarf mass to produce diamonds}}
 
-\question{Carbon requires a pressure of at least $\sim 10^{10} \unit{Pa}$ to form diamonds. Find the minimum mass a white dwarf would need to convert carbon to diamonds in its core (assuming $A = 0.77$, $B=1.05 \unit{m}{kg^{1/3}}$, $C=10/3$ and $G = 6.67 \times 10^{-11} \unit{m^3}{kg^{-1}}{s^2}$).\\
+\question{Carbon requires a pressure of at least $\sim 10^{10} \unit{Pa}$ to form diamonds. Find the minimum mass a white dwarf would need to convert carbon to diamonds in its core (assuming $A = 0.77$, $B = 1.05 \times 10^{17} \unit{m}{kg^{1/3}}$, $C=10/3$ and $G = 6.67 \times 10^{-11} \unit{m^3}{kg^{-1}}{s^2}$ and recalling that $\unit{M_{\odot}} = 2 \times 10^{30} \unit{kg}$).\\
 
 \noindent What does this imply for which sorts of white dwarfs could work for Prof.\ Eyemund? How would you answer change qualitatively if the professor could only inject carbon near the surface rather than at the centre?}
-\answer{}
+
+\answer{
+    First we can solve for the minimum mass as
+    \begin{align}
+        M_{\rm min} &= \qty(\frac{10^{10} 10^{17 \cdot 4}}{0.77 \cdot 6.67 \times 10^{-11}})^{3/10} \unit{kg} \\
+                    &= 3.25 \times 10^{26} \unit{kg} \\
+        \Aboxed{ M_{\rm min} &= 1.6 \times 10^{-4} \unit{M_\odot} }
+    \end{align}
+    This answer implies that \textbf{all} white dwarfs could create diamonds at their cores! If the professor could only inject carbon closer to the surface then the minimum mass would probably increase since the pressure declines sharply as you near the surface.
+}
 
 \question{\textbf{Extra Credit - The Verdict}}
 
-\question{Craft a response to Prof.\ Eyemund summarising the situation. Bonus points will be awarded for each dreadful pun.}
+\question{Craft a pithy yet informative response to Prof.\ Eyemund summarising the situation. Bonus points will be awarded for each dreadful pun.}
 
 \answer{
-    The solution is left as an exercise for the reader.
+    The solution is left as an exercise for the reader :D
 }
 
 \end{document}
