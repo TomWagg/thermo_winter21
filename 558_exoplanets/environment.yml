@@ -4,7 +4,7 @@ channels:
   - conda-forge
 dependencies:
   - python
-  - numpy
+  - numpy >= 1.22
   - scipy
   - astropy
   - pandas
@@ -15,3 +15,6 @@ dependencies:
   - tqdm
   - emcee
   - corner
+  - pip
+  - pip:
+    - batman-package
