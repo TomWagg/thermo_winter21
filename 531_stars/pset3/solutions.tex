@@ -51,8 +51,37 @@
 
 \tomtitle
 
-\question{\textbf{12.2 - Pre-MS Radii and Timescales}}
-\answer{}
+\question{\textbf{12.2 - Early Radii and Timescales}}
+
+\question{Part a - Radii Estimations}
+\answer{
+    Let's use a couple of different relations from the textbook to get the radii at different times. A protostar becomes ionised and stars the Hayashi concentration phase when it's radius is on the order of
+    \begin{equation}
+        R_{\rm Hayashi, start} \approx 100 \unit{R_{\odot}} \qty(\frac{M}{\unit{M_\odot}})
+    \end{equation}
+    We find the radius of the protostar once the Hayashi concentration phase comes to an end is approximately a factor of 50 lower (based on assumptions of the temperature and opacity) such that
+    \begin{equation}
+        R_{\rm Hayashi, end} \approx 2 \unit{R_{\odot}} \qty(\frac{M}{\unit{M_\odot}})
+    \end{equation}
+    The radius at the start of the PMS phase will be the same as the end of the Hayashi concentration phase.
+    \begin{equation}
+        R_{\rm PMS, start} = R_{\rm Hayashi, end}
+    \end{equation}
+    Finally, the radius at the end of the PMS phase is the same as the radius at ZAMS and so we can write that
+    \begin{equation}
+        R_{\rm PMS, end} = R_{\rm ZAMS} = \unit{R_\odot} \qty(\frac{M}{\unit{M_\odot}})^{0.7}
+    \end{equation}
+    So now we can plug in numbers for the different masses of stars that we considered
+    \begin{center}
+        \begin{tabular}{c|cccc}
+            $M / \unit{M_\odot}$ & $R_{\rm Hayashi, start} / \unit{R_\odot}$ & $R_{\rm Hayashi, end} / \unit{R_\odot}$ & $R_{\rm PMS, start} / \unit{R_\odot}$ & $R_{\rm PMS, end} / \unit{R_\odot}$ \\
+            \hline
+            0.3 & 30 & 0.6 & 0.6 & 0.43 \\
+            3 & 300 & 6 & 6 & 2.16 \\
+            30 & 3000 & 60 & 60 & 10.8 \\
+        \end{tabular}
+    \end{center}
+}
 
 \question{\textbf{15.4 - Metallicity and Mass Loss Rates}}
 \answer{}
