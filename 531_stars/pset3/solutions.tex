@@ -106,10 +106,26 @@
 }
 
 \question{\textbf{15.4 - Metallicity and Mass Loss Rates}}
-\answer{}
+\answer{
+    \todo{Need to check code/method with Emily}
+}
 
 \question{\textbf{16.1 - RGB Radii}}
-\answer{}
+\answer{
+    From inspection of Figure 16.1 we can find values for $L$ and $T_{\rm eff}$ at the start and end of the RGB phase. This phase starts at C and ends at F. We can then use the fact that
+    \begin{equation}
+        R = \sqrt{\frac{L}{4 \pi \sigma T_{\rm eff}^4}}
+    \end{equation}
+    to get the radii. Since I'm in a mood for tables today, let's make another!
+    \begin{center}
+        \begin{tabular}{c|ccc}
+            Stage & $\log (L / \unit{L_\odot})$ & $\log (T_{\rm eff} / \unit{K})$ & $R / \unit{R_{\odot}}$ \\
+            \hline
+            C (Start of RGB) & 0.4 & 3.7 & 2.1 \\
+            F (End of RGB) & 3.4 & 3.48 & 183.1
+        \end{tabular}
+    \end{center}
+}
 
 \question{\textbf{17.1 - Helium Flash Duration}}
 \answer{}
