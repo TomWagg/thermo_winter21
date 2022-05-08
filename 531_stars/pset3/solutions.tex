@@ -55,11 +55,11 @@
 
 \question{Part a - Radii Estimations}
 \answer{
-    Let's use a couple of different relations from the textbook to get the radii at different times. A protostar becomes ionised and stars the Hayashi concentration phase when it's radius is on the order of
+    Let's use a couple of different relations from the textbook to get the radii at different times. A protostar becomes ionised and stars the Hayashi concentration phase when it's radius is on the order of (Eq. 12.13)
     \begin{equation}
         R_{\rm Hayashi, start} \approx 100 \unit{R_{\odot}} \qty(\frac{M}{\unit{M_\odot}})
     \end{equation}
-    We find the radius of the protostar once the Hayashi concentration phase comes to an end is approximately a factor of 50 lower (based on assumptions of the temperature and opacity) such that
+    We find the radius of the protostar once the Hayashi concentration phase comes to an end is approximately a factor of 50 lower (based on assumptions of the temperature and opacity) such that (page 12-8)
     \begin{equation}
         R_{\rm Hayashi, end} \approx 2 \unit{R_{\odot}} \qty(\frac{M}{\unit{M_\odot}})
     \end{equation}
@@ -67,7 +67,7 @@
     \begin{equation}
         R_{\rm PMS, start} = R_{\rm Hayashi, end}
     \end{equation}
-    Finally, the radius at the end of the PMS phase is the same as the radius at ZAMS and so we can write that
+    Finally, the radius at the end of the PMS phase is the same as the radius at ZAMS and so we can write that (Eq. 12.16)
     \begin{equation}
         R_{\rm PMS, end} = R_{\rm ZAMS} = \unit{R_\odot} \qty(\frac{M}{\unit{M_\odot}})^{0.7}
     \end{equation}
@@ -79,6 +79,28 @@
             0.3 & 30 & 0.6 & 0.6 & 0.43 \\
             3 & 300 & 6 & 6 & 2.16 \\
             30 & 3000 & 60 & 60 & 10.8 \\
+        \end{tabular}
+    \end{center}
+}
+
+\question{Part b - Timescale estimations}
+\answer{
+    The duration of the Hayashi concentration phase is given in Eq. 12.15 but we also showed that the timescale scales as $1 / M$ such that
+    \begin{equation}
+        \tau_{\rm Hayashi} \approx 10^{6} \unit{yr} \qty(\frac{M_{\odot}}{M})
+    \end{equation}
+    The duration of the PMS phase is given by Eq. 12.17 so we have that
+    \begin{equation}
+        \tau_{\rm PMS} \approx 6 \times 10^7 \unit{yr} \qty(\frac{M}{\unit{M_\odot}})^{-2.5}
+    \end{equation}
+    So now we can plug in numbers for the different masses of stars that we considered
+    \begin{center}
+        \begin{tabular}{c|cc}
+            $M / \unit{M_\odot}$ & $\tau_{\rm Hayashi} / \unit{yr}$ & $\tau_{\rm PMS} / \unit{yr}$ \\
+            \hline
+            0.3 & $3.33 \times 10^6$ & $1.22 \times 10^9$ \\
+            3 & $3.33 \times 10^5$ & $3.85 \times 10^6$ \\
+            30 & $3.33 \times 10^4$ & $1.22 \times 10^4$ \\
         \end{tabular}
     \end{center}
 }
