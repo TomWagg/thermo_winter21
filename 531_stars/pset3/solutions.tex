@@ -63,7 +63,7 @@
     \begin{equation}
         R_{\rm Hayashi, end} \approx 2 \unit{R_{\odot}} \qty(\frac{M}{\unit{M_\odot}})
     \end{equation}
-    The radius at the start of the PMS phase will be the same as the end of the Hayashi concentration phase.
+    The radius at the start of the PMS phase is the same as the end of the Hayashi concentration phase.
     \begin{equation}
         R_{\rm PMS, start} = R_{\rm Hayashi, end}
     \end{equation}
@@ -107,7 +107,22 @@
 
 \question{\textbf{15.4 - Metallicity and Mass Loss Rates}}
 \answer{
-    \todo{Vink mass loss rates seem to be 300x higher than the ones in the files!?\\EXPLAIN YOURSELF VINK}
+    I found it easier to grab the files from online rather than copy them from the textbook so it was easy enough to just do this for all of the masses rather than only $20 \unit{M_\odot}$ and $60 \unit{M_\odot}$.
+
+    You can see how I calculated the mass loss rates in \href{https://github.com/TomWagg/uw-grad-classes/blob/main/531_stars/pset3/code.ipynb}{this Jupyter notebook} using Vink (2001) mass loss (Eq.\ 15.14). The exact values at ZAMS and TAMS are under ``Part a Answers'' if you want to see them. I'm going to brush over those because they're just numbers and instead focus on the later parts which are easier to qualitatively discuss.
+
+    In the plots below I show the average MS mass loss rate (averaged between ZAMS and TAMS) on the left, and I then multiply this by the length of the main sequence to get the fraction of mass that is lost, shown on the right. The dotted lines show the `real' mass loss rate which was contained in the files. We can see that the rates I calculated match up rather well with these!
+    \begin{center}
+        \includegraphics[width=0.495\textwidth]{figures/mean_MS_mlr.pdf}
+        \includegraphics[width=0.495\textwidth]{figures/mass_fraction_lost.pdf}
+    \end{center}
+    \textbf{Metallicity Effects:} First, let's talk about what happens for the different metallicities. You can immediately see that the higher metallicity line (blue) is much higher than the low metallicity line (orange) - note these are log scales! The lower metallicity stars have fewer metals and thus fewer lines that can be used to drive winds. Therefore mass loss is lower for lower metallicity stars.
+
+    \noindent We also see that my calculated rates don't quite match up with those in the files so let's just address that quickly. First the overall rates seem to be lower pretty much everywhere. This makes sense because we are only calculating one type of winds but the files include lots of different winds.
+    
+    \textbf{Small mass differences:} For masses below $20 \unit{M_\odot}$ we seem to be under-predicting the mass loss rates and this makes sense because Vink mass loss only applies to hot and luminous stars and are zero for these stars (specifically for anything with $T_{\rm eff} < 12500 \unit{K}$ or $L < 3 \times 10^4 \unit{L_\odot}$). If we added the Nieuwenhujzen \& de Jager fit then those winds would probably explains most of the difference (since these are just main sequence stars.)
+    
+    \textbf{Large mass differences:} For masses above $80 \unit{M_\odot}$ things start to go wrong as well. For an $85 \unit{M_\odot}$ star, we are under-predicting the mass loss by nearly an order of magnitude. I \textit{think} this might be LBV winds in the real model. I'm honestly unsure why we over-predict for a $120 \unit{M_\odot}$ but the Vink fits aren't supposed to be used above 50,000 K anyway so we're in dodgy regions anyway. If there's an obvious reason for this I'd love to know! :)
 }
 
 \question{\textbf{16.1 - RGB Radii}}
@@ -127,8 +142,6 @@
     \end{center}
     So the radius is increasing by nearly two orders of magnitude!
 }
-
-\clearpage
 
 \question{\textbf{17.1 - Helium Flash Duration}}
 \answer{
