@@ -118,7 +118,20 @@ You should assume that all gravitational energy of the accreted material is conv
 
 \question{\textbf{Part c - How fast does the laser need to cool the WD?}}
 
-\question{Calculate the minimum cooling rate required for the WD to reach the Chandrasekhar limit before any explosions occur.}
+\question{Calculate the minimum cooling rate required for the He-WD to reach the Chandrasekhar limit before any explosions occur.}
+
+\answer{
+    First, let's calculate the time until the WD reaches the Chandrasekhar limit
+    \begin{equation}
+        t_{\rm ch} = \frac{M_{\rm ch} - M_{\rm WD}}{\dot{M}_a}
+    \end{equation}
+    Now we can solve for the minimum cooling rate of the laser that keeps the temperature under the H-fusion ignition temperature in this amount of time.
+    \begin{align}
+        T_{\rm ign} &> (\dot{T}_{\rm accretion} - \dot{T}_{\rm laser}) t_{\rm Ch} \\
+        \dot{T}_{\rm laser} &> \dot{T}_{\rm accretion} - \frac{T_{\rm ign}}{t_{\rm Ch}} \\
+        \Aboxed{ \dot{T}_{\rm laser}&> \dot{M}_a \qty[\frac{2}{3 k_B} \frac{\mu m_H}{M_{\rm env}} \frac{G M_{\rm WD}}{R_{\rm WD}} - \frac{T_{\rm ign}}{M_{\rm ch} - M_{\rm WD}}] }
+    \end{align}
+}
 
 \end{document}
 
