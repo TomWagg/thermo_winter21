@@ -1,5 +1,6 @@
 {
     "latex-workshop.latex.recipes": [
+
         {
             "name": "simple",
             "tools": [
@@ -14,6 +15,13 @@
             "pdflatex",
             "pdflatex"
         ]
+        },
+        {
+            "name": "justfigs",
+            "tools": [
+                "pdflatex",
+                "pdflatex"
+            ]
         }
     ],
     "latex-workshop.latex.recipe.default": "lastUsed",
