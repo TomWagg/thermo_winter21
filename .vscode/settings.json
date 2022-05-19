@@ -5,6 +5,16 @@
             "tools": [
                 "pdflatex"
             ]
+        },
+        {
+        "name": "fancy",
+        "tools": [
+            "pdflatex",
+            "bibtex",
+            "pdflatex",
+            "pdflatex"
+        ]
         }
     ],
+    "latex-workshop.latex.recipe.default": "lastUsed",
 }
