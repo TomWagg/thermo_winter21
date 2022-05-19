@@ -131,3 +131,6 @@ dmypy.json
 *.npy
 *.synctex.gz
 *.dat
+
+# ignore scratch work
+Untitled.ipynb
