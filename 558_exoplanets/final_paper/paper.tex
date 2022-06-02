@@ -75,7 +75,7 @@ The third phase of core accretion begins as the planetary core exceeds the criti
 
 \subsubsection{Critical core mass}
 
-During Phase 2 of formation via core accretion, slow accretion of gas and solids onto the core increases the core mass over time. For a given core mass, there exists an envelope mass above which hydrostatic equilibrium cannot be satisfied, which triggers the collapse of the envelope onto the core and the beginning of Phase 3.
+During Phase 2 of formation via core accretion, slow accretion of gas and solids onto the core increases the envelope mass over time. For a given core mass, there exists an envelope mass above which hydrostatic equilibrium cannot be satisfied, which triggers the collapse of the envelope onto the core and the beginning of Phase 3.
 
 This critical core mass can be derived using some basic assumptions about the locations of convective and radiative zones \citep{Stevenson+1982,Lissauer+2009}. Previous work assumed that the envelope was fully radiative but a more accurate assumption is that there is an innermost convective zone and outermost radiative zone. The combination of these zones gives that the critical core mass is simply
 \begin{equation}
@@ -87,17 +87,30 @@ implying that once the core mass accounts for half of the overall planet mass, r
 
 A giant planet formed via core accretion will finish its formation once there is no gas left for accretion. This termination occurs once the gas in the surrounding protoplanetary disc is dispersed (mainly by photo-evaporation). Prior to this dispersal, the accretion of a planet can also stall once it forms a gap in the protoplanetary disc after the end of Phase 3. This means that you can form different sorts of planets depending on what phase of formation they were in once the the gas in the disc is dispersed.
 
-\citet{Lissauer+2009} showed that Saturn's mass is around the maximum for disc-limited accretion, whereas Neptune and Uranus were slower to form and would still have been on Phase 2 when the gas in the disc dispersed.
+\citet{Lissauer+2009} showed that Saturn's mass is around the maximum for disc-limited accretion, whereas Neptune and Uranus were slower to form and would still have been on Phase 2 when the gas in the disc dispersed. The final planet mass therefore clearly depends on the star (specifically how luminous and how quickly it evolves) in addition to the planet location, disc density and other initial planet properties.
 
 \subsubsection{Timescale limits}
+
+The timescale on which core accretion occurs is strongly dependent on the distance of the planet from its host star. This means that, if we assume that all planets are formed via core accretion, one would expect that at larger distances the planets' masses would decrease (since they have less time to accrete or even reach Phase 3).
+
+However, this is not what is seen observationally. In Figure~\ref{fig:demographics} we show a distribution of detected planets, plotting their separation against mass. It is evident that there is an abundance of large mass-large separation planets that couldn't possibly have been formed via core accretion. This leads to the second theory of giant planet formation - direct collapse.
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=\columnwidth]{exoplanet_demographics.png}
+    \caption{Figure 13 from \citet{Bowler+2016}. Demographics of detected exoplanets, highlighting the large number of directly imaged planets that are far from their star whilst being very massive. These planets could not have been formed via core accretion.}
+    \label{fig:demographics}
+\end{figure}
 
 \subsection{Direct Collapse}
 
 \subsubsection{How does it work?}
 
+
+
 \subsubsection{Migration}
 
-\begin{figure}
+\begin{figure}[b]
     \centering
     \includegraphics[width=\columnwidth]{channels_illustration.jpg}
     \caption{An illustration of different giant planet formation channels. (Credit: NASA and A. Feild (STScl))}
@@ -112,6 +125,8 @@ A giant planet formed via core accretion will finish its formation once there is
     \item Challenges with direct collapse \citep{Forgan+2013}
     \item Core accretion doesn't account for compositional gradients \citep{D'Angelo+2018}
 \end{itemize}
+
+\nocite{*}
 
 \bibliographystyle{aasjournal}
 \bibliography{paper}{}
