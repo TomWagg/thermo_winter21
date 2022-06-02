@@ -35,21 +35,22 @@
 % affiliations
 \newcommand{\UW}{Department of Astronomy, University of Washington, Seattle, WA, 98195}
 
-\author[0000-0001-6147-5761]{T. Wagg}
+\author[0000-0001-6147-5761]{Tom Wagg}
 \affiliation{\UW}
 
 \correspondingauthor{Tom Wagg}
 \email{tomwagg@uw.edu}
 
 \begin{abstract}
-    \textbf{Background and Context:} There are currently two main theories for the formation of giant planets, core accretion and direct collapse. Core accretion can explain the formation of most planets but for those far from their host star, direct collapse is needed to explain their existence on the timescale of the age of the Universe.
+    There are currently two main theories for the formation of giant planets, core accretion and direct collapse. Core accretion can explain the formation of most planets but for those far from their host star, direct collapse is needed to explain their existence on the timescale of the age of the Universe. In this paper we explain the processes involved in each theory as well as their relative merits and limitations. We additionally discuss recent work in the field and highlight some major unsolved questions.
+    \placeholder{1}
 \end{abstract}
 
 \keywords{}
 
 \section{Key Concepts}
 
-In this section, we explain the key concepts behind the two main theories of giant planet formation.
+In this section, we explain the key concepts behind the two main theories of giant planet formation. Figure~\ref{fig:formation_diagram} provides a schematic illustration of the two formation channels that we discuss.
 
 \subsection{Core Accretion}
 
@@ -68,11 +69,20 @@ The third phase of core accretion begins as the planetary core exceeds the criti
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{pollack_fig_1.png}
-    \caption{Figure 1 of \citet{Pollack+1996}. Planet mass as a function of time in which the three phases of core accretion are evident (rapid early accretion in phase 1, low accretion rate in the middle is phase 2, final rapid accretion is phase 3). The different curves show the masses of different compositions.}
+    \caption{Figure 1 of \citet{Pollack+1996}. Planet mass as a function of time in which the three phases of core accretion are evident. Phase 1 is rapid early accretion of solids ($\sim$$0$--$0.4 \unit{Myr}$), Phase 2 is slow accretion onto the core ($\sim$$0.4$--$7.5 \unit{Myr}$) and Phase 3 is rapid final accretion once the critical core mass is exceeded ($\sim$$7.5$--$8 \unit{Myr}$). The different curves show the masses of different compositions.}
     \label{fig:planet_growth}
 \end{figure}
 
 \subsubsection{Critical core mass}
+
+During Phase 2 of formation via core accretion, slow accretion of gas and solids onto the core increases the core mass over time. For a given core mass, there exists an envelope mass above which hydrostatic equilibrium cannot be satisfied, which triggers the collapse of the envelope onto the core and the beginning of Phase 3.
+
+This critical core mass can be derived using some basic assumptions about the locations of convective and radiative zones \citep{Stevenson+1982,Lissauer+2009}. Previous work assumed that the envelope was fully radiative but a more accurate assumption is that there is an innermost convective zone and outermost radiative zone. The combination of these zones gives that the critical core mass is simply
+\begin{equation}
+    M_{c} = \frac{1}{2} M
+\end{equation}
+implying that once the core mass accounts for half of the overall planet mass, rapid contraction will occur and Phase 3 of formation begins.
+
 \subsubsection{The end of accretion}
 
 \subsubsection{Timescale limits}
