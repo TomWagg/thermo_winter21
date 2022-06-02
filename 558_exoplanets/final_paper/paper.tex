@@ -121,7 +121,6 @@ A giant planet formed via core accretion will finish its formation once there is
 \section{Derivation of Bondi and Hill Radii}\label{app:maths}
 
 \subsection{Bondi Radius}
-
 The Bondi radius is the maximum distance inside which gas can be bound to the core of the planet. The gas will be bound to the core if, in the frame of the core, its total energy becomes negative. This means that the gravitational potential energy needs to be greater than the total thermal energy and so we can write
 \begin{equation}
     \frac{G M_c}{R} \ge \frac{1}{2} (v_{\rm rel}^2 + v_{\rm th}^2),
@@ -143,8 +142,22 @@ where $c_g$ is the speed of sound in the gas. The sound speed is often expressed
 \end{align}
 
 \subsection{Hill Radius}
-
-The Hill radius is a similar quantity but it is due to forces rather than energy. The radius is the maximum distance within which the main gravitational influence is the core of the planet. Therefore, the radius is found by equating the gravitational and centrifugal forces
+The Hill radius is a similar quantity but it is due to forces rather than energy. The radius is the maximum distance within which the main gravitational influence is the core of the planet. Let's assume a circular orbit in this case. Therefore, the Hill radius is found by equating the gravitational and centrifugal forces
+\begin{equation}
+    \frac{G M_p}{R_{\rm H}^2} - \frac{G M_*}{(a - R_{\rm H})^2} + \Omega (a - R_{\rm H}) = 0
+\end{equation}
+which we can equivalently write as follows using the definition of $\Omega$
+\begin{equation}
+    \frac{M_p}{R_{\rm H}^2} - \frac{M_*}{a^2} \qty(1 - \frac{R_{\rm H}}{a})^{-2} + \frac{M_*}{a^2} \qty(1 - \frac{R_{\rm H}}{a}) = 0
+\end{equation}
+Next we can take just the leading order to find
+\begin{equation}
+    \frac{M_p}{R_{\rm H}^2} - \frac{M_*}{a^2} \qty(1 + \frac{2 R_{\rm H}}{a}) + \frac{M_*}{a^2} \qty(1 - \frac{R_{\rm H}}{a}) = 0
+\end{equation}
+This gives the definition of the Hill radius as
+\begin{equation}
+    R_{\rm H} = a \qty(\frac{M_p}{3 M_*})^{1/3}
+\end{equation}
 
 
 \end{document}
