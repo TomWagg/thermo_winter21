@@ -1,4 +1,4 @@
-\documentclass[twocolumn, twocolappendix]{aastex631}
+\documentclass[twocolumn]{aastex631}
 \received{\today}
 \shorttitle{Giant Planet Formation}
 \graphicspath{{figures/}}
@@ -39,28 +39,38 @@
 \affiliation{\UW}
 
 \correspondingauthor{Tom Wagg}
-\email{tomjwagg@gmail.com}
+\email{tomwagg@uw.edu}
 
 \begin{abstract}
-    \textbf{Background and Context:}
-    \placeholder{1}
+    \textbf{Background and Context:} There are currently two main theories for the formation of giant planets, core accretion and direct collapse. Core accretion can explain the formation of most planets but for those far from their host star, direct collapse is needed to explain their existence on the timescale of the age of the Universe.
 \end{abstract}
 
 \keywords{}
 
 \section{Key Concepts}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\columnwidth]{channels_illustration.jpg}
-    \caption{An illustration of different giant planet formation channels. (Credit: NASA and A. Feild (STScl))}
-\end{figure}
+In this section, we explain the key concepts behind the two main theories of giant planet formation.
 
 \subsection{Core Accretion}
 
 \subsubsection{How does it work?}
 
-\citep{Pollack+1996}
+At its simplest level, core accretion is where a central rocky core is formed and then accretes gas until it reaches a critical core mass and forms a giant planet \citep{Pollack+1996}. This general process is illustrated in the left planet of Figure~\ref{fig:formation_diagram}.
+
+The formation occurs in three phases, which can be seen in Figure~\ref{fig:planet_growth}. In the first phase, the planet is formed primarily of solid material and continuously accretes planetessimals at a higher rate than gas until the planet clears its ``feeding zone'', marking the end of the first phase. At this point the core of the planet has formed and now the planet slowly accretes gas in an envelope. This gas is accreted from a sphere of radius \citep{Bodenheimer+2013}
+\begin{equation}
+    R = \min \{ R_{\rm Bondi}, R_{\rm Hill} \}
+\end{equation}
+where $R_{\rm Bondi}$ is the Bondi radius, defining the maximum distance inside which gas can be bound to the core and $R_{\rm Hill}$ is the Hill radius, defining the radius in which the main gravitational influence is the planet. See Appendix~\ref{app:maths} for a derivation of these radii.
+
+The third phase of core accretion begins as the planetary core exceeds the critical core mass, resulting in rapid envelope contraction that leads to fast accretion of gas and thus planet mass growth. This finals results in a giant planet.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{pollack_fig_1.png}
+    \caption{Figure 1 of \citet{Pollack+1996}. Planet mass as a function of time in which the three phases of core accretion are evident (rapid early accretion in phase 1, low accretion rate in the middle is phase 2, final rapid accretion is phase 3). The different curves show the masses of different compositions.}
+    \label{fig:planet_growth}
+\end{figure}
 
 \subsubsection{Critical core mass}
 \subsubsection{The end of accretion}
@@ -73,6 +83,13 @@
 
 \subsubsection{Migration}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{channels_illustration.jpg}
+    \caption{An illustration of different giant planet formation channels. (Credit: NASA and A. Feild (STScl))}
+    \label{fig:formation_diagram}
+\end{figure}
+
 \section{Recent Research}
 
 \section{Unsolved Questions}
@@ -84,5 +101,11 @@
 
 \bibliographystyle{aasjournal}
 \bibliography{paper}{}
+
+\appendix
+
+\section{Derivation of Bondi and Hill Radii}\label{app:maths}
+
+\todo{}
 
 \end{document}
