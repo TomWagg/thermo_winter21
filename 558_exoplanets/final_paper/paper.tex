@@ -42,8 +42,7 @@
 \email{tomwagg@uw.edu}
 
 \begin{abstract}
-    There are currently two main theories for the formation of giant planets, core accretion and direct collapse. Core accretion can explain the formation of most planets but for those far from their host star, direct collapse is needed to explain their existence on the timescale of the age of the Universe. In this paper we explain the processes involved in each theory as well as their relative merits and limitations. We additionally discuss recent work in the field and highlight some major unsolved questions.
-    \placeholder{1}
+    There are currently two main theories for the formation of giant planets, core accretion and gravitational collapse. Core accretion can explain the formation of most planets but for those far from their host star, gravitational collapse is needed to explain their existence on the timescale of the age of the Universe. In this paper we explain the processes involved in each theory as well as their relative merits and limitations. We additionally discuss recent work on different methods for constraining giant planet formation and highlight some major unsolved questions.
 \end{abstract}
 
 \keywords{}
@@ -66,13 +65,6 @@ where $R_{\rm Bondi}$ is the Bondi radius, defining the maximum distance inside 
 
 The third phase of core accretion begins as the planetary core exceeds the critical core mass, resulting in rapid envelope contraction that leads to fast accretion of gas and thus planet mass growth. This finals results in a giant planet.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\columnwidth]{pollack_fig_1.png}
-    \caption{Figure 1 of \citet{Pollack+1996}. Planet mass as a function of time in which the three phases of core accretion are evident. Phase 1 is rapid early accretion of solids ($\sim$$0$--$0.4 \unit{Myr}$), Phase 2 is slow accretion onto the core ($\sim$$0.4$--$7.5 \unit{Myr}$) and Phase 3 is rapid final accretion once the critical core mass is exceeded ($\sim$$7.5$--$8 \unit{Myr}$). The different curves show the masses of different compositions.}
-    \label{fig:planet_growth}
-\end{figure}
-
 \subsubsection{Critical core mass}
 
 During Phase 2 of formation via core accretion, slow accretion of gas and solids onto the core increases the envelope mass over time. For a given core mass, there exists an envelope mass above which hydrostatic equilibrium cannot be satisfied, which triggers the collapse of the envelope onto the core and the beginning of Phase 3.
@@ -82,6 +74,13 @@ This critical core mass can be derived using some basic assumptions about the lo
     M_{c} = \frac{1}{2} M
 \end{equation}
 implying that once the core mass accounts for half of the overall planet mass, rapid contraction will occur and Phase 3 of formation begins.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{pollack_fig_1.png}
+    \caption{Figure 1 of \citet{Pollack+1996}. Planet mass as a function of time in which the three phases of core accretion are evident. Phase 1 is rapid early accretion of solids ($\sim$$0$--$0.4 \unit{Myr}$), Phase 2 is slow accretion onto the core ($\sim$$0.4$--$7.5 \unit{Myr}$) and Phase 3 is rapid final accretion once the critical core mass is exceeded ($\sim$$7.5$--$8 \unit{Myr}$). The different curves show the masses of different compositions.}
+    \label{fig:planet_growth}
+\end{figure}
 
 \subsubsection{The end of accretion}
 
@@ -93,7 +92,7 @@ A giant planet formed via core accretion will finish its formation once there is
 
 The timescale on which core accretion occurs is strongly dependent on the distance of the planet from its host star. This means that, if we assume that all planets are formed via core accretion, one would expect that at larger distances the planets' masses would decrease (since they have less time to accrete or even reach Phase 3).
 
-However, this is not what is seen observationally. In Figure~\ref{fig:demographics} we show a distribution of detected planets, plotting their separation against mass. It is evident that there is an abundance of large mass-large separation planets that couldn't possibly have been formed via core accretion. This leads to the second theory of giant planet formation - direct collapse.
+However, this is not what is seen observationally. In Figure~\ref{fig:demographics} we show a distribution of detected planets, plotting their separation against mass. It is evident that there is an abundance of large mass-large separation planets that couldn't possibly have been formed via core accretion. This leads to the second theory of giant planet formation - gravitational collapse.
 
 \begin{figure}[tb]
     \centering
@@ -102,15 +101,38 @@ However, this is not what is seen observationally. In Figure~\ref{fig:demographi
     \label{fig:demographics}
 \end{figure}
 
-\subsection{Direct Collapse}
+\subsection{Gravitational collapse}
 
 \subsubsection{How does it work?}
 
+Often also referred to as disc instability or direct collapse, gravitational collapse is a formation mechanism that has been theorised for many years \citep{Kuiper+1951}, even before core accretion was more generally accepted. The idea is very similar to the formation of a star, a gravitational instability occurs in the protoplanetary disc, which leads to the formation of a self-gravitating collection of gas that becomes the giant planet.
 
+Core accretion has been more popular for a long time but more recently gravitational collapse has been necessary to explain more massive planets far from their host stars and thus has been investigated in more detail \citep{Durisen+2007}.
+
+The gravitational instabilities occur once the Toomre stability parameter \citep{Toomre+1964}
+\begin{equation}
+    \mathcal{T} = \frac{c_g \Omega}{\pi G \Sigma_g}
+\end{equation}
+exceeds some critical value which is usually 1, but can be up to 2 for non-axisymmetric perturbations \citep{Binney+1987}. These instabilities can persist for a couple of orbits and so can have enough time to contract and form gaseous planets \citep{Forgan+2017}. Figure~\ref{fig:fragmentation} shows the fragmentations that can occur in the disc and lead to gravitational collapse.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{fragmentation.png}
+    \caption{Figure 4 from \citet{Forgan+2017}. A hydrodynamical simulation of a protoplanetary disc around a solar mass star. The colour indicates the column density and points of fragmentation can be seen as bright white spots.}
+    \label{fig:fragmentation}
+\end{figure}
+
+The nature of this formation means that we'd expect planets formed in this to be enriched in heavy elements. This is because the perturbations that lead to gravitational instabilities sweep up dust and concentrate it prior to fragmentation \citep{Kratter+2016}. This can be a potential tracer for the formation history of a planet (more enriched giant planets are more likely to have been formed via gravitational collapse).
 
 \subsubsection{Migration}
 
-\begin{figure}[b]
+Another consideration is that the instabilities may not last long enough to form a planet reasonably close to the star. However, these planet can move closer to the star through planetary migration. Strong gravitational torques from the protoplanetary disc can change the planet's orbital angular momentum and thus cause it to migrate through the disc.
+
+For a planet that has not opened a gap in the disc, it would experience \textit{Type I} migration for a large period of time \citep{Baruteau+2011}. The orbital decay scales with the mass of the planet and the density of the surrounding gas.
+
+The main effect of the migration is of course that planets that form far from the star and reach much closer to the centre. However, the migration can also have strong effects on the planet itself, in particular its mass and size. At the start of migration a planet can be as large as its Hill radius but as it migrates the planet's outer layers can go beyond the Roche lobe of the planet and thus be stripped away. This unbinding of gas can strongly reduce the mass and size of planets as they migrate.
+
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{channels_illustration.jpg}
     \caption{An illustration of different giant planet formation channels. (Credit: NASA and A. Feild (STScl))}
@@ -119,10 +141,20 @@ However, this is not what is seen observationally. In Figure~\ref{fig:demographi
 
 \section{Recent Research}
 
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{water_cartoon.png}
+    \caption{Figure 1 from \citet{Bitsch+2021}.}
+\end{figure*}
+
+\placeholder{1-9}
+
 \section{Unsolved Questions}
 
+\placeholder{1-4}
+
 \begin{itemize}
-    \item Challenges with direct collapse \citep{Forgan+2013}
+    \item Challenges with gravitational collapse \citep{Forgan+2013}
     \item Core accretion doesn't account for compositional gradients \citep{D'Angelo+2018}
 \end{itemize}
 
