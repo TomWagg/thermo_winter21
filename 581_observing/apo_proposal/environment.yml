@@ -1,0 +1,19 @@
+name: observing
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - scipy
+  - astropy
+  - pandas
+  - matplotlib
+  - jupyter
+  - jupyterlab
+  - ipython
+  - astroplan
+  - astroquery
+  - pip
+  - pip:
+    - batman-package
