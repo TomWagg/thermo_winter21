@@ -1,0 +1,86 @@
+\documentclass[twocolumn]{aastex631}
+\received{\today}
+\shorttitle{Annotated Bibliography}
+\graphicspath{{figures/}}
+
+\usepackage{lipsum}
+\usepackage{physics}
+\usepackage{multirow}
+\usepackage{xspace}
+\usepackage{natbib}
+\usepackage{fontawesome5}
+\usepackage{xcolor}
+\usepackage{wrapfig}
+\usepackage[figuresright]{rotating}
+
+% remove indents in footnotes
+\usepackage[hang,flushmargin]{footmisc} 
+
+\newcommand{\todo}[1]{{\color{red}{[TODO: #1}]}}
+\newcommand{\needcite}{{\color{magenta}{(needs citation)}}}
+\newcommand{\placeholder}[1]{{\color{gray} \lipsum[#1]}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\begin{document}
+
+\title{{\Large GOTO and Gravitational Wave Transient Followup}\\\vspace{0.15cm}ASTR 581 Annotated Bibliography}
+
+% affiliations
+\newcommand{\UW}{Department of Astronomy, University of Washington, Seattle, WA, 98195}
+
+\author[0000-0001-6147-5761]{Tom Wagg}
+\affiliation{\UW}
+
+\correspondingauthor{Tom Wagg}
+\email{tomwagg@uw.edu}
+
+\section{Introduction}
+\placeholder{1-3}
+
+\section{GOTO Telescope Control System}
+\subsection{Initial Development}
+\citet{Dyer+2018}
+\placeholder{1}
+
+\subsection{Updated alert follow-up system}
+\citet{Dyer+2020}
+\placeholder{2}
+
+\section{GOTO Telescope}
+\subsection{Prototype performance}
+\citet{Steeghs+2022}
+\placeholder{3}
+
+\subsection{}
+\citet{GOTO+2020}
+\placeholder{4}
+
+\section{GOTO in Practice}
+\subsection{General}
+\citet{Gompertz+2020}
+\placeholder{5}
+
+\subsection{Lightcurves}
+\citet{Burhanudin+2021}
+\placeholder{6}
+
+\subsection{Kilonovae}
+\citet{Chase+2022}
+\placeholder{7}
+
+\section{Other telescopes}
+\subsection{LSST}
+\citet{Andreoni+2022}
+\placeholder{8}
+
+\bibliographystyle{aasjournal}
+\bibliography{paper}{}
+
+\end{document}
