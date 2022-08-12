@@ -53,7 +53,7 @@ The range of proposed theories and effects is indicative of the lack of precisio
     \label{fig:fulton_radius_gap}
 \end{figure}
 
-We propose to use APO to observe the multi-transiting system K2-138 (see Table~\ref{tab:star}). First thought to contain 5 transiting exoplanets \cite{Christiansen+2018}, it is now confirmed to have a near-resonant chain of 6 transiting exoplanets \citep{Hardegree-Ullman+2021}. The many transiting planets with reasonably short orbital periods around a relatively bright makes this system ideal for better constraining the radius gap. K2-138 has been previously observed and characterised by other studies, which have focussed on general follow-up spectroscopy \citep{Lopez+2019} and investigating the composition of the planets \cite{Acuna+2022}. We seek to confirm and improve the transit timing of the innermost planets in the system, which will transit during our designated timeslot.
+We propose to use APO to observe the multi-transiting system K2-138 (see Table~\ref{tab:star}). First thought to contain 5 transiting exoplanets \citep{Christiansen+2018}, it is now confirmed to have a near-resonant chain of 6 transiting exoplanets \citep{Hardegree-Ullman+2021}. The many transiting planets with reasonably short orbital periods around a relatively bright makes this system ideal for better constraining the radius gap. K2-138 has been previously observed and characterised by other studies, which have focussed on general follow-up spectroscopy \citep{Lopez+2019} and investigating the composition of the planets \citep{Acuna+2022}. We seek to confirm and improve the transit timing of the innermost planets in the system, which will transit during our designated timeslot.
 
 \begin{table}[htb]
     \centering
@@ -76,7 +76,7 @@ Observations from APO will help to characterise the lightcurve of K2-138, in par
 
 \section{Proposed Observations}
 
-We propose to observe two transits of K2-138 on 2022-09-18 and 2022-09-19 by K2-138c and K2-138b respectively using ARCTIC in order to better characterise the lightcurve. In particular, we aim to focus on the ingress and egress of the transit. The transit durations are 1.95 and 2.34 hours respectively and we need to observe the flux for 30 minutes prior to and after the transit. We therefore request two half-nights that include the transits (see Table~\ref{tab:transits}).
+\paragraph{Timing} We propose to observe two transits of K2-138 on 2022-09-18 and 2022-09-19 by K2-138c and K2-138b respectively using ARCTIC in order to better characterise the lightcurve. In particular, we aim to focus on the ingress and egress of the transit. The transit durations are 1.95 and 2.34 hours respectively and we need to observe the flux for 30 minutes prior to and after the transit. We therefore request two half-nights that include the transits (see Table~\ref{tab:transits}).
 
 \begin{figure}[htb]
     \includegraphics[width=\columnwidth]{observable_transits.pdf}
@@ -97,7 +97,7 @@ We propose to observe two transits of K2-138 on 2022-09-18 and 2022-09-19 by K2-
     \label{tab:transits}
 \end{table}
 
-We intend to use to narrow-band ARTIC H-$\alpha$ filter\footnote{\url{http://filters.apo.nmsu.edu/index.php}} for our observations of these transits. We will use this filter in order to prevent saturation that can occur when using broadband filters with a star of this magnitude\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p6}}. We will observe with a cadence of 2 minutes and an exposure time of 3-5 seconds, using the default medium readout time of 25 seconds\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p1}}. Since one of the main purposes of these observations is to better characterise the lightcurve and the exact timing of the transits, we will increase the cadence to 30 seconds for 20 minutes around the ingress and egress of the transits, using the fast readout time of 11 seconds (see Table~\ref{tab:settings}).
+\paragraph{Observing plan} We intend to use to narrow-band ARCTIC H-$\alpha$ filter\footnote{\url{http://filters.apo.nmsu.edu/index.php}} for our observations of these transits. We will use this filter in order to prevent saturation that can occur when using broadband filters with a star of this magnitude\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p6}}. We will observe with a cadence of 2 minutes and an exposure time of 3-5 seconds, using the default medium readout time of 25 seconds\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p1}}. Since one of the main purposes of these observations is to better characterise the lightcurve and the exact timing of the transits, we will increase the cadence to 30 seconds for 20 minutes around the ingress and egress of the transits, using the fast readout time of 11 seconds (see Table~\ref{tab:settings}).
 
 \begin{table}[htb]
     \centering
@@ -116,12 +116,27 @@ We intend to use to narrow-band ARTIC H-$\alpha$ filter\footnote{\url{http://fil
     \label{tab:settings}
 \end{table}
 
+\paragraph{Calibrations} Since we are using a narrowband (H-$\alpha$) filter for these observations, we will use the bright quartz lamp to take flats prior to our observations\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#4p2}}. We shall take several flats, median combine the results and then apply them to our final image to account for different quantum efficiency in the CCD pixels. We will not apply dark subtraction to our images since ARCTIC guidelines suggest against this for exposure times shorter than 30 seconds\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#4p3}}. We will still however use bias frames to account for fixed-pattern noise in the detector.
+
+\begin{figure*}
+    \includegraphics[width=\textwidth]{potential_systems.pdf}
+    \caption{Airmass over time for different potentially observable multi-transiting systems. Different panels correspond to different observing nights. Shaded grey regions indicate twilight times and sunset.}
+    \label{fig:potential_systems}
+\end{figure*}
+
+\section{Alternative Observations}
+
+[\textit{Note: I don't think this section belongs in a \emph{real} proposal but I investigated other things I wanted to share what I'd done haha}]
+
+We considered several multi-transiting systems for this proposal, taking into account the constraints of both whether the system is observable during the allotted time period and whether it is transitting. As we show in Figure~\ref{fig:potential_systems}, of the five systems that we considered, only Kepler-1972 \citep{Leleu+2022} and K2-138 were observable for a significant fraction of time. Unfortunately none of the planets in the Kepler-1972 transit during the given time period and hence we selected K2-138 as our target.
+
+We did additionally consider whether we could use ARCES to perform high-resolution spectroscopy of either system whilst out of transit in case the transit time periods were unavailable. However, both systems have expected radial velocities of the order of $\sim 1 \unit{km}{s^{-1}}$. We find that this would be too low for ARCES to resolve since its resolution is $R = 31500$ and this implies that the minimum resolvable radial velocity would be
+\begin{equation}
+    \Delta v_{\rm min} = \frac{c}{R} \approx \frac{3 \times 10^{5} \unit{km}{s^{-1}}}{31500} \approx 10 \unit{km}{s^{-1}}.
+\end{equation}
+It may be possible that we could use ARCES to investigate particular spectral lines that would indicate the stars' metallicities, surface gravities or stellar activity levels. However, we lack the experience for reducing these spectra and hence focus on imaging instead.
+
 \bibliographystyle{aasjournal}
 \bibliography{proposal}{}
 
 \end{document}
-
-% \begin{figure}
-%     \includegraphics[width=\columnwidth]{potential_systems.pdf}
-%     \caption{Airmass over time for different potentially observable multi-transiting systems. Different panels correspond to different observing nights. Shaded grey regions indicate twilight times and sunset.}
-% \end{figure}
