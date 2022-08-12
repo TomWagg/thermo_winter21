@@ -15,51 +15,23 @@ EXTERNAL COLLABORATORS: None
 CONTACT INFORMATION:
 
 HALF NIGHTS OR HOURS REQUESTED:
-Dark- 2 halves
-Grey- 1 half
-Bright- 1 half
+Dark - 2 halves
 
 INSTRUMENT: ARCTIC
 FILTERS: ARCTIC - H-alpha
 
 OBSERVING MODE: On site
-OBSERVING SCHEDULE CONSTRAINTS:
+SCIENTIFIC SCHEDULE CONSTRAINTS:
 This proposal is for measuring exoplanet transit photometry, so we must 
 observe during the transit events (dates/times listed in proposal). Since 
-transits of this target last 2.6 hours, we request a total of 4 hours for 
-each transit observation in order to measure the stellar flux before and 
-after the transit.
+transits of the targets are 1.95 and 2.34 hours respectively, we request a total of 3 hours for 
+each transit observation in order to measure the stellar flux before and after the transit.
 
 
 SPECIAL REQUIREMENTS:
-ARCTIC observations will be done with the diffuser.
+
 BRIEF SCIENCE JUSTIFICATION:
-A small number of transiting exoplanets exhibit residual photometric 
-signals during transit events. One source of these anomalies is starspots 
-on the surface of a transiting planetâs host star, which impart positive 
-flux anomalies on transit light curves during transits. The amplitude, 
-shape, duration, color and timing of these spot occultations can reveal 
-properties of the spots such as spot lifetimes, temperature contrasts, 
-sizes, and their distribution on the stellar surface.
-This team has led detailed spot modeling efforts for two systems observed 
-by Kepler. In Davenport et al. (2016, in prep), starspot occultations in 
-the well-aligned Kepler-17 system allowed the authors to study time 
-evolution of the starspots. In Morris et al. (2016, in prep), the authors 
-used the misaligned system HAT- P-11 to study the latitude distribution of 
-spots. The HAT-P-11 photometry, and additional chromospheric activity 
-measurements from the CaII H & K S-index, suggest that the star was near 
-activity maximum during the Kepler mission (2009-2013) and may be 
-approaching activity minimum.
-We plan to observe starspots of another star â WASP-85 A / EPIC 
-201862715 (Brown, 2015). This G5 star has Teff = 5685 K and its planet is 
-a 1.09 MJ hot Jupiter with orbital period 2.655 d. This star was observed 
-by K2 in short-cadence mode, which revealed spot occultations (MoËcnik et 
-al., 2016). We propose to observe this system with the ARC 3.5 m to 
-measure the spot occultations at short-cadence and high photometric 
-precision, and in a different filter band from Kepler, to measure the bulk 
-spot colors and constrain the spot temperatures.
-We propose to also gather ARCES echelle spectra of EPIC 201862715 so that 
-this star can be incorpo- rated into the starspot spectra analysis begin 
-in 2016 Q3, since we can independently estimate the spot temperatures with 
-both spectroscopy and photometry via the spot occultation technique.
+TODO
+
 REFERENCES:
+TODO
