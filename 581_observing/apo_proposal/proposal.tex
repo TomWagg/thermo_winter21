@@ -42,9 +42,9 @@
 \email{tomwagg@uw.edu}
 
 \section{Science Justification}
-The observed planetary radius gap indicates a dearth of planets around $1.5-2.0 R_{\oplus}$ \citep{Fulton+2017,Fulton+2018}. Previous work has suggested that this gap may be a result of photo-evaporation of planetary atmospheres \citep{Owen+2017} or other core-power mass-loss mechanisms \citep{Gupta+2019,Gupta+2020}. It is additionally possible that the magnetic fields of planets could affect the location of this radius gap \citep{Owen+2019} or even planetessimal impacts \citep{Wyatt+2020}. Figure~\ref{fig:fulton_radius_gap} shows the figure from \citet{Fulton+2017} illustrating the radius gap.
+The observed planetary radius gap indicates a dearth of planets around $1.5-2.0 R_{\oplus}$ \citep{Fulton+2017,Fulton+2018}. Figure~\ref{fig:fulton_radius_gap} shows the figure from \citet{Fulton+2017} demonstrating the radius gap, which also indicates the typical uncertainty in the individual measurements. Previous work has suggested that this gap may be a result of photo-evaporation of planetary atmospheres \citep{Owen+2017} or other core-power mass-loss mechanisms \citep{Gupta+2019,Gupta+2020}. It is additionally possible that the magnetic fields of planets could affect the location of this radius gap \citep{Owen+2019} or even planetessimal impacts \citep{Wyatt+2020}. Therefore the exact location of this gap is crucial in better understanding planetary formation mechanisms.
 
-The range of proposed theories and effects is indicative of the lack of precision in the measurement of the radius gap. The typical uncertainties on the planetary radii are such that the exact location of gap cannot currently be strongly stated \citep{Gandolfi+2019}. We propose to improve the measurement of this gap through the use of multi-transiting systems. The advantage of this method is simple, each exoplanet is transiting the same star and this allows one to better constrain the stellar parameters and thus the planetary parameters as well.
+The range of proposed theories and effects is indicative of the lack of precision in the measurement of the radius gap. The typical uncertainties on the planetary radii are such that the exact location of gap cannot currently be strongly stated \citep{Gandolfi+2019}. We propose to improve the measurement of this gap through the use of multi-transiting systems (systems with multiple transiting exoplanets). The advantage of this method is simple, each exoplanet is transiting the same star and this breaks several degeneracies present in single-transiting systems. The presence of multiple transiting planets allows one to better constrain the stellar radius, mass and other parameters and thus the planetary parameters, in particular the radii, as well.
 
 \begin{figure}
     \centering
@@ -53,7 +53,7 @@ The range of proposed theories and effects is indicative of the lack of precisio
     \label{fig:fulton_radius_gap}
 \end{figure}
 
-In particular, we propose to focus on the multi-transiting system K2-138 (see Table~\ref{tab:star}), first thought to contain 5 transiting exoplanets \cite{Christiansen+2018}, but now confirmed to have a near-resonant chain of 6 transiting exoplanets \citep{Hardegree-Ullman+2021}. This system has been previously observed and characterised by other studies \cite{Lopez+2019, Acuna+2022} but we seek to confirm and improve the transit timing of the innermost planets in the system, which will transit during our designated timeslot.
+We propose to use APO to observe the multi-transiting system K2-138 (see Table~\ref{tab:star}). First thought to contain 5 transiting exoplanets \cite{Christiansen+2018}, it is now confirmed to have a near-resonant chain of 6 transiting exoplanets \citep{Hardegree-Ullman+2021}. The many transiting planets with reasonably short orbital periods around a relatively bright makes this system ideal for better constraining the radius gap. K2-138 has been previously observed and characterised by other studies, which have focussed on general follow-up spectroscopy \citep{Lopez+2019} and investigating the composition of the planets \cite{Acuna+2022}. We seek to confirm and improve the transit timing of the innermost planets in the system, which will transit during our designated timeslot.
 
 \begin{table}[htb]
     \centering
@@ -75,12 +75,13 @@ In particular, we propose to focus on the multi-transiting system K2-138 (see Ta
 Observations from APO will help to characterise the lightcurve of K2-138, in particular the transit timing for planets KS-138b and KS-138c, and therefore directly contribute to improving our measurement of the planetary radius gap.
 
 \section{Proposed Observations}
+
+We propose to observe two transits of K2-138 on 2022-09-18 and 2022-09-19 by K2-138c and K2-138b respectively using ARCTIC in order to better characterise the lightcurve. In particular, we aim to focus on the ingress and egress of the transit. The transit durations are 1.95 and 2.34 hours respectively and we need to observe the flux for 30 minutes prior to and after the transit. We therefore request two half-nights that include the transits (see Table~\ref{tab:transits}).
+
 \begin{figure}[htb]
     \includegraphics[width=\columnwidth]{observable_transits.pdf}
     \caption{Proposed transit observation for K2-138. Airmass over time for two separate observing nights. Grey shaded regions indicate sunset and twilight times. Orange shaded region indicates transit period and orange line represents the time of mid-transit.}
 \end{figure}
-
-We propose to observe two transits of K2-138 on 2022-09-18 and 2022-09-19 by K2-138c and K2-138b respectively using ARCTIC in order to better characterise the lightcurve. In particular, we aim to focus on the ingress and egress of the transit. The transit durations are 1.95 and 2.34 hours respectively and we need to observe the flux for 30 minutes prior to and after the transit. We therefore request two half-nights that include the transits (see Table~\ref{tab:transits}).
 
 \begin{table}[htb]
     \centering
@@ -96,7 +97,7 @@ We propose to observe two transits of K2-138 on 2022-09-18 and 2022-09-19 by K2-
     \label{tab:transits}
 \end{table}
 
-We intend to use to narrow-band ARTIC H-$\alpha$ filter for our observations of these transits. We will use this filter in order to prevent saturation that can occur when using broadband filters with a star of this magnitude\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p6}}. We will observe with a cadence of 2 minutes and an exposure time of 3-5 seconds, using the default medium readout time of 25 seconds\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p1}}. Since one of the main purposes of these observations is to better characterise the lightcurve and the exact timing of the transits, we will increase the cadence to 30 seconds for 20 minutes around the ingress and egress of the transits, using the fast readout time of 11 seconds (see Table~\ref{tab:settings}).
+We intend to use to narrow-band ARTIC H-$\alpha$ filter\footnote{\url{http://filters.apo.nmsu.edu/index.php}} for our observations of these transits. We will use this filter in order to prevent saturation that can occur when using broadband filters with a star of this magnitude\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p6}}. We will observe with a cadence of 2 minutes and an exposure time of 3-5 seconds, using the default medium readout time of 25 seconds\footnote{\url{https://www.apo.nmsu.edu/arc35m/Instruments/ARCTIC/\#3p1}}. Since one of the main purposes of these observations is to better characterise the lightcurve and the exact timing of the transits, we will increase the cadence to 30 seconds for 20 minutes around the ingress and egress of the transits, using the fast readout time of 11 seconds (see Table~\ref{tab:settings}).
 
 \begin{table}[htb]
     \centering
