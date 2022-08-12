@@ -1,6 +1,6 @@
 INSTITUTIONAL ID NUMBER:
 
-DESCRIPTIVE TITLE: K2 Starspot Occultation Follow-Up
+DESCRIPTIVE TITLE: K2-138 Transit Timing Follow-up
 
 PI: Tom wagg
 
@@ -31,7 +31,7 @@ each transit observation in order to measure the stellar flux before and after t
 SPECIAL REQUIREMENTS:
 
 BRIEF SCIENCE JUSTIFICATION:
-TODO
+PDF Attached
 
 REFERENCES:
-TODO
+PDF Attached
