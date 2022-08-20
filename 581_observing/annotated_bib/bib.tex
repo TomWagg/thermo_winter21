@@ -51,6 +51,10 @@ Each of the papers that I discuss below consider the working of GOTO, design cho
 \section{GOTO Telescope Control System}
 \citet{Dyer+2018,Dyer+2020} describe the GOTO telescope control system and highlight how it can operate entirely robotically, with no need for human technicians except in the case of errors.
 
+The first of these papers \citep{Dyer+2018} outlines how the telescope control and scheduling system will work. GOTO is controlled by a series of daemons, the most important of which are the conditions, sentinel, scheduler and pilot daemons. The conditions daemon keeps track of the weather (e.g. rain, humidity, temperature, wind) and other system conditions and, if necessary, causes the dome to close or sets off an error. The sentinel daemon listens for alerts of new transients and adds them to database of potential pointings.
+
+The scheduler then takes this database and ranks each of the potential transients based on a \textit{variety} of parameters, but in particular prioritises gravitational wave events over all other transients. If at any point there is no transient then GOTO performs an all-sky survey in order to perform image differencing at a later time. Importantly, the GOTO scheduler operates on a ``just-in-time'' scheduling model rather than creating a plan at the start of the night. This allows it to be very reactive to new events, though does mean that its choice of targets may be less efficient. Finally, the pilot daemon reacts to the input of the other daemons and skews the telescope, operates the dome, performs calibrations and takes images. If the pilot runs into any errors that can't be solved then it will alert a human technician but otherwise it is able to operate without any human intervention. Very cool!
+
 \section{GOTO Telescope}
 \subsection{Prototype performance}
 \citet{Steeghs+2022}
