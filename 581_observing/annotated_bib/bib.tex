@@ -74,9 +74,10 @@ They find that on average, approximately 70.3\% of the available probability per
 
 The paper concludes that the main weakness of GOTO is currently its depth. As GOTO-4 becomes GOTO-16 and GOTO-32 this depth will increase as multiple mounts can image the same area and so they expect this to improve over time.
 
-\subsection{Lightcurves}
-\citet{Burhanudin+2021}
-\placeholder{6}
+\subsection{Data Analysis with RNNs}
+One of the intimidating factors of GOTO is the abundance of data that will be produced on a nightly basis. \citet{Burhanudin+2021} present a recurrent neural network (RNN) classifier that takes in photometric time-series data and additional contextual information (such as distance to nearby galaxies and on-sky position) to produce real-time classification of objects observed by GOTO. This RNN is extremely effective, achieving an AUC score of 0.972, and can even classify incomplete light curves that come, for example, from changing weather conditions. Accurate classification of objects is essential when dealing with the huge probability maps from LVC as one does not want to link an unrelated electromagnetic event to a gravitational wave event.
+
+I do note that this paper only covers variable stars, SNe and AGNs but doesn't seem to characterise kilonovae which are (thought to be) one of the most common GW counterparts so I'd be intrigued to see how well it performs on that.
 
 \subsection{Kilonovae}
 \citet{Chase+2022}
