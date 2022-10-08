@@ -4,6 +4,7 @@
 \usepackage{mathtools}
 \usepackage{hyperref}
 \usepackage{xcolor}
+\usepackage{mhchem}
 \hypersetup{
     colorlinks,
     linkcolor={blue},
@@ -11,11 +12,21 @@
     urlcolor={blue}
 }
 \usepackage{empheq}
+\usepackage{wrapfig}
 
 \usepackage[letterpaper,
             margin=0.8in]{geometry}
 
-\title{ASTR 541; Week 1}
+\newcommand{\psetnum}{1}
+\newcommand{\class}{ASTR 541 - Interstellar Medium}
+
+\newcommand{\tomtitle}{
+    \noindent {\LARGE \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Problem Set \psetnum \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Week \psetnum}
 \author{\textbf{Tom Wagg}}
 
 \newcommand{\question}[1]{{\noindent \it #1}}
@@ -38,7 +49,7 @@
 
 \begin{document}
 
-\maketitle
+\tomtitle{}
 
 \question{1a. \textbf{Hydrogen density}}
 \answer{
@@ -63,7 +74,16 @@
 
 \question{1b. \textbf{Dust grain density}}
 \answer{
-    ???
+    The mass of each dust grain is given by
+    \begin{align}
+        m_{\rm DG} &= \frac{4}{3} \pi R_{\rm RG}^3 \cdot \rho_{\rm RG} \\
+                   &= 8.4 \times 10^{-15} \unit{g}
+    \end{align}
+    We are given the total dust mass and we already calculated the volume of the disc in part a so now the number density is just
+    \begin{align}
+        n_{\rm DG} &= \frac{M_{\rm dust}}{m_{\rm DG}} \cdot \frac{1}{V_{\rm disc}} \\
+        \Aboxed{ n_{\rm DG} &= 1.6 \times 10^{-12} \unit{cm^{-3}} }
+    \end{align}
 }
 
 \question{1c. \textbf{Molecular clouds - frequency and mass}}
@@ -71,13 +91,13 @@
     The typical mass can be found by multiplying the number density, mass of particles and volume.
     \begin{align}
         M_{\rm MC} &= m_{\rm H_2} n_{H_2} V_{\rm MC} \\
-                   &= 2 m_{p} n_{H_2} \qty(\frac{4}{3} \pi R_{\rm MC}^3) \\
-        \Aboxed{ M_{\rm MC} &= 10^{5} \unit{M_\odot} }
+                   &= (2 m_{p}) \cdot n_{H_2} \cdot \qty(\frac{4}{3} \pi R_{\rm MC}^3) \\
+        \Aboxed{ M_{\rm MC} &= 7 \times 10^{4} \unit{M_\odot} }
     \end{align}
     The approximate number of clouds in the galaxy is then just
     \begin{align}
         N_{\rm MC} &= \frac{0.3 M_{\rm disc}}{M_{\rm MC}} \\
-        \Aboxed{ N_{\rm MC} &= 1.1 \times 10^{4} }
+        \Aboxed{ N_{\rm MC} &= 1.7 \times 10^{4} }
     \end{align}
 }
 
@@ -85,7 +105,7 @@
 \answer{
     If the centre of a molecular cloud passes within a radius of the line of sight then it will obscure our view. This defines the volume within which a molecular cloud could block our sight as
     \begin{equation}
-        V_{\rm LoS} = \pi R_{\rm MC}^2 \cdot 8.5 \unit{kpc}
+        V_{\rm LoS} = \pi R_{\rm MC}^2 \cdot 8.5 \unit{kpc} = 6 \times 10^{6} \unit{pc^3}
     \end{equation}
     Given the total volume of the disc and the approximate number of molecular clouds in the disc, this implies that the expectation value of the number of clouds intersecting our line of sight is
     \begin{equation}
