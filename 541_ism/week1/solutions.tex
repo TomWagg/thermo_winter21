@@ -1,0 +1,68 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\title{ASTR 541; Week 1}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\maketitle
+
+\question{1a. \textbf{Hydrogen density}}
+\answer{
+    We can first calculate the density of the disc as
+    \begin{align}
+        \rho &= \frac{M}{\pi R_{\rm disc}^2 H} \\
+             &= 1.9 \times 10^{-24} \unit{g}{cm^{-3}}
+    \end{align}
+    Now we need to convert the density to a number density as follows
+    \begin{align}
+        \rho &= m_{\rm H} n_{\rm H} + m_{\rm He} n_{\rm He} \\
+             &= n_{\rm H} \qty(m_{\rm H} + m_{\rm He} \frac{n_{\rm He}}{n_{\rm H}}) \\
+             &= n_{\rm H} \qty(m_{\rm H} + 0.1 m_{\rm He}) \\
+             &= 1.4 n_{\rm H} m_p \\
+        n_{\rm H} &= \frac{\rho}{1.4 m_p}
+    \end{align}
+    This gives that the average number density of hydrogen is
+    \begin{equation}
+        \boxed{ n_{\rm H} = 0.8 \unit{cm^{-3}} }
+    \end{equation}
+}
+
+
+
+\end{document}
+
+ 
