@@ -27,8 +27,7 @@ print()
 
 
 mc_vol = 4/3 * np.pi * (15 * u.pc)**3
-h2_mass = 2 * const.m_p
-mc_density = h2_mass * 100 * u.cm**(-3)
+mc_density = 1.4 * 2 * const.m_p * 100 * u.cm**(-3)
 mc_mass_single = (mc_vol * mc_density).to(u.Msun)
 print(f"Mass of a MC: {mc_mass_single:1.1e}")
 
