@@ -54,14 +54,27 @@
 \question{\textbf{1. Maxwellians}}
 
 \answer{
-    .
+    The minimum velocity needed to ionise a hydrogen atom can be calculated by setting the kinetic energy equal to the ionisation energy
+    \begin{align}
+        \frac{1}{2} m_{e} v_{\rm ionise}^2 &= E_{\rm ionise} \\
+        v_{\rm ionise} &= \sqrt{\frac{2 E_{\rm ionise}}{m_e}} \\
+        \Aboxed{ v_{\rm ionise} &= 2187 \unit{km}{s^{-1}}}
+    \end{align}
+    We now need to integrate the Maxwellian (yay?). Now I don't intend to do that analytically because I am not sadistic and therefore will be numerically integrating it will \texttt{scipy}'s quadrature function. Additionally, it doesn't play nicely with infinity so we're going to be sneaky and flip it around
+    \begin{align}
+        f_{\rm ionise} &= \int_{v_{\rm ionise}}^{\infty} 4 \pi \qty(\frac{m_e}{2 \pi k_B T})^{\frac{3}{2}} \exp\qty(-\frac{m v^2}{2 k_B T}) v^2 \dd{v} \\
+        f_{\rm ionise} &= 1 - \int_0^{v_{\rm ionise}} 4 \pi \qty(\frac{m_e}{2 \pi k_B T})^{\frac{3}{2}} \exp\qty(-\frac{m v^2}{2 k_B T}) v^2 \dd{v}
+    \end{align}
+    Now we can evaluate this for both temperatures given
+    \begin{equation}
+        \boxed{ f_{\rm ionise, HII} = 6.5 \times 10^{-7},\quad f_{\rm ionise, halo} = 0.96 }
+    \end{equation}
+    From this we can conclude that collisional ionisation is extremely unlikely to occur in an HII region, but it will be dominant for hot halo gas.
 }
 
 \question{\textbf{2. The Dust Collector}}
 
-\answer{
-    .
-}
+\answer{}
 
 \end{document}
 
