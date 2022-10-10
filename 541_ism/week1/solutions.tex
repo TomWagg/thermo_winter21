@@ -88,16 +88,20 @@
 
 \question{1c. \textbf{Molecular clouds - frequency and mass}}
 \answer{
-    The typical mass can be found by multiplying the number density, mass of particles and volume.
+    First we can find the density of a cloud using the number density that we've been given and the conversion that we found in part a to account for the helium fraction (I'm ignoring dust here because it is such a small fraction).
+    \begin{equation}
+        \rho_{\rm MC} = 1.4 \cdot 2 m_p \cdot n(H_2)
+    \end{equation}
+    The typical mass can be found by multiplying the density and volume.
     \begin{align}
-        M_{\rm MC} &= m_{\rm H_2} n_{H_2} V_{\rm MC} \\
-                   &= (2 m_{p}) \cdot n_{H_2} \cdot \qty(\frac{4}{3} \pi R_{\rm MC}^3) \\
-        \Aboxed{ M_{\rm MC} &= 7 \times 10^{4} \unit{M_\odot} }
+        M_{\rm MC} &= \rho_{\rm MC} V_{\rm MC} \\
+                   &= 1.4 \cdot (2 m_{p}) \cdot n_{H_2} \cdot \qty(\frac{4}{3} \pi R_{\rm MC}^3) \\
+        \Aboxed{ M_{\rm MC} &= 9.8 \times 10^{4} \unit{M_\odot} }
     \end{align}
     The approximate number of clouds in the galaxy is then just
     \begin{align}
         N_{\rm MC} &= \frac{0.3 M_{\rm disc}}{M_{\rm MC}} \\
-        \Aboxed{ N_{\rm MC} &= 1.7 \times 10^{4} }
+        \Aboxed{ N_{\rm MC} &= 1.2 \times 10^{4} }
     \end{align}
 }
 
@@ -109,7 +113,7 @@
     \end{equation}
     Given the total volume of the disc and the approximate number of molecular clouds in the disc, this implies that the expectation value of the number of clouds intersecting our line of sight is
     \begin{equation}
-        \boxed{ N = \frac{V_{\rm LoS}}{V_{\rm disc}} N_{\rm MC} = 0.73 }
+        \boxed{ \mathbb{E}[N_{\rm LoS}] = \frac{V_{\rm LoS}}{V_{\rm disc}} N_{\rm MC} = 0.52}
     \end{equation}
 }
 
