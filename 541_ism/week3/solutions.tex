@@ -1,0 +1,130 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mhchem}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+\usepackage{wrapfig}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\newcommand{\psetnum}{3}
+\newcommand{\class}{ASTR 541 - Interstellar Medium}
+
+\newcommand{\tomtitle}{
+    \noindent {\LARGE \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Problem Set \psetnum \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Week \psetnum}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\tomtitle{}
+
+\noindent For reference, if you'd ever like to see the code that I've used to get my answers to these, \href{https://github.com/TomWagg/uw-grad-classes/tree/main/541_ism}{here's a link to my GitHub repo}! (\#astropy.units for life)\\
+
+\question{\textbf{1. Stromgren Spheres}}
+
+\question{1a. What matters about the star?}
+
+\answer{
+    When finding the Stromgren radius for a region we need to know the ionisation rate. We derived in class that this radius is given as
+    \begin{equation}
+        Q_{\rm ionise} = \int_{\nu_{\rm ionise}}^{\infty} \frac{L_\nu}{h \nu} \dd{\nu}
+    \end{equation}
+    Therefore, we need to know the \emph{luminosity} of an O7V star and then we can integrate that to get the ionisation coefficient. But goodness me that would be far too \textit{Draine}ing so we can look it up in the textbook instead! From Table 15.1 we find that the rate is
+    \begin{equation}
+        \boxed{ Q_{\rm ionise, H} = 10^{48.75} \unit{s^{-1}} }
+    \end{equation}
+}
+
+\question{1b. A hydrogen sphere}
+\answer{
+    We derived in class that the radius of a Stromgren sphere is given by the following equation
+    \begin{equation}
+        R_{\rm S} = \qty[ \frac{3}{4 \pi} \frac{Q_{\rm ionise}}{n_e n_{\rm ion} \alpha(T)} ]^{1/3}
+    \end{equation}
+    So to find the radius all we need to do is get values for each of the quantities above. For this part of the question we're just focussing on the hydrogen sphere and so the values are fairly simple
+    \begin{equation}
+        n_e = n_{\rm H},\quad n_{\rm ion} = n_{\rm H},\quad \alpha(T) = 4 \times 10^{-13} \unit{cm^{3}}{s^{-1}},\quad Q_{\rm ionise} = Q_{\rm ionise, H}
+    \end{equation}
+    where $n_{\rm H} = 5000 \unit{cm^{-3}}$ was given in the problem. Plugging these numbers in gives the radius as
+    \begin{equation}
+        \boxed{ R_{\rm H} = 0.17 \unit{pc} }
+    \end{equation}
+    This may at first glance cause you undue stress - ``this violates our understanding that HII regions are (several) tens of pc in size, I just did a quiz on this'' you say! Worry not. You can note that the density used in this question is \emph{extremely} high and so we are dealing with an ``ultra-compact'' HII region in this case and hence the radius is smaller than you may predict.
+}
+
+\clearpage
+
+\question{1c. A helium sphere}
+\answer{
+    For the helium sphere it is a little different since we need to account for the hydrogen as well. As a simple first step, we are given the values of $\alpha$ and $Q$ (relative to hydrogen) in the question
+    \begin{equation}
+        \alpha = 8 \times 10^{-13} \unit{cm^3}{s^{-1}},\quad Q_{\rm ionise} = 0.135 \cdot Q_{\rm ionise, H}
+    \end{equation}
+    The difference lies in the number of electrons per ion. In this case we need to include the electrons from both the hydrogen and the helium. Each supplies only one electron since the star is not hot enough to doubly ionise helium consistently.
+    \begin{equation}
+        n_{\rm e} = n_{\rm H} + n_{\rm He} = 1.1 n_{\rm H},\quad n_{\rm ion} = n_{\rm He} = 0.1 n_{\rm H}
+    \end{equation}
+    We can plug these numbers back into the equation above to get
+    \begin{equation}
+        \boxed{ R_{\rm He} = 0.14 \unit{pc} }
+    \end{equation}
+    And so we find that the helium sphere is smaller than the hydrogen sphere. So we'd expect (based on our very approximate assumptions!) to find an inner region where H is fully ionise and He is singly ionised and a smaller outer region where only H is ionised.
+}
+
+\question{1d. Timescales}
+\answer{
+    So how long does this all take? We know that the recombination timescale is much longer than the photoionisation timescale and so this is what sets the steady-state timescale. The recombination timescale can be written as
+    \begin{equation}
+        \tau_{\rm recomb} = \frac{1}{\alpha n_{\rm ion}}
+    \end{equation}
+    Since $\alpha$ is the recombination rate for a given volume and $n_{\rm ion}$ is the number of ions in a given volume just waiting for a chance to recombine. If we use the values of $\alpha$ and $n_{\rm ion}$ from parts b and c to get the timescales for H and He we find that
+    \begin{equation}
+        \tau_{\rm recomb, H} = 15.8 \unit{yr},\quad \tau_{\rm recomb, He} = 79.2 \unit{yr}
+    \end{equation}
+    Given these values, the overall time it takes for the cloud to reach a steady-state is simply the large of the two and therefore
+    \begin{equation}
+        \boxed{ \tau_{\rm steady} = 79.2 \unit{yr} }
+    \end{equation}
+}
+
+\question{1e. Formation}
+\answer{
+    Given our values in the previous question, it is clear that the recombination timescale is shorter for the hydrogen sphere and so \textbf{the H sphere forms first}. This is because the number density of H is 10 times higher (whilst the $\alpha$ is only two times smaller) and therefore the recombination happens at a faster rate.
+}
+
+\end{document}
+
+ 
