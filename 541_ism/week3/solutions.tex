@@ -130,25 +130,25 @@
 \question{\textbf{2. Spectroscopic Notation}}
 
 \answer{
-    I'll first describe the algorithm for how one can determine the terms and then just show the answer that my python program gives :D\\
+    I'll first describe the algorithm for how one can determine the terms and then, given that I'm lazy and I did not do it by hand, I'll just show the answer that my python program gives :D\\
 
-    \noindent The inputs for this algorithm are: the quantum numbers of the subshell being filled $n$, $l$ and the total number of electrons to add $N_e$. The format of each term will be
+    \noindent The inputs for this algorithm are: the quantum numbers of the subshell being filled, $n$ and $l$, and the total number of electrons in the partially filled shell, $N_e$. The format of each term will be
     \begin{equation}
         \mathrm{term} = \,^{2 S + 1}\mathcal{L}_{J}^p
     \end{equation}
     \begin{enumerate}
-        \item Work the possible states that an electron can take (all pairings of $m_l$ and $m_s$ where $m_l \in [-l, l]$, $m_s \in [-\frac{1}{2}, \frac{1}{2}]$)
-        \item List \textit{every} possible combination of size $N_e$ of these states that satisfies the Pauli exclusion principle (each electron has a unique pairing of $m_l$ and $m_s$). This is rather a hassle by hand, but is trivial in Python!
-        \item Given a combination $\{(m_l, m_s)_i \ \forall i \in [1, N_e]\}$, let $M_l = \sum_{i = 1}^{N_e} m_{l, i}$ and $M_s = \sum_{i = 1}^{N_e} m_{l, i}$. Compute $M_l$ and $M_s$ for each combination and populate a matrix indexed on $M_l$ (rows) and $M_s$ (columns), where each entry is the total number of combinations resulting in that $(M_l, M_s)$ pairing.
-        \item While the matrix still has a nonzero entry
+        \item \textbf{States:} Work the possible states that an electron can take (all pairings of $m_l$ and $m_s$ where $m_l \in [-l, l]$, $m_s \in [-\frac{1}{2}, \frac{1}{2}]$)
+        \item \textbf{Combinations:} List \textit{every} possible combination of size $N_e$ of these states that satisfies the Pauli exclusion principle (each electron has a unique pairing of $m_l$ and $m_s$). Yes, this is indeed rather a hassle by hand! BUT is trivial in Python! :D
+        \item \textbf{Build matrix:} Given a combination $\{(m_l, m_s)_i \ \forall i \in [1, N_e]\}$, let $M_l = \sum_{i = 1}^{N_e} m_{l, i}$ and $M_s = \sum_{i = 1}^{N_e} m_{l, i}$. Compute $M_l$ and $M_s$ for each combination and populate a matrix indexed on $M_l$ (rows) and $M_s$ (columns), where each entry is the total number of combinations resulting in that $(M_l, M_s)$ pairing.
+        \item \textbf{Reduce matrix:} While the matrix still has a nonzero entry
         \begin{enumerate}
-            \item Find the first (in terms of decreasing $M_l$) row that has a nonzero entry - let the index of this row be $L$
-            \item Find the last column (in terms of increasing $M_s$) with a nonzero entry - let the index of this column be $S$
-            \item Store an entry of $(L, S)$ for this element/ion
-            \item Subtract a unitary matrix that ranges from the $(-L, L)$ rows and from the $(-S, S)$ columns from the overall matrix
+            \item Find the row with the largest $M_l$ value with a nonzero entry - let the index of this row be $L$
+            \item Find the column \textit{within this row} with the largest $M_s$ value with a nonzero entry - let the index of this column be $S$
+            \item Store the pair $(L, S)$ as a possible term
+            \item Subtract a unitary matrix - ranging from the $(-L, L)$ rows and from the $(-S, S)$ columns - from the overall matrix
         \end{enumerate}
-        \item For each ($L, S$) entry, output a term for each $J$ in the range $[|L - S|, |L + S|]$
-        \item Go get yourself a treat of some sort, you deserve it after all of that!
+        \item \textbf{Expand terms:} For each ($L, S$) pair, output a term for each $J$ in the range $[|L - S|, |L + S|]$
+        \item \textbf{Prevent mental breakdown:} Go get yourself a cookie, you deserve it after all of that!
     \end{enumerate}
     Additionally, if we want to sort these in terms of energy then we can apply Hund's rules:
     \begin{enumerate}
@@ -156,7 +156,7 @@
         \item Next sort descending by angular momentum, $L$
         \item Next sort by angular momentum, $J$. If the shell is half-filled then sort ascending, otherwise descending
     \end{enumerate}
-    Now we want to get the terms for O\,II. In this case, the electronic configuration is $1 s^2, 2s^2, 2p^3$ and so the non-filled level is $2p$ and it has $3$ electrons. If we input $n = 2$, $l = p = 1$, $N_e = 3$ into my program\footnote{\url{https://www.github.com/TomWagg/uw-grad-classes/541_ism/week3/problem2.py}}, then we find that the terms are (in order of increasing energy)
+    Now we want to get the terms for O\,II. In this case, the electronic configuration is $1 s^2, 2s^2, 2p^3$ and so the non-filled level is $2p$ and it has $3$ electrons. If we input $n = 2$, $l = p = 1$, $N_e = 3$ into my program\footnote{\url{https://www.github.com/TomWagg/uw-grad-classes/541_ism/week3/problem2.py}}, then we find that the terms are (in order of \emph{increasing} energy)
     \begin{equation}
         \boxed{ {\rm O II} = {}^{4} S_{\frac{3}{2}}, {}^{2}D_{\frac{3}{2}}, {}^{2} D_{\frac{5}{2}}, {}^{2} P_{\frac{1}{2}}, {}^{2} P_{\frac{3}{2}} }
     \end{equation} 

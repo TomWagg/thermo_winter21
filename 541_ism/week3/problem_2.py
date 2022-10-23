@@ -3,6 +3,7 @@ import itertools
 import collections
 
 L_lookup = ["S", "P", "D", "F", "G", "H", "I", "J", "K"]
+level_sizes = [2, 6, 10, 14]
 
 
 def format_terms(*terms):
@@ -10,9 +11,9 @@ def format_terms(*terms):
     for S, L, J in terms:
         term_string = None
         if not J.is_integer():
-            term_string = f"{S}{L}({int(J * 2)}/2)"
+            term_string = f"{S}{L_lookup[L]}({int(J * 2)}/2)"
         else:
-            term_string = f"{S}{L}{int(J)}"
+            term_string = f"{S}{L_lookup[L]}{int(J)}"
         strings.append(term_string)
     return strings
 
@@ -72,16 +73,21 @@ def get_spectroscopic_terms(n, l, n_electron):
                 # work out the value of L and S for this term(s) based on the matrix
                 L, S = int(abs(M_l_range[i])), M_s_range[columns].max()
 
-                # add a term for each possible J value
-                for J in np.arange(np.abs(L - S), np.abs(L + S) + 1):
-                    terms.append((int(2 * S + 1), L_lookup[L], J))
+                # add a term for each possible J valuev in the correct order based on how filled the level is
+                J_range = np.arange(abs(L - S), abs(L + S) + 1)
+                if n_electron > level_sizes[l] / 2:
+                    J_range = reversed(J_range)
+                for J in J_range:
+                    terms.append((int(2 * S + 1), L, J))
 
                 # go start back at the first row now that the matrix has changed
                 break
 
-    return terms
+    # sort based on Hund's 1st and 2nd rules
+    return sorted(terms, key=lambda x: (x[0], x[1]), reverse=True)
 
 
+# get terms for OII
 terms = get_spectroscopic_terms(2, 1, 3)
 
 # print out the formatted terms
