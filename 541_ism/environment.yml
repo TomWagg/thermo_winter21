@@ -1,0 +1,14 @@
+name: astr541
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - numpy
+  - astropy
+  - scipy
+  - matplotlib
+  - jupyter
+  - jupyterlab
+  - ipython
