@@ -145,7 +145,7 @@
             \item Find the row with the largest $M_l$ value with a nonzero entry - let the index of this row be $L$
             \item Find the column \textit{within this row} with the largest $M_s$ value with a nonzero entry - let the index of this column be $S$
             \item Store the pair $(L, S)$ as a possible term
-            \item Subtract a unitary matrix - ranging from the $(-L, L)$ rows and from the $(-S, S)$ columns - from the overall matrix
+            \item Subtract a boolean matrix - ranging from the $(-L, L)$ rows and from the $(-S, S)$ columns - from the overall matrix
         \end{enumerate}
         \item \textbf{Expand terms:} For each ($L, S$) pair, output a term for each $J$ in the range $[|L - S|, |L + S|]$
         \item \textbf{Prevent mental breakdown:} Go get yourself a cookie, you deserve it after all of that!
