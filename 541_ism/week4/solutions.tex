@@ -1,0 +1,149 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mhchem}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+\usepackage{wrapfig}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\newcommand{\psetnum}{3}
+\newcommand{\class}{ASTR 541 - Interstellar Medium}
+
+\newcommand{\tomtitle}{
+    \noindent {\LARGE \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Problem Set \psetnum \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Week \psetnum}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\tomtitle{}
+
+\noindent For reference, if you'd ever like to see the code that I've used to get my answers to these, \href{https://github.com/TomWagg/uw-grad-classes/tree/main/541_ism}{here's a link to my GitHub repo}! (\#astropy.units for life)\\
+
+\question{\textbf{1. Collisions}}
+
+\question{Part I: Diagram}
+
+\answer{
+    Here's a diagram of a collisional excitation (complete with a Jess level pun)
+    \begin{center}
+        \includegraphics[width=\textwidth]{~/Downloads/diagram for ISM(1).png}
+    \end{center}
+}
+
+\question{Part II: Energy Conservation}
+\answer{
+    We can write down the energy conservation by considering the kinetic energy of the system and the internal energy of species A.
+    \begin{equation}
+        \boxed{ \frac{1}{2} \mu v_1^2 = h \nu_{21} + \frac{1}{2} \mu v_2^2 }
+    \end{equation}
+    where $\mu$ is the reduced mass of the two species.
+}
+
+\question{Part III: Steady-State Equation}
+\answer{
+    Assuming a steady-state means that the rate of excitations must equal the rate of \textit{de}-excitations. We can write this in terms of number densities and collisional rate coefficients as
+    \begin{equation}
+        \boxed{ n_A n_B \gamma_{12} = n_{A*} n_B \gamma_{21} }
+    \end{equation}
+    where $n_B$ is the number density of species B and $n_A$, $n_{A*}$ are the number densities of species A in the ground and excited state respectively. Each $\gamma$ is the collisional rate coefficient for an excitation or de-excitation respectively.
+}
+
+\question{Part IV: Cross Sections}
+\answer{
+    Now's it time to expand things out a little. We know from lectures that the collisional rate coefficient can be written as
+    \begin{equation}
+        \gamma_{xy} = \int f(v_x) \sigma_{xy}(v_x) v_x \dd{v_x}
+    \end{equation}
+    Using this definition, we can transform our steady-state equation into the following
+    \begin{equation}
+        \boxed{ n_A n_B \int f(v_1) \sigma_{12}(v_1) v_1 \dd{v_1} = n_{A*} n_B \int f(v_2) \sigma_{21}(v_2) v_2 \dd{v_2} }
+    \end{equation}
+}
+
+\question{Part V: Detailed balance (this is where the magic happens)}
+\answer{
+    Due to the elegance of detailed balance we can know make all of our lives rather simpler. Detailed balance tells us that we don't need to consider \emph{every} velocity, we can just consider only a single velocity that would excite species A, $v_1$ and resulting velocity from that collision, $v_2$ (and the rest will all cancel out). This means that we can then remove the integral and be left with a rather more pleasant relation.
+    \begin{equation}
+        \boxed{ n_A n_B f(v_1) \sigma_{12}(v_1) v_1 \dd{v_1} = n_{A*} n_B f(v_2) \sigma_{21}(v_2) v_2 \dd{v_2} }
+    \end{equation}
+}
+
+\question{Part VI: The Algebra Bit$^{\rm TM}$}
+\answer{
+    Okie dokie folks, strap in, here we go! First, let's cancel out the $n_B$ (note we could have done this earlier, I didn't do that until now because I wanted to, totally not because I didn't notice).
+    \begin{equation}
+        n_A f(v_1) \sigma_{12}(v_1) v_1 \dd{v_1} = n_{A*} f(v_2) \sigma_{21}(v_2) v_2 \dd{v_2}
+    \end{equation}
+    Next it would be good to have a relation between $\dd{v_1}$ and $\dd{v_2}$. Let's go back to our conservation of energy equation (our old friend from part II). Taking the total derivative of each side and setting them equal (since we are in a steady-state), we find that
+    \begin{equation}
+        v_1 \dd{v_1} = v_2 \dd{v_2}
+    \end{equation}
+    where the $\mu$ has cancelled. Well that's convenient, now we can just cross out those terms on each side of our equation to get
+    \begin{equation}
+        f(v_1) \sigma_{12}(v_1) = \frac{n_{A*}}{n_A} f(v_2) \sigma_{21}(v_2)
+    \end{equation}
+    where I've moved the $n_A$ over to the other side for reasons that will soon become clear (or perhaps just to give myself an air of mystery, take your pick).
+    
+    \noindent Next let's go through the rather arduous task of expanding the maxwellian terms. Note here that since $v_1$ and $v_2$ are \emph{relative} velocities, so the mass terms are the reduced mass $\mu$ in both cases. This means that the form of the maxwellian we shall looks like this
+    \begin{equation}
+        f(v) = 4 \pi \qty(\frac{\mu}{2 \pi k_B T})^{\frac{3}{2}} \exp\qty(-\frac{\mu v^2}{2 k_B T}) v^2
+    \end{equation}
+    Let's plug that into both sides and cancel down
+    \begin{align}
+        \sigma_{12}(v_1) \qty[4 \pi \qty(\frac{\mu}{2 \pi k_B T})^{\frac{3}{2}} \exp\qty(-\frac{\mu v^2}{2 k_B T}) v^2] &= \frac{n_{A*}}{n_A} \sigma_{21}(v_2) \qty[4 \pi \qty(\frac{\mu}{2 \pi k_B T})^{\frac{3}{2}} \exp\qty(-\frac{\mu v^2}{2 k_B T}) v^2] \\
+        \sigma_{12}(v_1) \qty[\exp\qty(-\frac{\mu v_1^2}{2 k_B T}) v_1^2] &= \frac{n_{A*}}{n_A} \sigma_{21}(v_2) \qty[\exp\qty(-\frac{\mu v_2^2}{2 k_B T}) v_2^2] \\
+        \sigma_{12}(v_1) v_1^2 &= \frac{n_{A*}}{n_A} \sigma_{21}(v_2) \qty[\exp\qty(-\frac{\mu (v_2^2 - v_1^2)}{2 k_B T}) v_2^2]
+    \end{align}
+    Jolly good! Now for my big reveal of why I moved the $n_A$ over. Well, since collisions are occurring and changing the excitation levels of atoms in a steady-state we must have an equilibrium between kinetic temperature and excitation temperature. Stretching our memories back to the LTE lecture we can remember that \textbf{this means the Boltzmann equation holds}, which gives
+    \begin{equation}
+        \frac{n_{A*}}{n_A} = \frac{g_2}{g_1} \exp \qty(- \frac{h\nu}{k_B T})
+    \end{equation}
+    Splendid! Now let's plug \emph{that} into our equation from before to find
+    \begin{align}
+        \sigma_{12}(v_1) v_1^2 &= \sigma_{21}(v_2) \frac{g_2}{g_1} \exp\qty(-\frac{h \nu}{k_B T}) \qty[\exp\qty(-\frac{\mu (v_2^2 - v_1^2)}{2 k_B T}) v_2^2] \\
+        g_1 \sigma_{12}(v_1) v_1^2 &= \sigma_{21}(v_2) g_2 \qty[\exp\qty(-\frac{\mu (v_2^2 - v_1^2 + \frac{2}{\mu} h \nu)}{2 k_B T}) v_2^2]
+    \end{align}
+    Now get this, that term in the exponential $(v_2^2 - v_1^2 + \frac{2}{\mu} h \nu)$ is just 0 (from our conservation of energy equation from earlier!). That means we can scrap the exponential and leave ourselves with a tidy little relation between the degeneracies, cross sections and velocities.
+    \begin{equation}
+        \boxed{ g_1 \sigma_{12}(v_1) v_1^2 = \sigma_{21}(v_2) g_2 v_2^2 }
+    \end{equation}
+    We made it! Now don't forget to submit your offerings to Detailed Balance to ensure future expressions can be simplified in the same way.
+}
+
+\end{document}
+
+ 
