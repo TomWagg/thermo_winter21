@@ -22,7 +22,7 @@ def format_terms(*terms, use_latex=False):
     return strings
 
 
-def get_spectroscopic_terms(n, l, n_electron):
+def get_spectroscopic_terms(n, l, n_electron, formatted=False):
     assert l < n
     assert n_electron <= level_sizes[l]
     m_l_range = list(range(-l, l + 1))
@@ -89,21 +89,16 @@ def get_spectroscopic_terms(n, l, n_electron):
                 break
 
     # sort based on Hund's 1st and 2nd rules
-    return sorted(terms, key=lambda x: (x[0], x[1]), reverse=True)
+    terms = sorted(terms, key=lambda x: (x[0], x[1]), reverse=True)
+
+    if formatted:
+        return format_terms(*terms)
+    else:
+        return terms
 
 
 # DRAINE Table 4.1
-for ne in [1, 2]:
-    print(*format_terms(*get_spectroscopic_terms(1, 0, ne)))
-for ne in range(1, 7):
-    print(*format_terms(*get_spectroscopic_terms(2, 1, ne)))
-
-
-# get_spectroscopic_terms(3, 0, 1)
-# get_spectroscopic_terms(3, 0, 2)
-# get_spectroscopic_terms(3, 1, 1)
-# get_spectroscopic_terms(3, 1, 2)
-# get_spectroscopic_terms(3, 1, 3)
-# get_spectroscopic_terms(3, 1, 4)
-# get_spectroscopic_terms(3, 1, 5)
-# get_spectroscopic_terms(3, 1, 6)
+# for ne in [1, 2]:
+#     print(*format_terms(*get_spectroscopic_terms(1, 0, ne)))
+# for ne in range(1, 7):
+#     print(*format_terms(*get_spectroscopic_terms(2, 1, ne)))

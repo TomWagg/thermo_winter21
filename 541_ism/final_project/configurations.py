@@ -34,7 +34,7 @@ def parse_electrons(source):
     return electrons_from_element(element) - n_I + 1
 
 
-def electronic_configuration(n_electron):
+def electronic_configuration(n_electron, formatted=False):
     order = [(1, 0), (2, 0), (2, 1), (3, 0), (3, 1),
              (4, 0), (3, 2), (4, 1), (4, 2), (5, 0), (5, 1)]
 
@@ -55,7 +55,10 @@ def electronic_configuration(n_electron):
         if n_electron <= 0:
             break
 
-    return configuration
+    if formatted:
+        return format_configuration(configuration)
+    else:
+        return configuration
 
 
 def format_configuration(configuration):
@@ -65,5 +68,5 @@ def format_configuration(configuration):
     return config_string.rstrip()
 
 
-for i in range(1, 37):
-    print(i, ":", format_configuration(electronic_configuration(i)))
+# for i in range(1, 37):
+#     print(i, ":", format_configuration(electronic_configuration(i)))
