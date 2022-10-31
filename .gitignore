@@ -134,3 +134,4 @@ dmypy.json
 
 # ignore scratch work
 Untitled.ipynb
+data/
