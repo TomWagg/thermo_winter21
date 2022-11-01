@@ -5,6 +5,25 @@ import levels
 
 class Atom():
     def __init__(self, name=None, n_electron=None, formatted=True, use_latex=False, no_cache=False):
+        """A class for accessing various electronic configuration/spectroscopic term/energy level diagram
+        functions.
+
+        Parameters
+        ----------
+        name : `str`, optional
+            The name of an atom or ion, by default None
+        n_electron : `int`, optional
+            A number of electrons, by default None
+        formatted : `bool`, optional
+            Whether to format variable into strings, by default True
+        use_latex : `bool`, optional
+            Whether to turn string variables into LaTeX, by default False
+
+        Raises
+        ------
+        ValueError
+            If neither `name` or `n_electron` are supplied
+        """
         if n_electron is None and name is None:
             raise ValueError("One of `n_electron` or `name` must be supplied")
         elif n_electron is None:
