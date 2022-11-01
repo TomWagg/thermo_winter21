@@ -6,6 +6,11 @@ from constants import L_lookup, level_sizes
 __all__ = ["format_terms", "get_spectroscopic_terms"]
 
 
+def _underline_print(str):
+    print(str)
+    print("".join(["-" for _ in range(len(str))]))
+
+
 def format_terms(*terms, use_latex=False):
     strings = []
     for S, L, J in terms:
@@ -24,7 +29,7 @@ def format_terms(*terms, use_latex=False):
     return strings
 
 
-def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False):
+def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, stepbystep=False):
     assert l < n, "`l` must be less than `n`"
     assert n_electron <= level_sizes[l], "Number electrons must be no more than subshell capacity"
     assert n_electron > 0, "Number electrons must be positive"
@@ -33,9 +38,19 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False):
 
     # these states are available to the electrons in this shell
     electron_states = [(m_l, m_s) for m_l in m_l_range for m_s in m_s_range]
+    if stepbystep:
+        _underline_print("Step 1: Possible electron states (m_l, m_s)")
+        # print("-------------------------------------------")
+        print(electron_states)
+        print()
 
     # find all combination of these states
     combs = itertools.combinations(electron_states, n_electron)
+    if stepbystep:
+        _underline_print("Step 2: All possible combinations of states")
+        print(list(combs))
+        print()
+        combs = itertools.combinations(electron_states, n_electron)
 
     # create a dict to keep track of the L, S combos (for the matrix)
     LS_combos = collections.defaultdict(int)
@@ -61,6 +76,13 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False):
         for j, M_s in enumerate(M_s_range):
             matrix[i, j] = LS_combos[(M_l, M_s)]
 
+    if stepbystep:
+        _underline_print("Step 3: Initial matrix")
+        print(matrix)
+        print()
+
+        _underline_print("Step 4: Matrix reduction")
+
     # keep track of the terms
     terms = []
 
@@ -81,15 +103,25 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False):
                 # work out the value of L and S for this term(s) based on the matrix
                 L, S = int(abs(M_l_range[i])), M_s_range[columns].max()
 
-                # add a term for each possible J valuev in the correct order based on how filled the level is
+                # add a term for each possible J value in the correct order based on how filled the level is
                 J_range = np.arange(abs(L - S), abs(L + S) + 1)
                 if n_electron > level_sizes[l] / 2:
                     J_range = reversed(J_range)
                 for J in J_range:
                     terms.append((int(2 * S + 1), L, J))
 
+                if stepbystep:
+                    print(unitary, f"{int(2 * S + 1)}{L_lookup[L]}")
+
                 # go start back at the first row now that the matrix has changed
                 break
+
+    if stepbystep:
+        print()
+        _underline_print("Step 5: Expand terms")
+        print(*format_terms(*terms))
+        print()
+        print("Step 6: Go eat this 🍪")
 
     # sort based on Hund's 1st and 2nd rules
     terms = sorted(terms, key=lambda x: (x[0], x[1]), reverse=True)
@@ -98,10 +130,3 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False):
         return format_terms(*terms, use_latex=use_latex)
     else:
         return terms
-
-
-# DRAINE Table 4.1
-# for ne in [1, 2]:
-#     print(*format_terms(*get_spectroscopic_terms(1, 0, ne)))
-# for ne in range(1, 7):
-#     print(*format_terms(*get_spectroscopic_terms(2, 1, ne)))
