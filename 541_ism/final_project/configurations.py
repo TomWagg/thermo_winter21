@@ -4,7 +4,7 @@ from constants import L_lookup, level_sizes
 
 def read_elements():
     element_list = []
-    with open("elements.csv") as elements:
+    with open("data/elements.csv") as elements:
         element_list = [line.rstrip("\n").split("\t") for line in elements]
     return np.transpose(element_list)
 
@@ -34,7 +34,7 @@ def parse_electrons(source):
     return electrons_from_element(element) - n_I + 1
 
 
-def electronic_configuration(n_electron, formatted=False):
+def get_configuration(n_electron, formatted=False, use_latex=False):
     order = [(1, 0), (2, 0), (2, 1), (3, 0), (3, 1),
              (4, 0), (3, 2), (4, 1), (4, 2), (5, 0), (5, 1)]
 
@@ -56,15 +56,18 @@ def electronic_configuration(n_electron, formatted=False):
             break
 
     if formatted:
-        return format_configuration(configuration)
+        return format_configuration(configuration, use_latex=use_latex)
     else:
         return configuration
 
 
-def format_configuration(configuration):
+def format_configuration(configuration, use_latex=False):
     config_string = ""
     for n, l, n_e in configuration:
-        config_string += f"{n}{L_lookup[l].lower()}{n_e} "
+        if use_latex:
+            config_string += rf"${{{n}}}{{{L_lookup[l].lower()}}}^{{{n_e}}}$ "
+        else:
+            config_string += f"{n}{L_lookup[l].lower()}{n_e} "
     return config_string.rstrip()
 
 
