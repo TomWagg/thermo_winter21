@@ -10,7 +10,7 @@ class Atom():
         elif n_electron is None:
             n_electron = con.parse_electrons(name)
 
-        self.name = name
+        self.name = name if name is not None else f"{n_electron} electrons"
         self._n_electron = n_electron
         self.formatted = formatted
         self.use_latex = use_latex
