@@ -6,12 +6,33 @@ from constants import L_lookup, level_sizes
 __all__ = ["format_terms", "get_spectroscopic_terms"]
 
 
-def _underline_print(str):
-    print(str)
-    print("".join(["-" for _ in range(len(str))]))
+def _underline_print(string):
+    """Same as a regular print call but underlined with hyphens
+
+    Parameters
+    ----------
+    string : `str`
+        Some string to print out
+    """
+    print(string)
+    print("".join(["-" for _ in range(len(string))]))
 
 
 def format_terms(*terms, use_latex=False):
+    """Format a list of spectroscopic terms
+
+    Parameters
+    ----------
+    *terms : `tuple`
+        Each `term` should be a tuple of `2S+1, L, J`
+    use_latex : `bool`, optional
+        Whether to use LaTeX in the formatted string, by default False
+
+    Returns
+    -------
+    term_strings : `list` of `str`s
+        A list of strings representing each term
+    """
     strings = []
     for S, L, J in terms:
         term_string = None
@@ -30,6 +51,28 @@ def format_terms(*terms, use_latex=False):
 
 
 def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, stepbystep=False):
+    """Compute the spectroscopic terms for a given level (n, l) that contains n_electron electrons
+
+    Parameters
+    ----------
+    n : `int`
+        Quantum number of state
+    l : `int`
+        Angular momentum of state
+    n_electron : `int`
+        Number of electrons in the state
+    formatted : `bool`, optional
+        Whether to format the result as a string, by default False
+    use_latex : `bool`, optional
+        Whether to use LaTeX for the formatted string, by default False
+    stepbystep : `bool`, optional
+        Whether to print out the step-by-step algorithmic approach to getting the terms, by default False
+
+    Returns
+    -------
+    terms : `various`
+        The spectroscopic terms
+    """
     assert l < n, "`l` must be less than `n`"
     assert n_electron <= level_sizes[l], "Number electrons must be no more than subshell capacity"
     assert n_electron > 0, "Number electrons must be positive"
@@ -121,6 +164,8 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, 
         _underline_print("Step 5: Expand terms")
         print(*format_terms(*terms))
         print()
+
+        # it's crazy that I can add a cookie to my code
         print("Step 6: Go eat this 🍪")
 
     # sort based on Hund's 1st and 2nd rules
