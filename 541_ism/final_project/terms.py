@@ -3,6 +3,8 @@ import itertools
 import collections
 from constants import L_lookup, level_sizes
 
+__all__ = ["format_terms", "get_spectroscopic_terms"]
+
 
 def format_terms(*terms, use_latex=False):
     strings = []
@@ -22,9 +24,10 @@ def format_terms(*terms, use_latex=False):
     return strings
 
 
-def get_spectroscopic_terms(n, l, n_electron, formatted=False):
-    assert l < n
-    assert n_electron <= level_sizes[l]
+def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False):
+    assert l < n, "`l` must be less than `n`"
+    assert n_electron <= level_sizes[l], "Number electrons must be no more than subshell capacity"
+    assert n_electron > 0, "Number electrons must be positive"
     m_l_range = list(range(-l, l + 1))
     m_s_range = [-1/2, 1/2]
 
@@ -92,7 +95,7 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False):
     terms = sorted(terms, key=lambda x: (x[0], x[1]), reverse=True)
 
     if formatted:
-        return format_terms(*terms)
+        return format_terms(*terms, use_latex=use_latex)
     else:
         return terms
 

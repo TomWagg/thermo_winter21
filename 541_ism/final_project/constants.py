@@ -1,3 +1,5 @@
+__all__ = ["L_lookup", "level_sizes"]
+
 # convert a value of L to the letter representation
 L_lookup = ["S", "P", "D", "F", "G", "H", "I", "J", "K"]
 

@@ -4,6 +4,8 @@ import astropy.units as u
 
 import terms
 
+__all__ = ["plot_energy_levels"]
+
 plt.rc('font', family='serif')
 plt.rcParams['text.usetex'] = False
 fs = 24
@@ -22,16 +24,19 @@ params = {'figure.figsize': (12, 8),
 plt.rcParams.update(params)
 
 
-def plot_energy_levels(spec_terms, transitions, title=None):
+def plot_energy_levels(spec_terms, transitions, title=None, fig=None, ax=None, show=True):
     x_vals = np.arange(len(transitions) + 2)
 
-    fig, ax = plt.subplots(figsize=(6, 10))
+    if fig is None or ax is None:
+        fig, ax = plt.subplots(figsize=(6, 10))
+
+    max_n = max(transitions)[0]
 
     previous_L = spec_terms[0][1]
     colour_ind = 0
     height = 1
     heights = [1]
-    for n, term in enumerate(spec_terms):
+    for n, term in enumerate(spec_terms[:max_n]):
         L = term[1]
         height += 1
         if L != previous_L:
@@ -62,7 +67,9 @@ def plot_energy_levels(spec_terms, transitions, title=None):
         ax.set_title(title, fontsize=fs, y=-0.05)
     ax.axis("off")
 
-    plt.show()
+    if show:
+        plt.show()
+    return fig, ax
 
 
 # plot_energy_levels(terms.get_spectroscopic_terms(3, 1, 3)[:3],
