@@ -35,7 +35,10 @@ class Atom():
         elif n_electron is None:
             n_electron, n_ion = con.parse_electrons(name)
 
-        self.name = name if name is not None else f"({n_electron} - {n_ion}) electrons"
+        assert n_ion <= n_electron, "Can't ionise more electrons than you have!"
+
+        self.auto_name = name is None
+        self.name = name
         self._n_electron = n_electron
         self._n_ion = n_ion
         self.formatted = formatted
@@ -43,7 +46,11 @@ class Atom():
         self.quiet = quiet
 
     def __repr__(self):
-        return f"<Atom: {self.name}, {self.configuration}, {self.terms[-1]}>"
+        if self.auto_name:
+            self.name = con.electrons_to_string(n_electron=self._n_electron, n_ion=self._n_ion)
+        lowest_term = self.terms[-1] if len(self.terms) > 0 else "No terms"
+        config = self.configuration if self.configuration != "" else "No electrons"
+        return f"<Atom: {self.name}, {config}, {lowest_term}>"
 
     @property
     def _configuration(self):
@@ -61,7 +68,10 @@ class Atom():
         if not self.quiet and con.has_many_half_filled_shells(self._configuration):
             warnings.warn(("This atom/ion has more than one half-filled subshell! The terms returned by this "
                            "function only correspond to the *outermost* half-filled subshell."))
-        return terms.get_spectroscopic_terms(*self._configuration[-1])
+        if len(self._configuration) > 0:
+            return terms.get_spectroscopic_terms(*self._configuration[-1])
+        else:
+            return []
 
     @property
     def terms(self):
@@ -70,6 +80,34 @@ class Atom():
         else:
             return self._terms
 
+    def ionise(self, delta_n_ion=1):
+        """Ionise the Atom a number of times
+
+        Parameters
+        ----------
+        delta_n_ion : `int`, optional
+            Number of time to ionise, can be negative to add electrons, by default 1
+        """
+        if self._n_ion + delta_n_ion > self._n_electron:
+            raise ValueError("Can't ionise more electrons than you have!")
+        self._n_ion += delta_n_ion
+        self.auto_name = True
+
     def plot_energy_levels(self, transitions, **kwargs):
+        """Plot energy level diagram for the Atom
+
+        Parameters
+        ----------
+        transitions : `list` of `tuples`
+            A list of transitions, where each tuple is (n_u, n_l, lambda), the number of the upper state, the
+            number of the lower state and the wavelength of the transition
+        **kwargs : `keyword arguments`
+            Any of the other keyword arguments from `levels.plot_energy_levels`
+
+        Returns
+        -------
+        fig, ax
+            The figure and axis with the plot on it
+        """
         return levels.plot_energy_levels(spec_terms=self._terms, transitions=transitions,
                                          title=self.name, **kwargs)

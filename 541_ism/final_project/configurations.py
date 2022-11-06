@@ -88,6 +88,37 @@ def parse_electrons(input_string):
     return n_elec, n_ion
 
 
+def electrons_to_string(n_electron, n_ion):
+    if n_ion < 0:
+        ion_string = f"{-n_ion}-"
+    else:
+        # add 1 since n_ion=1 corresponds to II not I
+        n_ion += 1
+
+        # convert n_ion to a roman numeral
+        roman_num = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000]
+        roman_sym = ["I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"]
+        i = 12
+
+        ion_string = ""
+        while n_ion:
+            div = n_ion // roman_num[i]
+            n_ion %= roman_num[i]
+
+            while div:
+                ion_string += roman_sym[i]
+                div -= 1
+            i -= 1
+    n_elec, symbols, _ = read_elements()
+
+    matching_symbol = symbols[n_elec.astype(int) == n_electron]
+    if len(matching_symbol) == 0:
+        raise ValueError(f"Can't find an element to match your `n_electron` value - `{n_electron}`")
+
+    # print(symbols, n_electron)
+    return f"{matching_symbol[0]}{ion_string}"
+
+
 def get_configuration(n_electron, n_ion=0, formatted=False, use_latex=False):
     """Get the electronic configuration of an atom/ion given a number of electrons
 
