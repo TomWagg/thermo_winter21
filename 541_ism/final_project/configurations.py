@@ -2,7 +2,8 @@ from copy import copy
 import numpy as np
 from constants import L_lookup, level_sizes, aufbau_order
 
-__all__ = ["parse_electrons", "get_configuration", "format_configuration"]
+__all__ = ["parse_electrons", "get_configuration", "format_configuration",  "electrons_from_element",
+           "electrons_to_string", "ionise_configuration", "has_many_half_filled_shells"]
 
 
 def read_elements():
