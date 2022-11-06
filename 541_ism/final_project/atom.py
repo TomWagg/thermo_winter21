@@ -1,11 +1,12 @@
 import configurations as con
 import terms
 import levels
+import warnings
 
 
 class Atom():
     def __init__(self, name=None, n_electron=None, n_ion=0,
-                 formatted=True, use_latex=False, no_cache=False):
+                 formatted=True, use_latex=False, quiet=False):
         """A class for accessing various electronic configuration/spectroscopic term/energy level diagram
         functions.
 
@@ -21,6 +22,8 @@ class Atom():
             Whether to format variable into strings, by default True
         use_latex : `bool`, optional
             Whether to turn string variables into LaTeX, by default False
+        quiet : `bool`, optional
+            Whether to silence warnings, by default False
 
         Raises
         ------
@@ -37,14 +40,14 @@ class Atom():
         self._n_ion = n_ion
         self.formatted = formatted
         self.use_latex = use_latex
-        self.no_cache = no_cache
+        self.quiet = quiet
 
     def __repr__(self):
         return f"<Atom: {self.name}, {self.configuration}, {self.terms[-1]}>"
 
     @property
     def _configuration(self):
-        return con.get_configuration(self._n_electron - self._n_ion)
+        return con.get_configuration(n_electron=self._n_electron, n_ion=self._n_ion)
 
     @property
     def configuration(self):
@@ -55,6 +58,9 @@ class Atom():
 
     @property
     def _terms(self):
+        if not self.quiet and con.has_many_half_filled_shells(self._configuration):
+            warnings.warn(("This atom/ion has more than one half-filled subshell! The terms returned by this "
+                           "function only correspond to the *outermost* half-filled subshell."))
         return terms.get_spectroscopic_terms(*self._configuration[-1])
 
     @property

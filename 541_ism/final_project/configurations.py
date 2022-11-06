@@ -179,3 +179,11 @@ def ionise_configuration(configuration, n_ion):
             break
     configuration = [(n, l, n_filled) for n, l, n_filled in sorted(ionised_configuration) if n_filled > 0]
     return configuration
+
+
+def has_many_half_filled_shells(configuration):
+    n_half_filled = 0
+    for _, l, n_filled in configuration:
+        if n_filled < level_sizes[l]:
+            n_half_filled += 1
+    return n_half_filled > 1
