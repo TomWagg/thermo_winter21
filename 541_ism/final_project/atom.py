@@ -32,7 +32,7 @@ class Atom():
         elif n_electron is None:
             n_electron, n_ion = con.parse_electrons(name)
 
-        self.name = name if name is not None else f"{n_electron} electrons"
+        self.name = name if name is not None else f"({n_electron} - {n_ion}) electrons"
         self._n_electron = n_electron
         self._n_ion = n_ion
         self.formatted = formatted

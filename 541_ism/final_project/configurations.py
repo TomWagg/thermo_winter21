@@ -53,10 +53,28 @@ def electrons_from_element(el_string):
 
 
 def parse_electrons(input_string):
+    """Parse the number of electrons and ionisation from an input string.
+
+    Parameters
+    ----------
+    input_string : `str`
+        An input string, something like "Carbon", "HII", "O3+"
+
+    Returns
+    -------
+    n_elec : `int`
+        Number of electrons
+    n_ion : `int`
+        Number of times to ionise
+    """
     final_char = input_string[-1]
     if final_char in ["+", "-"]:
-        n_ion = int(input_string[-2]) * (-1 if final_char == "-" else 1)
-        n_elec = electrons_from_element(input_string[:-2])
+        if input_string[-2].isdigit():
+            n_ion = int(input_string[-2]) * (-1 if final_char == "-" else 1)
+            n_elec = electrons_from_element(input_string[:-2])
+        else:
+            n_ion = -1 if final_char == "-" else 1
+            n_elec = electrons_from_element(input_string[:-1])
     elif final_char == "I":
         n_ion = 0
         i = -2
@@ -116,7 +134,7 @@ def get_configuration(n_electron, n_ion=0, formatted=False, use_latex=False):
                 break
 
     if n_ion > 0:
-        ionise_configuration(configuration=configuration, n_ion=n_ion)
+        configuration = ionise_configuration(configuration=configuration, n_ion=n_ion)
 
     # format the result if the user wants to
     if formatted:
