@@ -4,7 +4,8 @@ import levels
 
 
 class Atom():
-    def __init__(self, name=None, n_electron=None, formatted=True, use_latex=False, no_cache=False):
+    def __init__(self, name=None, n_electron=None, n_ion=0,
+                 formatted=True, use_latex=False, no_cache=False):
         """A class for accessing various electronic configuration/spectroscopic term/energy level diagram
         functions.
 
@@ -14,6 +15,8 @@ class Atom():
             The name of an atom or ion, by default None
         n_electron : `int`, optional
             A number of electrons, by default None
+        n_ion : `int`, optional
+            Number of times it has been ionised, by default None
         formatted : `bool`, optional
             Whether to format variable into strings, by default True
         use_latex : `bool`, optional
@@ -27,10 +30,11 @@ class Atom():
         if n_electron is None and name is None:
             raise ValueError("One of `n_electron` or `name` must be supplied")
         elif n_electron is None:
-            n_electron = con.parse_electrons(name)
+            n_electron, n_ion = con.parse_electrons(name)
 
         self.name = name if name is not None else f"{n_electron} electrons"
         self._n_electron = n_electron
+        self._n_ion = n_ion
         self.formatted = formatted
         self.use_latex = use_latex
         self.no_cache = no_cache
@@ -40,7 +44,7 @@ class Atom():
 
     @property
     def _configuration(self):
-        return con.get_configuration(self._n_electron)
+        return con.get_configuration(self._n_electron - self._n_ion)
 
     @property
     def configuration(self):

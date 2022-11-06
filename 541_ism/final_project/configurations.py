@@ -1,5 +1,6 @@
+from copy import copy
 import numpy as np
-from constants import L_lookup, level_sizes
+from constants import L_lookup, level_sizes, aufbau_order
 
 __all__ = ["parse_electrons", "get_configuration", "format_configuration"]
 
@@ -51,25 +52,33 @@ def electrons_from_element(el_string):
     return int(electrons[0])
 
 
-def parse_electrons(source):
-    # TODO: handle ionisation better
-    split_source = source.split(" ")
-    if len(split_source) > 1:
-        element, ionisation = split_source
-        n_I = sum([int(ionisation[i] == "I") for i in range(len(ionisation))])
+def parse_electrons(input_string):
+    final_char = input_string[-1]
+    if final_char in ["+", "-"]:
+        n_ion = int(input_string[-2]) * (-1 if final_char == "-" else 1)
+        n_elec = electrons_from_element(input_string[:-2])
+    elif final_char == "I":
+        n_ion = 0
+        i = -2
+        while input_string[i] == "I":
+            n_ion += 1
+            i -= 1
+        n_elec = electrons_from_element(input_string[:i + 1])
     else:
-        element = split_source[0]
-        n_I = 1
-    return electrons_from_element(element) - n_I + 1
+        n_elec = electrons_from_element(input_string)
+        n_ion = 0
+    return n_elec, n_ion
 
 
-def get_configuration(n_electron, formatted=False, use_latex=False):
+def get_configuration(n_electron, n_ion=0, formatted=False, use_latex=False):
     """Get the electronic configuration of an atom/ion given a number of electrons
 
     Parameters
     ----------
     n_electron : `int`
         Number of electrons
+    n_ion : `int`
+        Number of times to ionise
     formatted : `bool`, optional
         Whether to format the configuration into a string, by default False
     use_latex : `bool`, optional
@@ -80,10 +89,10 @@ def get_configuration(n_electron, formatted=False, use_latex=False):
     configuration : `various`
         The electronic configuration
     """
-    # the order in which to fill shells following the Aufbau principle
-    # each tuple is (n, l)
-    order = [(1, 0), (2, 0), (2, 1), (3, 0), (3, 1),
-             (4, 0), (3, 2), (4, 1), (4, 2), (5, 0), (5, 1)]
+    # if we are gaining electrons then just add them directly
+    if n_ion < 0:
+        n_electron += abs(n_ion)
+        n_ion = 0
 
     # some exceptions to the principle which we handle manually
     exceptions = {
@@ -97,7 +106,7 @@ def get_configuration(n_electron, formatted=False, use_latex=False):
         configuration = []
 
         # loop over the order of subshells
-        for n, l in order:
+        for n, l in aufbau_order:
             # fill subshells until you run out of electrons
             n_filled = level_sizes[l] if level_sizes[l] <= n_electron else n_electron
             n_electron -= n_filled
@@ -105,6 +114,9 @@ def get_configuration(n_electron, formatted=False, use_latex=False):
 
             if n_electron <= 0:
                 break
+
+    if n_ion > 0:
+        ionise_configuration(configuration=configuration, n_ion=n_ion)
 
     # format the result if the user wants to
     if formatted:
@@ -135,3 +147,17 @@ def format_configuration(configuration, use_latex=False):
         else:
             config_string += f"{n}{L_lookup[l].lower()}{n_e} "
     return config_string.rstrip()
+
+
+def ionise_configuration(configuration, n_ion):
+    ionised_configuration = sorted(copy(configuration), reverse=True)
+    for i, conf in enumerate(ionised_configuration):
+        n, l, n_filled = conf
+        n_left = n_filled - n_ion
+        ionised_configuration[i] = (n, l, n_left)
+        if n_left < 0:
+            n_ion -= n_filled
+        else:
+            break
+    configuration = [(n, l, n_filled) for n, l, n_filled in sorted(ionised_configuration) if n_filled > 0]
+    return configuration
