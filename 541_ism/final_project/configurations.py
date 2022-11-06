@@ -89,6 +89,27 @@ def parse_electrons(input_string):
 
 
 def electrons_to_string(n_electron, n_ion):
+    """Convert a number of electrons and ionisations into a string.
+
+    Ionisations will be represented with roman numerals when non-negative.
+
+    Parameters
+    ----------
+    n_electron : `int`
+        Number of electrons
+    n_ion : `int`
+        Number of ionisations (may be negative)
+
+    Returns
+    -------
+    el_string : `str`
+        String representing the input
+
+    Raises
+    ------
+    ValueError
+        If the number of electrons is not in the table of elements
+    """
     if n_ion < 0:
         ion_string = f"{-n_ion}-"
     else:
@@ -109,13 +130,15 @@ def electrons_to_string(n_electron, n_ion):
                 ion_string += roman_sym[i]
                 div -= 1
             i -= 1
-    n_elec, symbols, _ = read_elements()
 
+    # find the matching symbol in the elements table
+    n_elec, symbols, _ = read_elements()
     matching_symbol = symbols[n_elec.astype(int) == n_electron]
+
+    # raise an error if it isn't there
     if len(matching_symbol) == 0:
         raise ValueError(f"Can't find an element to match your `n_electron` value - `{n_electron}`")
 
-    # print(symbols, n_electron)
     return f"{matching_symbol[0]}{ion_string}"
 
 
