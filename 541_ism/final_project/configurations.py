@@ -109,7 +109,7 @@ def get_configuration(n_electron, n_ion=0, formatted=False, use_latex=False):
     """
     # if we are gaining electrons then just add them directly
     if n_ion < 0:
-        n_electron += abs(n_ion)
+        n_electron += (-n_ion)
         n_ion = 0
 
     # some exceptions to the principle which we handle manually
@@ -133,6 +133,7 @@ def get_configuration(n_electron, n_ion=0, formatted=False, use_latex=False):
             if n_electron <= 0:
                 break
 
+    # ionise the configuration if necessary
     if n_ion > 0:
         configuration = ionise_configuration(configuration=configuration, n_ion=n_ion)
 
@@ -168,21 +169,59 @@ def format_configuration(configuration, use_latex=False):
 
 
 def ionise_configuration(configuration, n_ion):
+    """Ionise a configuration a given number of times
+
+    Parameters
+    ----------
+    configuration : `list` of `tuples`
+        Electronic configuration
+    n_ion : `int`
+        Number of times to ionise, must be positive
+
+    Returns
+    -------
+    ionised_configuration : `list` of `tuples`
+        Configuration after ionisation
+    """
+    assert n_ion > 0, "Number of ionisations must be positive"
+
+    # sort in descending n, l
     ionised_configuration = sorted(copy(configuration), reverse=True)
+
+    # step through each shell
     for i, conf in enumerate(ionised_configuration):
         n, l, n_filled = conf
+
+        # remove electrons from this shell
         n_left = n_filled - n_ion
         ionised_configuration[i] = (n, l, n_left)
+
+        # if there are still electrons left to remove then change n_ion
         if n_left < 0:
             n_ion -= n_filled
         else:
             break
+
+    # add the configuration back in order for any shells that have a positive n_filled value
     configuration = [(n, l, n_filled) for n, l, n_filled in sorted(ionised_configuration) if n_filled > 0]
     return configuration
 
 
 def has_many_half_filled_shells(configuration):
+    """Check whether a configuration has more than 1 half-filled subshell
+
+    Parameters
+    ----------
+    configuration : `list` of `tuples`
+        Electronic configuration
+
+    Returns
+    -------
+    flag : `bool`
+        Returns true when more than 1 are half-filled
+    """
     n_half_filled = 0
+    # check each subshell and whether it has reached the level size
     for _, l, n_filled in configuration:
         if n_filled < level_sizes[l]:
             n_half_filled += 1
