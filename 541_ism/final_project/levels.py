@@ -100,8 +100,8 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
 
     # loop over transitions
     for x, transition in enumerate(transitions):
-        t_flag = apply_selection_rules(spec_terms[transition[0] - 1], spec_terms[transition[1] - 1])
-        linestyle = "-" if t_flag == 0 else ("dotted" if t_flag == 1 else "dashed")
+        t_flag, _ = apply_selection_rules(spec_terms[transition[0] - 1], spec_terms[transition[1] - 1])
+        linestyle = "-" if t_flag == 0 else ("dashed" if t_flag == 1 else "dotted")
 
         # work out the height of the upper and lower levels (plus a midpoint)
         upper_height = heights[transition[0]]
@@ -110,7 +110,9 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
 
         # plot an arrow from the upper to the lower
         ax.annotate("", xytext=(x + 1, upper_height), xy=(x + 1, lower_height),
-                    arrowprops=dict(arrowstyle="-|>", linewidth=2, linestyle=linestyle, color="grey"))
+                    arrowprops=dict(arrowstyle="-", linewidth=2, shrinkB=5, linestyle=linestyle, color="grey"))
+        ax.annotate("", xytext=(x + 1, upper_height), xy=(x + 1, lower_height),
+                    arrowprops=dict(arrowstyle="-|>", linewidth=0, mutation_scale=20, color="grey"))
 
         # add an annotation of the wavelength at the midpoint of the arrow
         wavelength = transition[2].to(u.Angstrom).value
@@ -147,8 +149,10 @@ def apply_selection_rules(term_low, term_up):
 
     Returns
     -------
-    flag : `int
+    flag : `int`
         A flag describing the type of transition (0=permitted, 1=semiforbidden, 2=forbidden)
+    reason : `str`
+        A list of reasons for why a flag was chosen
     """
     mult_low, L_low, J_low, parity_low = term_low
     mult_up, L_up, J_up, parity_up = term_up
@@ -164,4 +168,18 @@ def apply_selection_rules(term_low, term_up):
     semiforbidden = parity_changed & delta_J_allowed & delta_L_allowed
     permitted = semiforbidden & spin_unchanged
 
-    return 0 if permitted else (1 if semiforbidden else 2)
+    reason_strings = [
+        "The parity changed",
+        f"J changed from {J_low} to {J_up} - this is forbidden",
+        f"L changed from {L_low} to {L_up} - this is forbidden",
+        f"The spin changed (from {S_low} to {S_up})",
+    ]
+    flags = [parity_changed, delta_J_allowed, delta_L_allowed, spin_unchanged]
+    reason = ""
+    for flag, string in zip(flags, reason_strings):
+        if not flag:
+            reason += f"- {string}\n"
+    if reason == "":
+        reason = "All rules obeyed"
+
+    return 0 if permitted else (1 if semiforbidden else 2), reason
