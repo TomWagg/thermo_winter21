@@ -76,7 +76,7 @@ class Atom():
     @property
     def terms(self):
         if self.formatted:
-            return terms.format_terms(*self._terms, use_latex=self.use_latex)
+            return terms.format_terms(self._terms, use_latex=self.use_latex)
         else:
             return self._terms
 

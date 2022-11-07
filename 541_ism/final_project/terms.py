@@ -18,12 +18,12 @@ def _underline_print(string):
     print("".join(["-" for _ in range(len(string))]))
 
 
-def format_terms(*terms, use_latex=False):
+def format_terms(terms, use_latex=False):
     """Format a list of spectroscopic terms
 
     Parameters
     ----------
-    *terms : `tuple`
+    terms : `list` of `tuple`s or `tuple`
         Each `term` should be a tuple of `2S+1, L, J`
     use_latex : `bool`, optional
         Whether to use LaTeX in the formatted string, by default False
@@ -33,21 +33,24 @@ def format_terms(*terms, use_latex=False):
     term_strings : `list` of `str`s
         A list of strings representing each term
     """
+    if isinstance(terms, tuple):
+        terms = [terms]
     strings = []
     for S, L, J in terms:
         term_string = None
         if not J.is_integer():
             if use_latex:
-                term_string = rf"$^{{{S}}} {L_lookup[L]}_{{\frac{{{int(J * 2)}}}{{2}}}}$"
+                term_string = rf"${{}}^{{{S}}} {L_lookup[L]}_{{\frac{{{int(J * 2)}}}{{2}}}}$"
             else:
                 term_string = f"{S}{L_lookup[L]}({int(J * 2)}/2)"
         else:
             if use_latex:
-                term_string = rf"$^{{{S}}} {L_lookup[L]}_{{{int(J)}}}$"
+                term_string = rf"${{}}^{{{S}}} {L_lookup[L]}_{{{int(J)}}}$"
             else:
                 term_string = f"{S}{L_lookup[L]}{int(J)}"
         strings.append(term_string)
-    return strings
+    
+    return ", ".join(strings)
 
 
 def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, stepbystep=False):
@@ -162,7 +165,7 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, 
     if stepbystep:
         print()
         _underline_print("Step 5: Expand terms")
-        print(*format_terms(*terms))
+        print(format_terms(terms))
         print()
 
         # it's crazy that I can add a cookie to my code
@@ -172,6 +175,6 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, 
     terms = sorted(terms, key=lambda x: (x[0], x[1]), reverse=True)
 
     if formatted:
-        return format_terms(*terms, use_latex=use_latex)
+        return format_terms(terms, use_latex=use_latex)
     else:
         return terms

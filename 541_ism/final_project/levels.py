@@ -88,7 +88,7 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
 
         # add term and n labels as desired
         if show_term_labels:
-            ax.annotate(*terms.format_terms(term, use_latex=True), xy=(-0.1, height),
+            ax.annotate(terms.format_terms(term, use_latex=True), xy=(-0.1, height),
                         ha="right", va="center", fontsize=fs)
         if show_n_labels:
             ax.annotate(f"n = {n + 1}", xy=(x_vals[-1] + 0.1, height),
