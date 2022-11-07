@@ -48,7 +48,7 @@ class Atom():
     def __repr__(self):
         if self.auto_name:
             self.name = con.electrons_to_string(n_electron=self._n_electron, n_ion=self._n_ion)
-        lowest_term = self.terms[-1] if len(self.terms) > 0 else "No terms"
+        lowest_term = self.terms.split(", ")[-1] if len(self.terms) > 0 else "No terms"
         config = self.configuration if self.configuration != "" else "No electrons"
         return f"<Atom: {self.name}, {config}, {lowest_term}>"
 

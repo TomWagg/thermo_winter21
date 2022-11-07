@@ -36,20 +36,21 @@ def format_terms(terms, use_latex=False):
     if isinstance(terms, tuple):
         terms = [terms]
     strings = []
-    for S, L, J in terms:
+    for S, L, J, parity in terms:
         term_string = None
+        parity_string = "o" if parity == 0 else ""
         if not J.is_integer():
             if use_latex:
-                term_string = rf"${{}}^{{{S}}} {L_lookup[L]}_{{\frac{{{int(J * 2)}}}{{2}}}}$"
+                term_string = rf"${{}}^{{{S}}} {L_lookup[L]}_{{\frac{{{int(J * 2)}}}{{2}}}}^{{\rm {parity_string}}}$"
             else:
-                term_string = f"{S}{L_lookup[L]}({int(J * 2)}/2)"
+                term_string = f"{S}{L_lookup[L]}({int(J * 2)}/2){parity_string}"
         else:
             if use_latex:
-                term_string = rf"${{}}^{{{S}}} {L_lookup[L]}_{{{int(J)}}}$"
+                term_string = rf"${{}}^{{{S}}} {L_lookup[L]}_{{{int(J)}}}^{{\rm {parity_string}}}$"
             else:
-                term_string = f"{S}{L_lookup[L]}{int(J)}"
+                term_string = f"{S}{L_lookup[L]}{int(J)}{parity_string}"
         strings.append(term_string)
-    
+
     return ", ".join(strings)
 
 
@@ -81,6 +82,11 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, 
     assert n_electron > 0, "Number electrons must be positive"
     m_l_range = list(range(-l, l + 1))
     m_s_range = [-1/2, 1/2]
+
+    if (l % 2) == 0:
+        parity = 1
+    else:
+        parity = (n_electron % 2) == 0
 
     # these states are available to the electrons in this shell
     electron_states = [(m_l, m_s) for m_l in m_l_range for m_s in m_s_range]
@@ -154,7 +160,7 @@ def get_spectroscopic_terms(n, l, n_electron, formatted=False, use_latex=False, 
                 if n_electron > level_sizes[l] / 2:
                     J_range = reversed(J_range)
                 for J in J_range:
-                    terms.append((int(2 * S + 1), L, J))
+                    terms.append((int(2 * S + 1), L, J, parity))
 
                 if stepbystep:
                     print(unitary, f"{int(2 * S + 1)}{L_lookup[L]}")
