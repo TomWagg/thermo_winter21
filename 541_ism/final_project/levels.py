@@ -4,7 +4,7 @@ import astropy.units as u
 
 import terms
 
-__all__ = ["plot_energy_levels"]
+__all__ = ["plot_energy_levels", "is_forbidden"]
 
 plt.rc('font', family='serif')
 plt.rcParams['text.usetex'] = False
@@ -100,6 +100,9 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
 
     # loop over transitions
     for x, transition in enumerate(transitions):
+        t_flag = apply_selection_rules(spec_terms[transition[0] - 1], spec_terms[transition[1] - 1])
+        linestyle = "-" if t_flag == 0 else ("dotted" if t_flag == 1 else "dashed")
+
         # work out the height of the upper and lower levels (plus a midpoint)
         upper_height = heights[transition[0]]
         lower_height = heights[transition[1]]
@@ -107,7 +110,7 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
 
         # plot an arrow from the upper to the lower
         ax.annotate("", xytext=(x + 1, upper_height), xy=(x + 1, lower_height),
-                    arrowprops=dict(arrowstyle="-|>", linewidth=2, color="grey"))
+                    arrowprops=dict(arrowstyle="-|>", linewidth=2, linestyle=linestyle, color="grey"))
 
         # add an annotation of the wavelength at the midpoint of the arrow
         wavelength = transition[2].to(u.Angstrom).value
@@ -128,3 +131,37 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
     if show:
         plt.show()
     return fig, ax
+
+
+def apply_selection_rules(term_low, term_up):
+    """Apply electric dipole transition selection rules to a pair of spectroscopic terms.
+
+    This follows the rules from Draine Section 6.7
+
+    Parameters
+    ----------
+    term_low : `tuple`
+        Spectroscopic term of lower level in form (2S+1, L, J, parity)
+    term_up : `tuple`
+        Spectroscopic term of lower level in form (2S+1, L, J, parity)
+
+    Returns
+    -------
+    flag : `int
+        A flag describing the type of transition (0=permitted, 1=semiforbidden, 2=forbidden)
+    """
+    mult_low, L_low, J_low, parity_low = term_low
+    mult_up, L_up, J_up, parity_up = term_up
+    S_low = (mult_low - 1) / 2
+    S_up = (mult_up - 1) / 2
+
+    parity_changed = parity_low != parity_up
+    delta_J_allowed = (abs(J_low - J_up) in [0, 1]) and not (J_low == 0 and J_up == 0)
+
+    delta_L_allowed = (abs(L_low - L_up) in [0, 1]) and not (L_low == 0 and L_up == 0)
+    spin_unchanged = S_low == S_up
+
+    semiforbidden = parity_changed & delta_J_allowed & delta_L_allowed
+    permitted = semiforbidden & spin_unchanged
+
+    return 0 if permitted else (1 if semiforbidden else 2)
