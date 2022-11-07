@@ -1,0 +1,101 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+\usepackage{wrapfig}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\newcommand{\class}{ASTR 541 - Interstellar Medium}
+
+\newcommand{\tomtitle}{
+    \noindent {\LARGE \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Final Project Proposal \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Final Project Proposal}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\begin{document}
+
+\tomtitle{}
+
+\vspace{-1.5cm}
+
+\section{General Idea}
+I enjoyed the lectures on electronic configuration and spectroscopic terms and I was intrigued by the concept of implementing an algorithm to solve the problems that we did in class by hand. Therefore, for my project I intend to write some code to work out electronic configurations, spectroscopic terms and also create energy level diagrams.
+
+\section{Intended Products}
+\subsection{Code}
+I'd like to design a small bit of code to do the following. Note in several places I have to say \emph{``(only guaranteed to work for atoms)''} because it seems that Hund's rules and the Aufbau Principle do not apply to ions in the same way - there don't seem to be rules for ions as far as I can tell.\\
+
+\noindent \textbf{Electronic Configurations}
+\begin{itemize}
+    \item \textbf{Input:} either a number of electrons and ionisations or a string like ``HII'' or ``O3+''
+    \item \textbf{Output:} the electronic configuration in a list of $[n, l, n_e)$ tuples - \emph{(only guaranteed to work for atoms)}
+    \item Add options to return in ASCII or LaTeX format
+\end{itemize}
+
+\noindent \textbf{Spectroscopic Terms}
+\begin{itemize}
+    \item \textbf{Input:} Subshell parameters, $n, l$ and number of electrons for the shell, $n_e$
+    \item \textbf{Output:} the spectroscopic terms in the a list of $(2S+1, L, J)$ tuples - \emph{(only guaranteed to work for atoms)}
+    \item Add options to return in ASCII or LaTeX format
+    \item Sort terms by energy based on Hund's rules
+    \item Work out the ground state spectroscopic terms given an electronic configuration
+\end{itemize}
+
+\noindent \textbf{Energy Level diagrams}
+\begin{itemize}
+    \item \textbf{Input:} a list of spectroscopic terms (or a string to be parsed and it'll calculate them) for a series of levels, a list of transitions between levels as tuples $(n_up, n_low, \lambda)$ - these transitions could be pulled directly from \texttt{linetools}
+    \item \textbf{Output:} an energy level diagram with levels labelled with their terms, colour coded and annotated with transition wavelengths
+    \item I'm also interesting in adding conditions for whether a transition is forbidden and changing the style of the arrow if it is
+    \item So big picture I could get to a point where I write something like \texttt{plot\_energy\_levels("SII", transitions)} and it'll work out the electronic configuration, then the spectroscopic terms, plot up the levels and then add the transitions that you specify.
+\end{itemize}
+
+\subsection{Discussion}
+
+I also think I could write/talk about a couple of different things that I found whilst reading:
+\begin{itemize}
+    \item My implementation of the algorithms for working out the configurations/terms \emph{(writing only, no one wants to hear this in the presentation haha)}
+    \item There is a reason for the periodic table's weird shape, we can talk about it!
+    \item Symmetry of spectroscopic terms within subshells
+    \item The problems with the Aufbau Principle and how electron shielding plays a role in messing it up
+\end{itemize}
+
+\section{Format}
+My intended format will be a link to the GitHub repository containing the code (which will be fully comments and docstringed), as well as a Jupyter Notebook that demonstrates its use and discusses the points above.
+
+
+\end{document}
+
+ 
