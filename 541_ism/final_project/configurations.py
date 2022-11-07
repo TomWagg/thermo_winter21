@@ -68,21 +68,33 @@ def parse_electrons(input_string):
     n_ion : `int`
         Number of times to ionise
     """
-    final_char = input_string[-1]
+    # get the final character for strings of more than 1 character
+    final_char = input_string[-1] if len(input_string) > 1 else ""
+
+    # check for O3+, H- style
     if final_char in ["+", "-"]:
+        # handle the case where it is [number][+/-]
         if input_string[-2].isdigit():
             n_ion = int(input_string[-2]) * (-1 if final_char == "-" else 1)
             n_elec = electrons_from_element(input_string[:-2])
+        # handle the case where it is just a +/-
         else:
             n_ion = -1 if final_char == "-" else 1
             n_elec = electrons_from_element(input_string[:-1])
-    elif final_char == "I":
+
+    # check for OVI, SII style
+    elif final_char in ["I", "V"]:
         n_ion = 0
+
+        # loop backwards through the string until the character isn't a 'I' or 'V'
+        # second condition is to ignore the first character (isn't relevant and making Vanadium work)
         i = -2
-        while input_string[i] == "I":
-            n_ion += 1
+        while input_string[i] in ["I", "V"] and (-i) < len(input_string):
             i -= 1
         n_elec = electrons_from_element(input_string[:i + 1])
+        n_ion = _roman_to_int(input_string[i + 1:])
+
+    # otherwise just lookup the element
     else:
         n_elec = electrons_from_element(input_string)
         n_ion = 0
@@ -281,3 +293,31 @@ def has_many_half_filled_shells(configuration):
         if n_filled < level_sizes[l]:
             n_half_filled += 1
     return n_half_filled > 1
+
+
+def _roman_to_int(s):
+    """Convert roman numerals to an integer
+
+    I just copied this: `https://www.tutorialspoint.com/roman-to-integer-in-python`_
+
+    Parameters
+    ----------
+    s : `str`
+        A string of roman numerals (only works up to 10)
+
+    Returns
+    -------
+    num : `int`
+        Number corresponding to roman numerals
+    """
+    roman = {'I': 1, 'IV': 4, 'V': 5, 'IX': 9, 'X': 10}
+    i = 0
+    num = 0
+    while i < len(s):
+        if i + 1 < len(s) and s[i:i + 2] in roman:
+            num += roman[s[i:i + 2]]
+            i += 2
+        else:
+            num += roman[s[i]]
+            i += 1
+    return num
