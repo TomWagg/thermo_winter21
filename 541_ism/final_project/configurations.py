@@ -92,7 +92,7 @@ def parse_electrons(input_string):
         while input_string[i] in ["I", "V"] and (-i) < len(input_string):
             i -= 1
         n_elec = electrons_from_element(input_string[:i + 1])
-        n_ion = _roman_to_int(input_string[i + 1:])
+        n_ion = _roman_to_int(input_string[i + 1:]) - 1
 
     # otherwise just lookup the element
     else:
