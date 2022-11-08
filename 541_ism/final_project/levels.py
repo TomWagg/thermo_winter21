@@ -24,8 +24,8 @@ params = {'figure.figsize': (12, 8),
 plt.rcParams.update(params)
 
 
-def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=True, show_n_labels=True,
-                       fig=None, ax=None, show=True, figsize=(6, 10)):
+def plot_energy_levels(spec_terms, transitions=[], title=None, show_term_labels=True, show_n_labels=True,
+                       show_all_levels=False, fig=None, ax=None, show=True, figsize=(6, 10)):
     """Plot an energy level diagram
 
     Parameters
@@ -41,6 +41,8 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
         Whether to label each energy level with its term, by default True
     show_n_labels : `bool`, optional
         Whether to label each energy level with its n, by default True
+    show_all_levels : `bool`, optional
+        Whether to show every energy level (or only those relevant for transitions), by default False
     fig : `Figure`, optional
         A matplotlib Figure on which to plot, by default it will be automatically create
     ax : Axis, optional
@@ -60,7 +62,7 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
         fig, ax = plt.subplots(figsize=figsize)
 
     # work out the max n used in the transitions and sort the transitions
-    max_n = max(transitions)[0]
+    max_n = max(transitions)[0] if transitions != [] and not show_all_levels else len(spec_terms)
     transitions = sorted(transitions, key=lambda x: (x[1], x[0]), reverse=False)
 
     # create some dummy x values (1 for each transition plus some padding on the sides)
@@ -100,6 +102,8 @@ def plot_energy_levels(spec_terms, transitions, title=None, show_term_labels=Tru
 
     # loop over transitions
     for x, transition in enumerate(transitions):
+        if transitions == []:
+            break
         t_flag, _ = apply_selection_rules(spec_terms[transition[0] - 1], spec_terms[transition[1] - 1])
         linestyle = "-" if t_flag == 0 else ("dashed" if t_flag == 1 else "dotted")
 
