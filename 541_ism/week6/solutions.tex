@@ -75,6 +75,32 @@
     \noindent \textbf{Galaxy Masses:} The second galaxy has a higher oxygen abundance. Therefore I think this means that \textbf{the second galaxy must be more massive}. The reason for this is that massive stars enrich the gas and increase the oxygen abundance. So a higher stellar mass would result in a larger oxygen abundance.
 }
 
+\question{\textbf{2. HII Heating and Cooling Balance}}
+
+\question{2a. Heating}
+\answer{
+    \begin{equation}
+        \boxed{\Gamma_{\rm ion, H} = n_e n_p \alpha_B(T) \cdot \frac{3}{2} k_B T_{\rm init}}
+    \end{equation}
+}
+
+\question{2b. Cooling}
+\answer{
+    \begin{align}
+        \Lambda_{\rm recomb, H} &= n_e n_p k_B T \beta_H(T)\\
+        \Aboxed{ \Lambda_{\rm recomb, H} &= 0.86 n_e n_p k_B T \alpha_B(T) }
+    \end{align}
+}
+
+\question{2c. Balance}
+\answer{
+    \begin{align}
+        n_e n_p \alpha_B(T) \cdot \frac{3}{2} k_B T_{\rm init} &= 0.86 n_e n_p k_B T \alpha_B(T) + 0.54 n_e n_p \alpha_B(T) \qty(\frac{T}{10^4 \unit{K}})^{0.37} k_B T \\
+        \alpha_B(T) \cdot \frac{3}{2} T_{\rm init} &= 0.86 T \alpha_B(T) + 0.54 \alpha_B(T) \qty(\frac{T}{10^4 \unit{K}})^{0.37} T \\
+        \Aboxed{\frac{3}{2} T_{\rm init} &= T \qty[0.86  + 0.54 \qty(\frac{T}{10^4 \unit{K}})^{0.37}]}
+    \end{align}
+}
+
 \end{document}
 
  
