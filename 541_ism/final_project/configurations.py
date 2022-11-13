@@ -15,7 +15,7 @@ def read_elements():
         List of elements, each has (n_electron, symbol, name)
     """
     element_list = []
-    with open("data/elements.csv") as elements:
+    with open("/home/tomwagg/Documents/uw-grad-classes/541_ism/final_project/data/elements.csv") as elements:
         element_list = [line.rstrip("\n").split("\t") for line in elements]
     return np.transpose(element_list)
 
