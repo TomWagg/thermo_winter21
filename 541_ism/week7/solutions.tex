@@ -1,0 +1,116 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{array}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+\usepackage{wrapfig}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\newcommand{\psetnum}{7}
+\newcommand{\class}{ASTR 541 - Interstellar Medium}
+
+\newcommand{\tomtitle}{
+    \noindent {\LARGE \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Problem Set \psetnum \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Week \psetnum}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\newcolumntype{C}{>{$}c<{$}}
+
+\begin{document}
+
+\tomtitle{}
+
+\noindent For reference, if you'd ever like to see the code that I've used to get my answers to these, \href{https://github.com/TomWagg/uw-grad-classes/tree/main/541_ism}{here's a link to my GitHub repo}! (\#astropy.units for life)\\
+
+
+\question{\textbf{1. HI 21cm Radio Observations}}
+
+\question{1a. On/off Line}
+\answer{
+    On-line means taking a measurement at the frequency the line (in this case, the HI 21cm line)\footnote{Not to be confused with ``online'', which is a term that the kids use when they're referring to this new-fangled interweb thing.}, whereas an off-line measurement is taken at a different frequency, outside of the line profile of the target line.
+    
+    \noindent Tobin put it nicely as on-line being like tuning into the 21.11cm FM radio station and off-line as listening to the static between stations.
+    \begin{align}
+        F_{\rm on-line} &= F_{\nu, 0}\, e^{-\tau_\nu},\qquad \text{a.k.a. ``You're listening to 21.11cm FM!''} \\
+        F_{\rm off-line} &= F_{\nu, 0}\,,\qquad\,\,\,\,\,\quad \text{a.k.a. ``Hsssttttt''}
+    \end{align}
+}
+
+\question{1b. Optical Depth Limit}
+\answer{
+    We are given that the change in flux density is below 1\%. We can use this to solve for what optical depth this gives.
+    \begin{align}
+        F_{\rm off-line} - F_{\rm on-line} &< 0.01 F_{\rm off-line}\\
+        1 - e^{-\tau_\nu} &< 0.01\\
+        e^{-\tau_\nu} &> 0.99\\
+        \Aboxed{ \tau_\nu &> 0.01 }
+    \end{align}
+}
+
+\question{1c. Temperature Limit}
+\answer{
+    The equation in the problem gives that
+    \begin{equation}
+        \tau_\nu = 0.552 \qty(\frac{100 \unit{K}}{T_{\rm spin}}) \qty(\frac{\dv{N_{\rm HI}}{\nu}}{\frac{10^{20} \unit{cm^{-2}}}{\unit{km}{s^{-1}}}}),
+    \end{equation}
+    which can be quite easily transformed to get $T_{\rm spin}$ as a function of optical depth
+    \begin{equation}
+        T_{\rm spin} = 55.2 \unit{K}\cdot \tau_\nu \qty(\frac{\dv{N_{\rm HI}}{\nu}}{\frac{10^{20} \unit{cm^{-2}}}{\unit{km}{s^{-1}}}}),
+    \end{equation}
+    We are given $\dd{N_{\rm HI}} / \dd{\nu}$ in the question and so plugging this in with the optical depth limit we find that the upper limit on the temperature is
+    \begin{equation}
+        \boxed{ T_{\rm spin} > 824 \unit{K} }
+    \end{equation}
+}
+
+\question{1d. More absorption}
+\answer{
+    Repeating parts (b) and (c) but instead using a change of 50\% instead, we find that
+    \begin{equation}
+        \boxed{ T_{\rm spin} = 12 \unit{K} }
+    \end{equation}
+}
+
+\question{1e. Spin temperature and absorption}
+\answer{
+    We note that the trend is \textbf{a higher spin temperature results in a lower detectability of HI-21cm in absorption}. A quick answer to this is that the emissivity is temperature independent whilst the absorptivity is inversely proportional to temperature and thus the rate of absorption declines with increased temperatures.
+
+    More conceptually, an increased spin temperature is the same as an increase excitation temperature, implying that there are a larger number of collisions. This increases number of collisions affects the level populations of HI and increases the rate of emission. As this emission increases, it cancels more absorption and thus decreases the detectability of the absorption.
+}
+
+\end{document}
+
+ 
