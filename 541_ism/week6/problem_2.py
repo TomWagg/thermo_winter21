@@ -10,7 +10,7 @@ from atom import Atom
 
 # relative solar abundance of oxygen vs. hydrogen
 # http://hyperphysics.phy-astr.gsu.edu/hbase/Tables/suncomp.html
-fO_H = 0.043 / 91.2
+fO_H = 0.078 / 91.2 / 10
 
 # energy emitted from the [OII 3727] transition
 wavelength = 3728.8 * u.Angstrom
@@ -35,7 +35,7 @@ def HII_cooling_with_OII(T, T_init):
     T4 = T / 1e4
 
     oII_term = (T4**(0.753 - 0.008 * np.log(T4)) * (T * u.K)**(-1/2)
-                * 1.57e8 * u.cm**(-3) * u.s * (const.h**3 * const.c /
+                * 0.1 * 1.57e8 * u.cm**(-3) * u.s * (const.h**3 * const.c /
                 (wavelength * (2 * np.pi * const.m_e)**(3/2) * (const.k_B)**(3/2))))
 
     return T * (0.86 + 0.54 * (T4)**(0.37)) + oII_term.to(u.K).value - 3/2 * T_init
