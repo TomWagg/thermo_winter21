@@ -111,6 +111,32 @@
     More conceptually, an increased spin temperature is the same as an increase excitation temperature, implying that there are a larger number of collisions. This increases number of collisions affects the level populations of HI and increases the rate of emission. As this emission increases, it cancels more absorption and thus decreases the detectability of the absorption.
 }
 
+\question{\textbf{2. Broadening}}
+
+\question{2a. Optically Thin Solution}
+\answer{
+    We have a system of two equations with two unknowns, let's do some rearranging. I'm also going to refer to the FWHM as $w$ for brevity.
+    \begin{align}
+        \frac{w_1^2}{8 \ln 2} &= \sigma_{v, {\rm turb}}^2 + \frac{k_B T}{M_1},\qquad \frac{w_2^2}{8 \ln 2} = \sigma_{v, {\rm turb}}^2 + \frac{k_B T}{M_2} \\
+        \frac{w_1^2}{8 \ln 2} - \frac{k_B T}{M_1} &= \frac{w_2^2}{8 \ln 2} - \frac{k_B T}{M_2} \\
+        \frac{w_1^2}{8 \ln 2} - \frac{w_2^2}{8 \ln 2} &= T \qty(\frac{k_B}{M_1} - \frac{k_B}{M_2}) \\
+        T &= \frac{w_1^2 - w_2^2}{8 \ln 2} \qty(\frac{k_B}{M_1} - \frac{k_B}{M_2})^{-1}
+    \end{align}
+    We can plug in $w_1 = 10 \unit{km}{s^{-1}}$, $w_2 = 5 \unit{km}{s^{-1}}$, $M_1 = 1 \unit{amu}$ and $M_2 = 23 \unit{amu}$ to find that the value for an optically thin solution are
+    \begin{equation}
+        \boxed{ T = 1713 \unit{K},\qquad \sigma_{v, {\rm turb}} = 1.97 \unit{km}{s^{-1}} }
+    \end{equation}
+}
+
+\question{2b. What if it's not optically thin?}
+\answer{
+    The FHWM is a larger when it is saturated and so this represents \textbf{an upper limit on the FWHM}.
+    \begin{equation}
+        \sigma_{v, {\rm turb}}^2 + \frac{k_B T}{M} \le \sigma_v^2
+    \end{equation}
+    For a similar reason the inferred \textbf{$\sigma_{v, {\rm turb}}$ is an upper limit}. However, if you hold the turbulence fixed and assume the FWHM is an upper limit, this gives that \textbf{the temperature is a lower limit}.
+}
+
 \end{document}
 
  
