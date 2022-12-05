@@ -1,0 +1,119 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage{nopageno,epsfig, amsmath, amssymb}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{array}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+}
+\usepackage{empheq}
+\usepackage{wrapfig}
+
+\usepackage[letterpaper,
+            margin=0.8in]{geometry}
+
+\newcommand{\psetnum}{9}
+\newcommand{\class}{ASTR 541 - Interstellar Medium}
+
+\newcommand{\tomtitle}{
+    \noindent {\LARGE \fontfamily{cmr}\selectfont \textbf{\class}} \hfill \\[1\baselineskip]
+    \noindent {\large \fontfamily{cmr}\selectfont Problem Set \psetnum \hfill \textsc{Tom Wagg}}\\[0.5\baselineskip]
+    {\fontfamily{cmr}\selectfont \textit{\today}}\\[2\baselineskip]
+}
+
+\title{\class : Week \psetnum}
+\author{\textbf{Tom Wagg}}
+
+\newcommand{\question}[1]{{\noindent \it #1}}
+\newcommand{\answer}[1]{
+    \par\noindent\rule{\textwidth}{0.4pt}#1\vspace{0.5cm}
+}
+\newcommand{\todo}[1]{{\color{red}\begin{center}TODO: #1\end{center}}}
+
+% custom function for adding units
+\makeatletter
+\newcommand{\unit}[1]{%
+    \,\mathrm{#1}\checknextarg}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\,\mathrm{#1}\@ifnextchar\bgroup{\gobblenextarg}{}}
+\makeatother
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+\allowdisplaybreaks
+
+\newcolumntype{C}{>{$}c<{$}}
+
+\begin{document}
+
+\tomtitle{}
+
+\noindent For reference, if you'd ever like to see the code that I've used to get my answers to these, \href{https://github.com/TomWagg/uw-grad-classes/tree/main/541_ism}{here's a link to my GitHub repo}! (\#astropy.units for life)\\
+
+
+\question{\textbf{1. Molecules}}
+
+\question{Part 1: Rate Equations}
+\answer{
+    Each rate equation uses the rate coefficient and the number density of each reactant on the left hand side of the equations. The exception is the third where the number density of photons has been accounted for.
+    \begin{align}
+        \mathcal{R}_{\rm ra} &= k_{\rm ra} n_H n_e \\
+        \mathcal{R}_{\rm ad} &= k_{\rm ad} n_H n_{H^{-}} \\
+        \mathcal{R}_{\rm pd} &= \zeta_{\rm pd} n_{H^{-}}
+    \end{align}
+}
+
+\question{Part 2: Rate balance}
+\answer{
+    Now we can balance these equations and solve for the ratio of ionised to neutral hydrogen.
+    \begin{align}
+        \mathcal{R}_{\rm ra} &= \mathcal{R}_{\rm ad} + \mathcal{R}_{\rm pd} \\
+        k_{\rm ra} n_H n_e &= k_{\rm ad} n_H n_{H^{-}} + \zeta_{\rm pd} n_{H^{-}} \\
+        \frac{n_{H^{-}}}{n_H} &= \frac{k_{\rm ra} n_e}{k_{\rm ad} n_H + \zeta_{\rm pd}} \\
+        \Aboxed{ \frac{n_{H^{-}}}{n_H} &= 1.36 \times 10^{-11} }
+    \end{align}
+}
+
+\question{Part 3: Fraction of associated detachment}
+\answer{
+    We can find the fraction out of total detachment as follows (luckily the H- cancels so we can do this easily!)
+    \begin{equation}
+        \boxed{ \frac{\mathcal{R}_{\rm ad}}{\mathcal{R}_{\rm ad} + \mathcal{R}_{\rm pd}} = \frac{k_{\rm ad} n_H}{k_{\rm ad} n_H + \zeta_{\rm pd}} = 0.14 }
+    \end{equation}
+}
+
+\pagebreak
+
+\question{Part 4: Compare to dust}
+\answer{
+    We can plug in the numbers given in the question to find
+    \begin{equation}
+        \mathcal{R}_{\rm H^{-}} \equiv k_{\rm ad} \frac{n_{H^{-}}}{n_H} = 1.77 \times 10^{-20} \unit{cm^3}{s^{-1}}
+    \end{equation}
+    We can take a ratio and find
+    \begin{equation}
+        \boxed{ \frac{\mathcal{R}_{\rm H^{-}}}{\mathcal{R}_{\rm dc}} \approx 1700 }
+    \end{equation}
+    So the dust is much stronger!
+}
+
+\question{Part 5: What temperature do we need}
+\answer{
+    Now we can add a temperature dependence and solve for the temperature at which they are equal
+    \begin{align}
+        1.77 \times 10^{-20} T_2^{0.67} &= 3 \times 10^{-17} \\
+        \Aboxed{ T &= 6.6 \times 10^{6} \unit{K} }
+    \end{align}
+    This is not physically plausible because we'll never get neutral hydrogen in high enough quantities at these temperatures. Our assumption of a constant $n_{\rm H} = 30 \unit{cm^{-3}}$ cannot be valid.
+}
+
+
+
+\end{document}
+
+ 
