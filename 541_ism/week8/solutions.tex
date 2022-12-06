@@ -56,8 +56,68 @@
 \noindent For reference, if you'd ever like to see the code that I've used to get my answers to these, \href{https://github.com/TomWagg/uw-grad-classes/tree/main/541_ism}{here's a link to my GitHub repo}! (\#astropy.units for life)\\
 
 
-\question{\textbf{1. HI 21cm Radio Observations}}
+\question{\textbf{1. Fun with the SiIV Doublet}}
 
+\question{1a. An exercise in counting}
+\answer{
+    We have copies of each component of the SiIV doublet on graph paper. We can therefore use the grid to estimate the ratio of equivalent widths. No doubt this grid has physical meaning and units...but it'll just cancel I guess so I'm going to ignore that and just count boxes :D
+
+    I find that the number of boxes for the 1402 is 14.5, and for the 1393 is 24. This gives that the ratio is
+    \begin{equation}
+        \boxed{ \frac{W_{1393}}{W_{1402}} = 1.66 }
+    \end{equation}
+}
+
+\question{1b. Curve of Growth Regime}
+\answer{
+    We would expect this ratio to be 2 if we were in the linear regime. Given that it is a metal line, we can assume that it's not in the damped regime and so this means that it must be in the \textbf{flat} regime. This means that we must have some saturation in our measurement, which will lead to an underestimate of the column density!!
+}
+
+\question{1c. $\tau_0$ constraints}
+\answer{
+    If we assume that my measurement of the equivalent widths was perfect (doubtful), the equation in the question gives that
+    \begin{align}
+        \frac{W_{1393}}{W_{1402}} &= \qty[1 + \ln(f_{1393} \lambda_{1393}/f_{1402} \lambda_{1402}) / \ln(\tau_0 / \ln 2)]^{1/2} \\
+        1.66 &= \qty[1 + 0.694 / \ln(\tau_0 / \ln 2)]^{1/2} \\
+        \ln(\tau_0 / \ln 2) &= 0.4 \\
+        \Aboxed{ \tau_0 &= 1.033 }
+    \end{align}
+}
+
+\question{1d. AODM (not Another Ol' Dark Matter)}
+\answer{
+    I should actually write down that this means Apparent Optical Depth Method or I'll forget haha. Given that our line is saturated and has an optical depth above 1, this method will only give a \textbf{lower limit} on the column density
+    \begin{align}
+        N &= 1.13 \times 10^{7} \unit{cm^{-2}} \frac{W_{\lambda} (\unit{m\angstrom})}{f_{\lambda} \lambda^2(\unit{\angstrom})} \\
+        N_{1393} &> 5.51 \times 10^{12} \unit{cm^{-2}} \\
+        \Aboxed{ N_{1402} &> 6.62 \times 10^{12} \unit{cm^{-2}} }
+    \end{align}
+    where we've used that $W_{1393} = 50 \unit{m\angstrom}$ (from the question) and that $W_{1402} = 30.2 \unit{m\angstrom}$ (using the ratio we found).
+}
+
+\question{1e. Cloudy with a chance of Silicon}
+\answer{
+    We find a lower limit on the abundance of silicon as
+    \begin{equation}
+        12 + \log_{10}({\rm Si / H}) > 12 + \log_{10}\qty(\frac{10 \cdot 6.62 \times 10^{12}}{10^{19}}) > 6.82 \\
+    \end{equation}
+    This is lower than solar abundance and so this cloud likely formed from more metal-poor gas.
+}
+
+\question{1f. FWHM is back}
+\answer{
+    We can calculate $\sigma_{v, \rm turb}$ as
+    \begin{align}
+        \sigma_{v, \rm turb} &= \qty[\frac{\rm FWHM^2}{8 \ln 2} - \frac{k_B T}{M}]^{1/2} \\
+        \sigma_{v, \rm turb} &= \qty[\frac{\rm (40 \unit{km}{s^{-1}})^2}{8 \ln 2} - \frac{k_B \cdot 10000 \unit{K}}{1 \unit{amu}}]^{1/2} \\
+        \Aboxed{ \sigma_{v, \rm turb} &= 14.35 \unit{km}{s^{-1}} }
+    \end{align}
+    If we assume that the temperature is the same, we would assume that the FWHM of the Silicon would be
+    \begin{equation}
+        {\rm FWHM}_{Si} = \sqrt{8 \ln 2 \qty[\sigma_{v, \rm turb}^2 - \frac{k_B T}{28 \unit{amu}}]} = 34 \unit{km}{s^{-1}}
+    \end{equation}
+    If we instead measure $50 \unit{km}{s^{-1}}$ then it may be possible that our assumption of equal temperatures was not valid.
+}
 
 
 \end{document}
