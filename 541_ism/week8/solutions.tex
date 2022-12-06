@@ -119,6 +119,47 @@
     If we instead measure $50 \unit{km}{s^{-1}}$ then it may be possible that our assumption of equal temperatures was not valid.
 }
 
+\question{\textbf{2. The Grand Return of Xspec GUI}}
+
+\question{2a. Favourite Systems}
+\answer{
+    \begin{center}
+        \begin{tabular}{c|c|c}
+            Redshift, $z$ & Shows SiIV? & Shows OVI? \\
+            \hline\hline
+            0.1470 & \checkmark & $\times$ \\
+            0.2055 & \checkmark & \checkmark \\
+            0.2180 & $\times$ & \checkmark \\
+            0.35566 & $\times$ & $\times$
+        \end{tabular}
+    \end{center}
+    In the cases in which there was no absorption, it is either because (i) the ratio of EWs is reversed, implying another species is interfering sneakily (ii) the line is redshifted outside of the observed wavelength range (iii) there was just no change in normalised flux.\\
+
+    \noindent \textbf{My favourite system is at $\mathbf{z = 0.35566}$}, its lack of both SiIV and OVI absorption lends it an air of mystery and wonder that is unparalleled amongst the other systems. Alas, I have doubts about its continued involvement in the remainder of the problem, so long $z = 0.35566$!
+}
+
+\question{2b. OVI Doublet}
+\answer{
+    Using the GUI I find that the OVI doublet EW ratios are
+    \begin{center}
+        \boxed{\begin{tabular}{c|c}
+            Redshift, $z$ & OVI Ratio \\
+            \hline\hline
+            0.2055 & 1.30 \\
+            0.2180 & 1.58
+        \end{tabular}}
+    \end{center}
+    Since both of these ratios are less than 2 (the expected ratio for the linear regime) and there is no evidence of strong lorentzian wings, this implies that both are in the \textbf{flat regime of the curve of growth}.
+}
+
+\question{1c. Curve of Growth}
+\answer{
+    Here's my curve of growth! We can see that the Silicon tends to be closer to the linear regime but it swerves off towards the flat part. The first HI line is possibily still in the flat part but after that is seems to rise following the square root regime.
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{cog.pdf}
+    \end{center}
+    Absorption line saturation can be contextualised as diverging from the linear part of the curve of growth and heading into the flat part I think.
+}
 
 \end{document}
 
