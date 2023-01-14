@@ -1,0 +1,15 @@
+name: rubin
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - numpy
+  - astropy
+  - scipy
+  - matplotlib
+  - jupyter
+  - jupyterlab
+  - ipython
+  - pandas
