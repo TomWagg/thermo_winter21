@@ -13,3 +13,4 @@ dependencies:
   - jupyterlab
   - ipython
   - pandas
+  - rubin_sim
