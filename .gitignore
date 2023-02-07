@@ -139,3 +139,4 @@ linetools/
 linetools
 rubin_sim_outputs/
 rubin_sim/
+*.fits
