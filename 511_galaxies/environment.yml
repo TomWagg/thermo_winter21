@@ -23,3 +23,4 @@ dependencies:
   - emcee
   - pip:
     - isochrones
+    - gala
