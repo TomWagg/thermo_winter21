@@ -21,6 +21,7 @@ dependencies:
   - astroML
   - scikit-learn
   - emcee
+  - h5py
   - pip:
     - isochrones
     - gala
