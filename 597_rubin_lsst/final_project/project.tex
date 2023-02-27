@@ -87,7 +87,7 @@ We select observations from the simulated LSST dataset that correspond to trackl
 \end{enumerate}
 The motivation behind these cuts is to ensure that the tracklet constrains the on-sky motion of the object sufficiently well, so that its position at a later time can be easily extrapolated. With fewer observations or shorter tracklets, many different orbits could reproduce the same motion on the sky. Moreover, observations that are separated too significantly in time may be spurious linkages, where observations of multiple objects are incorrectly assumed to be of the same source.
 
-\subsection{New NEO scoring parameters}
+\subsection{Additional NEO scoring parameters}
 
 \begin{figure}[htb]
     \centering
@@ -107,12 +107,16 @@ For these reasons, one would predict that an object with a large ecliptic latitu
     \label{fig:dir_highscore}
 \end{figure}
 
+Given that MBAs are constrained to the ecliptic plane and are further away than NEOs, one would predict that their motion is generally along the ecliptic plane, whilst NEOs could move in any direction. We investigate this in Figure~\ref{fig:dir_highscore} with the direction of $\theta$, the angle of the motion vector relative to the ecliptic plane. The separation in distributions is less clear cut than with the ecliptic latitude but we still find that objects moving away from the ecliptic plane have a larger fraction of NEOs than those moving along the plane.
+
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{figures/apparent_mag_dist_highscore.pdf}
     \caption{As Figure~\ref{fig:digest2_should_be_scared}, but for apparent V-band magnitude and only for observations with a \dig{} score of at least 65.}
     \label{fig:app_mag_highscore}
 \end{figure}
+
+\todo{apparent mag bit}
 
 \section{Results}
 
