@@ -68,7 +68,7 @@ The Rubin Observatory Legacy Survey of Space and Time \citep[LSST,][]{Ivezic+201
 
 The number of objects submitted to the NEOCP will increase by several orders of magnitude, and a large fraction of these submissions will be main belt asteriods (MBAs) \citep{sky-is-falling}. This would present difficulties for community follow-up, with too many available candidates (and of low purity) passing the current submission criteria.
 
-Due to the vast MBA background, \dig{} performs poorly in identifying NEO candidates, as is demonstrated in Figure~\ref{fig:digest2_should_be_scared}. We show due to the extreme number of MBA submissions, only 1.5\% of submissions meeting the current criteria (a score of least 65) are NEOs, and only 10\% of objects with a perfect score of 100 are actually NEOs. It is clear that this classification scheme requires improvement.
+Due to the vast MBA background, \dig{} performs poorly in identifying NEO candidates, as is demonstrated in Figure~\ref{fig:digest2_should_be_scared}. We show due to the extreme number of MBA submissions, only 1.5\% of submissions meeting the current criteria (a score of least 65) are NEOs, and only 10\% of objects with a perfect score of 100 are actually NEOs. Additionally, a large fraction of objects obtain a score of exactly 100 and it can be difficult to discriminate the best candidates among this group. It is clear that this classification scheme requires improvement.
 \\
 
 The aim of this paper is to augment \dig{} in classifying NEOs in the presence of a significant MBA background. We simulate one year of LSST observations on a synthetic solar system catalogue and calculate \dig{} scores for each tracklet. We investigate three additional parameters - ecliptic latitude, direction of motion relative to the ecliptic and apparent magnitude - as potential further discriminators between NEOs and MBAs in addition to the \dig{} score. We consider various combinations of these parameters to further refine submissions to the NEOCP and highlight how sorting submissions by these parameters can better identify high probability NEO candidates.
@@ -87,15 +87,7 @@ We select observations from the simulated LSST dataset that correspond to trackl
 \end{enumerate}
 The motivation behind these cuts is to ensure that the tracklet constrains the on-sky motion of the object sufficiently well, so that its position at a later time can be easily extrapolated. With fewer observations or shorter tracklets, many different orbits could reproduce the same motion on the sky. Moreover, observations that are separated too significantly in time may be spurious linkages, where observations of multiple objects are incorrectly assumed to be of the same source.
 
-\subsection{New parameters to consider in scoring}
-
-\begin{itemize}
-    \item MBAs are constrained to lie in the ecliptic plane - we can leverage this
-    \item Ecliptic latitude split the population well directly because of this
-    \item Direction of motion relative to the ecliptic plane works too since closer things aren't constrained as strongly
-    \item Apparent magnitude is correlated with distance
-    \item Show plots of all of them
-\end{itemize}
+\subsection{New NEO scoring parameters}
 
 \begin{figure}[htb]
     \centering
@@ -103,6 +95,10 @@ The motivation behind these cuts is to ensure that the tracklet constrains the o
     \caption{As Figure~\ref{fig:digest2_should_be_scared}, but for ecliptic latitude and only for observations with a \dig{} score of at least 65.}
     \label{fig:ecl_lat_highscore}
 \end{figure}
+
+In addition to the orbital parameters used in computing the \dig{} score, we propose 3 additional parameters to consider in scoring NEOs: ecliptic latitude, direction of motion relative to the ecliptic plane and apparent magnitude. These parameters are motivated by the fact that MBAs are constrained to lie within the ecliptic plane around 3au from the Sun, whereas NEOs are often much closer and are not constrained to any location in the ecliptic.
+
+For these reasons, one would predict that an object with a large ecliptic latitude is less likely to be a MBA. We explore this in Figure~\ref{fig:ecl_lat_highscore}, in which we show the distribution of ecliptic latitudes for objects with a \dig{} score of at least 65. As expected, we find that MBAs are concentrated around the ecliptic plane, whereas NEOs extend to the survey limits in either direction. In particular, we note that even without normalising the histogram, NEOs dominate over MBAs below an ecliptic latitude of $-55^{\circ}$.
 
 \begin{figure}[htb]
     \centering
