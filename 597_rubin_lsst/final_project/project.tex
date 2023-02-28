@@ -122,6 +122,13 @@ which gives the angle of the motion relative to the ecliptic plane. We plot the 
 
 Lastly, given that NEOs are detected closer to the Earth, one may predict that the faintest NEOs can be detected whilst MBAs of equally faint magnitudes would not be found. We therefore convert the magnitude of each observation from its filter to a V-band magnitude using the colours from \citet{Jones+2018} and assign each tracklet its mean apparent magnitude. In Figure~\ref{fig:app_mag_highscore} we explore the distributions of these magnitudes. As expected, NEOs are peaked at fainter magnitudes than MBAs, but when considering the size of the MBA background (in the lower panels) this difference is not as significant.
 
+\subsection{New Score Calculation}
+For calculating the new score as
+\begin{equation}
+    S = \frac{1}{3} \qty[\frac{w_b |b|}{0.9} + \frac{w_\theta |\theta|}{0.9} + \frac{w_m (m - m_{\rm min}) \cdot 100}{m_{\rm max} - m_{\rm min}}],
+\end{equation}
+where $w_b, w_\theta, w_m$ are weights associated with each of the parameters, which we tune and other factors scale each term to a range of 0 to 100. In the following sections we explore the use of this score as a threshold for the NEOCP, or potentially more effectively as a way to sort the page.
+
 \section{Results}
 
 \begin{itemize}
