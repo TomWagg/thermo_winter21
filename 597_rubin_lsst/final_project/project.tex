@@ -98,7 +98,7 @@ The motivation behind these cuts is to ensure that the tracklet constrains the o
 
 In addition to the orbital parameters used in computing the \dig{} score, we propose 3 additional parameters to consider in scoring NEOs: ecliptic latitude, direction of motion relative to the ecliptic plane and apparent magnitude. These parameters are motivated by the fact that MBAs are constrained to lie within the ecliptic plane around 3au from the Sun, whereas NEOs are often much closer and are not constrained to any location in the ecliptic.
 
-For these reasons, one would predict that an object with a large ecliptic latitude is less likely to be a MBA. We explore this in Figure~\ref{fig:ecl_lat_highscore}, in which we show the distribution of ecliptic latitudes for objects with a \dig{} score of at least 65. As expected, we find that MBAs are concentrated around the ecliptic plane, whereas NEOs extend to the survey limits in either direction. In particular, we note that even without normalising the histogram, NEOs dominate over MBAs below an ecliptic latitude of $-55^{\circ}$.
+For these reasons, one would predict that an object with a large ecliptic latitude is less likely to be a MBA. For each tracklet, we convert the mean sky position to an ecliptic latitude, $b$ (and ecliptic longitude, $l$) using \texttt{Astropy} \citep{astropy:2013,astropy:2018,astropy:2022}. In Figure~\ref{fig:ecl_lat_highscore}, we show the distribution of ecliptic latitudes for objects with a \dig{} score of at least 65. As expected, we find that MBAs are concentrated around the ecliptic plane, whereas NEOs extend to the survey limits in either direction. In particular, we note that even without normalising the histogram, NEOs dominate over MBAs below an ecliptic latitude of $-55^{\circ}$.
 
 \begin{figure}[htb]
     \centering
@@ -107,7 +107,11 @@ For these reasons, one would predict that an object with a large ecliptic latitu
     \label{fig:dir_highscore}
 \end{figure}
 
-Given that MBAs are constrained to the ecliptic plane and are further away than NEOs, one would predict that their motion is generally along the ecliptic plane, whilst NEOs could move in any direction. We investigate this in Figure~\ref{fig:dir_highscore} with the direction of $\theta$, the angle of the motion vector relative to the ecliptic plane. The separation in distributions is less clear cut than with the ecliptic latitude but we still find that objects moving away from the ecliptic plane have a larger fraction of NEOs than those moving along the plane.
+Given that MBAs are constrained to the ecliptic plane and are further away than NEOs, one would predict that their motion is generally along the ecliptic plane, whilst NEOs could move in any direction. To quantify this, we consider
+\begin{equation}
+    \theta = \arctan \qty( \frac{l_f - l_i}{b_f - b_i} ),
+\end{equation}
+which gives the angle of the motion relative to the ecliptic plane. We plot the distributions of $\theta$ in Figure~\ref{fig:dir_highscore}. The separation between NEOs and MBAs in distributions is less clear cut than with the ecliptic latitude but we still find that objects moving away from the ecliptic plane have a larger fraction of NEOs than those moving along the plane.
 
 \begin{figure}[htb]
     \centering
@@ -116,7 +120,7 @@ Given that MBAs are constrained to the ecliptic plane and are further away than 
     \label{fig:app_mag_highscore}
 \end{figure}
 
-\todo{apparent mag bit}
+Lastly, given that NEOs are detected closer to the Earth, one may predict that the faintest NEOs can be detected whilst MBAs of equally faint magnitudes would not be found. We therefore convert the magnitude of each observation from its filter to a V-band magnitude using the colours from \citet{Jones+2018} and assign each tracklet its mean apparent magnitude. In Figure~\ref{fig:app_mag_highscore} we explore the distributions of these magnitudes. As expected, NEOs are peaked at fainter magnitudes than MBAs, but when considering the size of the MBA background (in the lower panels) this difference is not as significant.
 
 \section{Results}
 
