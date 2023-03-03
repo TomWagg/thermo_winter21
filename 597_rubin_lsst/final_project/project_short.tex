@@ -1,6 +1,6 @@
 \documentclass[twocolumn, twocolappendix]{aastex631}
 \received{\today}
-\shorttitle{Improved NEO Classification}
+\shorttitle{NEO Follow-up Prioritisation}
 \graphicspath{{figures/}}
 
 \usepackage{lipsum}
@@ -34,7 +34,7 @@
 
 \begin{document}
 
-\title{{\large An priotisation scheme for the follow-up of NEOs}\\\vspace{0.15cm}ASTR 597A Final Project}
+\title{{\large A prioritisation scheme for the follow-up of NEOs}\\\vspace{0.15cm}ASTR 597A Final Project}
 
 % affiliations
 \newcommand{\UW}{Department of Astronomy, University of Washington, Seattle, WA, 98195}
@@ -45,7 +45,11 @@
 \correspondingauthor{Tom Wagg}
 \email{tomwagg@uw.edu}
 
-\keywords{}
+\begin{abstract}
+    We present a prioritisation scheme for the follow-up of Near-Earth Objects (NEOs) to prepare for the impact of observations from Rubin Observatory Legacy Survey of Space and Time (LSST). Rubin is expected to vastly increase the rate of detection of candidate NEOs, such that the Near-Earth Object Confirmation Page (NEOCP) will receive 2-3 orders of magnitude more submissions of potential NEOs every night. Many of these objects will attain a perfect \dig{} score of 100 and thus deciding which to prioritise for follow-up would be difficult currently. We use mock LSST observations to quantify the benefits of applying our prioritisation scheme to the NEOCP as an augment to the \dig{} code. We combine the ecliptic latitude, direction of motion relative to the ecliptic plane and the apparent magnitude of objects into a prioritisation score that can be used to differentiate between NEOs and other more numerous background populations (such as main belt asteroids) that receive the same \dig{} score. We find its application would result in 1.5--2x (depending on the capacity for follow-up in a given night) more NEOs receiving follow-up observations each night. This is particularly pertinent for objects that may not remain visible in future nights.
+\end{abstract}
+
+\keywords{Near-Earth objects, Asteroids, Solar system, Small Solar System bodies, Surveys}
 
 \section{Introduction}
 
@@ -63,6 +67,13 @@ The Minor Planet Center maintains a catalogue of known NEOs and their orbits\foo
 The Rubin Observatory Legacy Survey of Space and Time \citep[LSST,][]{Ivezic+2019} will rapidly increase the rate at which NEO candidates are identified and reported to the NEOCP \citep{sky-is-falling}. \citet{Jones+2018} showed that at the end of the 10-year LSST baseline survey the completeness of NEOs with an absolute magnitude of $H \le 22$ would be 73\%. Most of these objects will be discovered using ``tracklet linking'': a computational technique where at least three pairs of observations (``tracklets'') observed over a 15-night period are identified as belonging to the same object (\citealp{Juric+2017}; Heinze et al., in prep). The orbits of objects discovered with this technique will typically be reasonably well known, and in need of no immediate follow-up. However, this tracklet linking comes at a cost: the object is not identified as interesting until the third tracklet is imaged -- at best, two nights after the first observation or, at worst, nearly two weeks later. This means that potentially interesting (or hazardous) objects may be missed until it's too late to observe (or react to) them.
 
 The number of objects submitted to the NEOCP will increase by several orders of magnitude, and a large fraction of these submissions will be main belt asteriods (MBAs) \citep{sky-is-falling}. This would present difficulties for community follow-up, with too many available candidates (and of low purity) passing the current submission criteria.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/ecliptic_latitude_dist_highscore.pdf}
+    \caption{As Figure~\ref{fig:digest2_should_be_scared}, but for ecliptic latitude and only for observations with a \dig{} score of at least 65.}
+    \label{fig:ecl_lat_highscore}
+\end{figure}
 
 Due to the vast MBA background, \dig{} performs poorly in identifying NEO candidates, as is demonstrated in Figure~\ref{fig:digest2_should_be_scared}. We show due to the extreme number of MBA submissions, only 1.5\% of submissions meeting the current criteria (a score of least 65) are NEOs, and only 10\% of objects with a perfect score of 100 are actually NEOs. Additionally, a large fraction of objects obtain a score of exactly 100 and it can be difficult to discriminate the best candidates to follow-up among this group. It is clear that this classification scheme requires improvement.
 \\
@@ -84,13 +95,6 @@ We select observations from the simulated LSST dataset that correspond to trackl
 The motivation behind these cuts is to ensure that the tracklet constrains the on-sky motion of the object sufficiently well, so that its position at a later time can be easily extrapolated. With fewer observations or shorter tracklets, many different orbits could reproduce the same motion on the sky. Moreover, observations that are separated too significantly in time may be spurious linkages, where observations of multiple objects are incorrectly assumed to be of the same source.
 
 \subsection{Parameters included in the priority score}
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=\columnwidth]{figures/ecliptic_latitude_dist_highscore.pdf}
-    \caption{As Figure~\ref{fig:digest2_should_be_scared}, but for ecliptic latitude and only for observations with a \dig{} score of at least 65.}
-    \label{fig:ecl_lat_highscore}
-\end{figure}
 
 In addition to the orbital parameters used in computing the \dig{} score, we propose three additional parameters to consider in scoring NEOs: ecliptic latitude, direction of motion relative to the ecliptic plane and apparent magnitude. These parameters are motivated by the fact that MBAs are constrained to lie within the ecliptic plane around 3au from the Sun, whereas NEOs are often much closer and are not constrained to any location in the ecliptic.
 
