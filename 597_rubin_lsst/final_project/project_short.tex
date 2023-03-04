@@ -1,4 +1,4 @@
-\documentclass[twocolumn, twocolappendix]{aastex631}
+\documentclass[twocolumn]{aastex631}
 \received{\today}
 \shorttitle{NEO Follow-up Prioritisation}
 \graphicspath{{figures/}}
@@ -56,7 +56,7 @@
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{digest2_pollution.pdf}
-    \caption{\dig{} scores for all NEOs and MBAs observed in the first year of our simulated LSST observations. \textbf{(a)} normalised histograms of \dig{} scores, \textbf{(b)} the same histograms un-normalised \textbf{(c)} ratio of the histograms in (b). Note that the latter two panels are on a logarithmic scale.}
+    \caption{\dig{} cannot effectively distinguish NEOs and MBAs with a large MBA background population. \dig{} scores for all NEOs and MBAs observed in the first year of our simulated LSST observations. \textbf{(a)} normalised histograms of \dig{} scores, \textbf{(b)} the same histograms un-normalised \textbf{(c)} ratio of the histograms in (b). Note that the latter two panels are on a logarithmic scale.}
     \label{fig:digest2_should_be_scared}
 \end{figure}
 
@@ -71,7 +71,7 @@ The number of objects submitted to the NEOCP will increase by several orders of 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{figures/ecliptic_latitude_dist_highscore.pdf}
-    \caption{As Figure~\ref{fig:digest2_should_be_scared}, but for ecliptic latitude and only for observations with a \dig{} score of at least 65.}
+    \caption{MBAs are restricted to low ecliptic latitudes but NEOs more broadly distributed. As Figure~\ref{fig:digest2_should_be_scared}, but for ecliptic latitude and only for observations with a \dig{} score of at least 65.}
     \label{fig:ecl_lat_highscore}
 \end{figure}
 
@@ -84,7 +84,7 @@ The aim of this paper is to augment \dig{} in classifying NEOs in the presence o
 
 \subsection{Simulated tracklet population}
 
-In order to evaluate the efficacy of our priority score, we create a population of simulated tracklets by performing mock LSST observations on the Synthetic Solar System Model \citep{Grav+2011}. We use a modified ``Baseline v2.1''\footnote{\url{https://community.lsst.org/t/survey-simulations-v2-1-april-2022/6538}} 10 year scheduler simulation strategy \citep{Naghib+2019, Cornwall+2020}. These observations account for both scheduled and unscheduled downtime and simulate the current baseline observing strategy that will be followed by LSST. The resulting simulations span 3653 days, and have over 50 million observations. The modification consists of shifting the start of LSST to March 2022, around the epoch of the MPCORB catalog used to generate the input hybrid catalogue dataset (see Appendix A of \citealp{sky-is-falling}).
+In order to evaluate the efficacy of our priority score, we create a population of simulated tracklets by performing mock LSST observations on a hybrid catalogue of solar system objects that combines synthetic objects with real detections \citep[Appendix A of][]{sky-is-falling,Grav+2011}. We use a modified ``Baseline v2.1''\footnote{\url{https://community.lsst.org/t/survey-simulations-v2-1-april-2022/6538}} 10 year scheduler simulation strategy \citep{Naghib+2019, Cornwall+2020}. These observations account for both scheduled and unscheduled downtime and simulate the current baseline observing strategy that will be followed by LSST. The resulting simulations span 3653 days, and have over 50 million observations. The modification consists of shifting the start of LSST to March 2022, around the epoch of the MPCORB catalogue used to generate the input hybrid catalogue dataset (see Appendix A of \citealp{sky-is-falling}).
 
 We select observations from the simulated LSST dataset that correspond to tracklets. For a tracklet to be built, we require it to satisfy the following criteria:
 \begin{enumerate}
@@ -96,34 +96,34 @@ The motivation behind these cuts is to ensure that the tracklet constrains the o
 
 \subsection{Parameters included in the priority score}
 
-In addition to the orbital parameters used in computing the \dig{} score, we propose three additional parameters to consider in scoring NEOs: ecliptic latitude, direction of motion relative to the ecliptic plane and apparent magnitude. These parameters are motivated by the fact that MBAs are constrained to lie within the ecliptic plane around 3au from the Sun, whereas NEOs are often much closer and are not constrained to any location in the ecliptic.
+In addition to the orbital parameters used in computing the \dig{} score, we propose three additional parameters to consider in scoring NEOs: ecliptic latitude, direction of motion relative to the ecliptic plane and apparent magnitude. These parameters are motivated by the fact that MBAs are constrained to lie within the ecliptic plane and around 3au from the Sun, whereas NEOs are often much closer and are not constrained to any location in the ecliptic.
 
 For these reasons, one would predict that an object with a large ecliptic latitude is less likely to be a MBA. For each tracklet, we convert the mean sky position of the observations to an ecliptic latitude, $b$ (and ecliptic longitude, $l$) using \texttt{Astropy} \citep{astropy:2013,astropy:2018,astropy:2022}. In Figure~\ref{fig:ecl_lat_highscore}, we show the distribution of ecliptic latitudes for objects with a \dig{} score of at least 65 (the current threshold for submissions to the NEOCP). As expected, we find that MBAs are concentrated around the ecliptic plane, whereas NEOs extend to the survey limits in either direction. In particular, we note that even without normalising the histogram, NEOs dominate over MBAs below an ecliptic latitude of $-55^{\circ}$.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{figures/direction_dist_highscore.pdf}
-    \caption{As Figure~\ref{fig:digest2_should_be_scared}, but for direction of motion relative to the ecliptic plane and only for observations with a \dig{} score of at least 65.}
+    \caption{MBAs are more likely to move along the ecliptic plane than NEOs. As Figure~\ref{fig:digest2_should_be_scared}, but for direction of motion relative to the ecliptic plane and only for observations with a \dig{} score of at least 65.}
     \label{fig:dir_highscore}
 \end{figure}
 
-Given that MBAs are constrained to the ecliptic plane and are further away than NEOs, one would predict that their motion is generally along the ecliptic plane, whilst NEOs could move in any direction. To quantify this, we consider
+Given that MBAs are constrained to the ecliptic plane and are further away than NEOs, one would predict that their motion is generally along the ecliptic plane, whilst NEOs could move in any direction. To quantify this, we consider the angle of the motion relative to the ecliptic plane
 \begin{equation}
     \theta = \arctan \qty( \frac{l_f - l_i}{b_f - b_i} ),
 \end{equation}
-which gives the angle of the motion relative to the ecliptic plane. We plot the distributions of $\theta$ in Figure~\ref{fig:dir_highscore}. The separation between NEOs and MBAs in distributions is less clear cut than with the ecliptic latitude but we still find that objects moving away from the ecliptic plane have a larger fraction of NEOs than those moving along the plane.
+where $(l_f, b_f)$ are the final ecliptic coordinates of the tracklet and $(l_i, b_i)5$ are the initial ecliptic coordinates of the tracklet. We plot the distributions of $\theta$ in Figure~\ref{fig:dir_highscore}. The separation between NEOs and MBAs in distributions is less clear cut than with the ecliptic latitude but we still find that objects moving away from the ecliptic plane have a larger fraction of NEOs than those moving along the plane.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{figures/apparent_mag_dist_highscore.pdf}
-    \caption{As Figure~\ref{fig:digest2_should_be_scared}, but for apparent V-band magnitude and only for observations with a \dig{} score of at least 65.}
+    \caption{NEOs are detectable at fainter apparent magnitudes than MBAs. As Figure~\ref{fig:digest2_should_be_scared}, but for apparent V-band magnitude and only for observations with a \dig{} score of at least 65.}
     \label{fig:app_mag_highscore}
 \end{figure}
 
-Lastly, given that NEOs are detected closer to the Earth, one may predict that the faintest NEOs can be detected whilst MBAs of equally faint magnitudes would not be found. We therefore convert the magnitude of each observation from its filter to a V-band magnitude using the colours from \citet{Jones+2018} and assign each tracklet its mean apparent magnitude. In Figure~\ref{fig:app_mag_highscore} we explore the distributions of these magnitudes. As expected, NEOs are peaked at fainter magnitudes than MBAs, but when considering the size of the MBA background (in the lower panels) this difference is not as significant.
+Lastly, given that NEOs are detected closer to the Earth, one may predict that the faintest NEOs can be detected whilst MBAs of equally faint magnitudes would not be found. We therefore convert the magnitude of each observation from its filter to a V-band magnitude using the colours from \citet{Jones+2018} and assign each tracklet its mean apparent magnitude. In Figure~\ref{fig:app_mag_highscore} we explore the distributions of these magnitudes. As expected, NEOs are peaked at fainter magnitudes than MBAs, but when considering the size of the MBA background (in the lower panels) this difference is not as significant.\clearpage
 
 \subsection{Priority Score Calculation}
-We define the priority score as
+\noindent We define the priority score for NEO follow-up as
 \begin{equation}
     S \equiv \frac{1}{3} \qty[\frac{|b|}{0.9} + \frac{|\theta|}{0.9} + \frac{(m - m_{\rm min}) \cdot 100}{m_{\rm max} - m_{\rm min}}],
 \end{equation}
@@ -131,30 +131,30 @@ which results in a score that equally weights the three parameters and has a ran
 
 \section{Results}
 
-Since the \dig{} score cannot exceed 100, a significant fraction of submitted objects will have a perfect score of 100. We find that on average ${\sim}500$ tracklets with at least 3 observations would be submitted to the page and be assigned a score of 100 \emph{per night} in the first year of LSST. Currently the NEOCP is sorted by default by the time at which each object was last updated, and so can be fairly random.
+Since the \dig{} score cannot exceed 100, a significant fraction of submitted objects will have a perfect score of 100. We find that on average ${\sim}500$ tracklets with at least 3 observations would be submitted to the page and be assigned a score of 100 \emph{per night} in the first year of LSST. Currently the NEOCP is sorted by default by the time at which each object was last updated, and so can be quite random.
 
-Instead of deciding randomly between these objects with perfect scores, it would be more effective to first sort them based on the priority score we have calculated. To investigate this we perform bootstrap sampling on the population of NEOs and MBAs that have scores of 100. We draw 52 NEOs and 468 MBAs for each sample since these are the average number of each objects that would be submitted to the NEOCP nightly and attain a score of 100.
+Instead of deciding randomly between these objects with perfect scores, it would be more effective to first sort them based on the priority score we have calculated. To investigate this we perform bootstrap sampling on the population of NEOs and MBAs that have scores of 100. We draw 52 NEOs and 468 MBAs for each sample, since these are the average numbers of objects that would be submitted to the NEOCP nightly and attain a score of 100.
 
 For each of these samples we explore the effect of having a randomly ordered list or one sorted by the priority score. Given that the community will not have the capacity to follow-up every candidate given this throughput of objects, we assess how many NEOs would be found when taking only the first $N_{\rm max}$ objects on the list.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{sorting_benefits.pdf}
-    \caption{A demonstration of the benefit of sorting the NEOCP by our score. Histograms show the average number of NEOs that would be followed-up each night without sorting the NEOCP and using our score to sort respectively. Each panel corresponds to a different number of maximum follow-ups that could be attempted in a single night. Each panel is annotated with the mean number of follow-ups and the standard deviation.}
+    \caption{Sorting the NEOCP by priority score will increase the number of NEOs receiving follow-up observation by 1.5--2x. Histograms show the average number of NEOs that would be followed-up each night from bootstrapped samples. Each panel corresponds to a different number of maximum follow-ups that could be attempted in a single night and is annotated with the mean number of follow-ups and the standard deviation from the best fit.}
     \label{fig:sort_by_score}
 \end{figure}
 
-We show the improvements gained by sorting the list in Figure~\ref{fig:sort_by_score}. From top to bottom we assume values of $40$, $100$ and $200$ for $N_{\rm max}$ and for each distribution we fit for the mean and standard deviation (mostly assuming a Gaussian distribution, except for the distributions centred closer to zero for which we use a Poisson). In each case we find that sorting the list results in more NEOs being followed-up each night. In particular, assuming an $N_{\rm max}$ of 200 would on average result in 11 more NEOs being follow-up each night, which would mean ${\sim}4000$ additional NEOs would receive follow-up observations.
+We show the improvements gained by sorting the list in Figure~\ref{fig:sort_by_score}. From top to bottom we assume values of $40$, $100$ and $200$ for $N_{\rm max}$ and for each distribution we fit for the mean and standard deviation (mostly assuming a Gaussian distribution, except for the distributions centred closer to zero for which we use a Poisson), which we annotate in each panel. In each case we find that sorting the list results in more NEOs being followed-up each night. In particular, assuming an $N_{\rm max}$ of 200 would on average result in 11 more NEOs being follow-up each night, which would mean ${\sim}4000$ additional NEOs would receive follow-up observations.
 
 This improvement is particularly important to consider in cases where the NEO would no longer be visible on a following night - identifying it on that night using our sorting method could make the difference of whether the orbit of the object would be well constrained before it is no longer visible.
 
-We recommend that the NEOCP continue to use \dig{} as a threshold for the page, but use this priority score as a sorting metric for objects that receive the same \dig{} score. Moreover, this technique will work well in conjunction with the LSST self-follow-up probability algorithm presented in \citep{sky-is-falling} as these probabilities, which can be used as further thresholds beyond the \dig{} score, would also benefit from being sorted in this way.
+We recommend that the NEOCP continue to use \dig{} as a threshold for the page, but use this priority score as a sorting metric for objects that receive the same \dig{} score. Through the joint application of LSST self-follow-up probability algorithm presented in \citep{sky-is-falling} as a further threshold, and this priority score as a sorting metric, we will be able to classify and prioritise NEOs in a significantly more effective manner.
 
 \section{Conclusion}
 
-We present a new prioritisation scheme for NEO follow-up. We performed mock LSST observations and used \dig{} to attain a sample of objects that LSST would send to the NEOCP using the current criteria. We created a new priority score based on ecliptic latitude, direction of motion and apparent magnitude in order to sort the NEOCP.
+We present a new prioritisation scheme for NEO follow-up. We performed mock LSST observations and used \dig{} to attain a sample of objects that LSST would send to the NEOCP using the current criteria. We created a new priority score based on ecliptic latitude, direction of motion and apparent magnitude in order to sort the NEOCP and differentiate between objects that attain the same \dig{} score.
 
-We show that sorting the NEOCP by our priority score significantly improves the number of NEOs that receive follow-up observations per night. We find that on average, when assuming a follow-up capacity of 200 objects per night, our sorting metric leads to an additional 11 NEOs receiving follow-up observations, resulting in approximately 4000 more NEOs per year.
+We show that sorting the NEOCP by our priority score significantly improves the number of NEOs that receive follow-up observations per night. We find that on average, when assuming a follow-up capacity of 200 objects per night, our sorting metric leads to an additional 11 NEOs receiving follow-up observations, resulting in approximately 4000 more NEOs per year.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 \bibliographystyle{aasjournal}
 \bibliography{refs}{}
