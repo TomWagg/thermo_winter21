@@ -42,7 +42,7 @@
 \email{tomwagg@uw.edu}
 
 \section{Introduction}
-For my project I'm going to investigate the inside-out growth of galaxies, focussing specifically on the Milky Way. This is the concept that star formation in spiral galaxies occurs first in the centre and builds outwards over time.
+For my project I'm going to investigate the inside-out growth of galaxies, focussing specifically on the Milky Way. This is the concept that star formation in spiral galaxies occurs first in the centre and builds outwards over time. This topic was first mentioned by Jim when we discussed chemical cartography and I decided to delve into the topic a bit more deeply (partially motivated by the fact that I used a model including inside-out growth in my paper \citep{Wagg+2022} and I didn't know what that was at the time).
 
 \section{Background \& Early Simulations}
 One of the first papers to propose the idea of inside-out growth was \citet{Larson+1976}. They extended previous simulations of galaxies with the goal of producing both a spheroidal and disc component to the galaxy. Most previous papers on the topic \citep[e.g.][]{Larson+1969, Gott+1973} focussed on reproducing the formation of elliptical galaxies and didn't investigate spiral galaxies with a significant disc component.
@@ -58,15 +58,29 @@ They explore 9 different models of increasing complexity, including effects such
     \label{fig:larson76}
 \end{figure}
 
-We show their modelled star formation rate density as a function of time and radius in Figure~\ref{fig:larson76}. They find that there are two distinct phases of star formation: an early burst that is centrally concentrated in the spheroidal component, and a later phase that occurs as gas settles into the plane of the disc. In particular, they note that this phase consists of ``an outward-progressing wave of star formation'' \citep{Larson+1976}.
+We show their modelled star formation rate density as a function of time and radius in Figure~\ref{fig:larson76}. They find that there are two distinct phases of star formation: an early burst that is centrally concentrated in the spheroidal component, and a later phase that occurs as gas settles into the plane of the disc. In particular, they note that this phase consists of ``an outward-progressing wave of star formation'' \citep{Larson+1976}. This is one of the first simulations showing a sort of ``inside-out'' growth.
 
 They conclude that high velocity collisions between gas clouds may form spheroidal systems, whilst disc systems may form from more quiescent gas that doesn't require similar collisions. This gas settles onto the disc progressively over time, starting in the centre in which the potential is strongest and then progressing outwards.
+
+\section{Observations}
+\subsection{Evidence of inside-out growth}
+Using data from 3D-HST and CANDELS Treasury surveys, \citet{vanDokkum+2013} investigated the assembly of Milky-Way-like galaxies since redshift 2.5.
+
+They use the number density of galaxies to rank them and assume that galaxies maintain the same rank throughout cosmic time. This has been shown to be a reasonably effective way of associating progenitor galaxies with their descendants \citep{Leja+2013}. They select galaxies with stellar masses close to that of the Milky Way and use this ranking method to associate galaxies together in order to measure their evolution over time. This produces a sample of approximately 400 galaxies.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{vandokkum2013_fig5.png}
     \caption{Figure 5 from \citet{vanDokkum+2013}. The effective radius of observed galaxies from 3D-HST and CANDELS at different redshifts, compared to another paper.}
+    \label{fig:vd}
 \end{figure}
+
+After grouping galaxies into bins of redshit, \citet{vanDokkum+2013} stack galaxies and fit them using a \citet{Sersic+1968} profile (correcting for PSF effects and bootstrapping to produce error bars). We show their estimated effective radii for galaxies of different redshifts in Figure~\ref{fig:vd}.
+
+Figure~\ref{fig:vd} shows that the effective radius of a galaxies decreases with increasing redshift, implying that galaxies are growing over time and thus providing evidence for some sort of inside-out growth. It is also notable that within this figure they also compare to \citet{Patel+2013}, a paper that finds stronger evidence of inside-out growth in more massive galaxies. They conclude that there is likely some sort of mass dependence to the rate of inside-out growth and that galaxy formation models will need to explain both effects.
+
+\subsection{A lack of evidence}
+\citep{Goddard+2017}
 
 \begin{figure*}[t]
     \centering
@@ -74,10 +88,19 @@ They conclude that high velocity collisions between gas clouds may form spheroid
     \caption{Figure 14 from \citet{Goddard+2017}. Mass weighted age-radius gradients are given in red for four different mass bins, from observations in SDSS-IV MaNGA.}
 \end{figure*}
 
+\section{Models}
+\citep{Frankel+2019}
+
+\section{Applications}
+\citep{Banerjee+2020}
+
+\section{Future Work}
+\citep{Hogg+2019}
+
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{frankel2019_fig5.png}
-    \caption{}
+    \caption{\citet{Frankel+2019} Figure 5 showing the model for inside-out growth.}
 \end{figure}
 
 \begin{figure}[htb]
@@ -91,26 +114,6 @@ They conclude that high velocity collisions between gas clouds may form spheroid
     \includegraphics[width=\columnwidth]{frankel2019_fig12.png}
     \caption{}
 \end{figure}
-
-\section{Observations}
-\subsection{For}
-\citep{vanDokkum+2013}
-\subsection{Against}
-\citep{Goddard+2017}
-
-\section{Models}
-\citep{Frankel+2019}
-
-\section{Applications}
-\citep{Banerjee+2020}
-
-\section{Future Work}
-\citep{Hogg+2019}
-
-% \begin{figure}[htb]
-%     \includegraphics[width=\columnwidth]{frankel2019_fig5.png}
-%     \caption{\citet{Frankel+2019} Figure 5 showing the model for inside-out growth.}
-% \end{figure}
 
 \begin{acknowledgements}
     I thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case. Since this is acknowledgements, I will also acknowledge that this isn't my very best work, but it's been quite the quarter and I would like to sleep now :D
