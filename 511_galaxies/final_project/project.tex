@@ -1,6 +1,6 @@
 \documentclass[preprint2]{aastex631}
 \received{\today}
-\shorttitle{Inside-Out Growth in the Milky Way Disc}
+\shorttitle{Inside-Out Growth}
 \graphicspath{{figures/}}
 
 \usepackage{lipsum}
@@ -13,7 +13,7 @@
 \usepackage{wrapfig}
 \usepackage[figuresright]{rotating}
 
-% remove indents in footnotes
+% remove indents in footnotes 
 \usepackage[hang,flushmargin]{footmisc} 
 
 \newcommand{\todo}[1]{{\color{red}{[TODO: #1}]}}
@@ -30,7 +30,7 @@
 
 \begin{document}
 
-\title{{\Large Inside-Out Growth in the Milky Way Disc}\\\vspace{0.15cm}ASTR 511 Final Project}
+\title{{\Large Inside-Out Growth of Galaxies}\\\vspace{0.15cm}ASTR 511 Final Project}
 
 % affiliations
 \newcommand{\UW}{Department of Astronomy, University of Washington, Seattle, WA, 98195}
@@ -42,10 +42,50 @@
 \email{tomwagg@uw.edu}
 
 \section{Introduction}
-For my project I'm going to investigate the inside-out growth of galaxies, focussing specifically on the Milky Way. This is the idea that star formation in galaxies occurs first in the centre and builds outwards.
+For my project I'm going to investigate the inside-out growth of galaxies, focussing specifically on the Milky Way. This is the concept that star formation in spiral galaxies occurs first in the centre and builds outwards over time.
 
-\section{Background/Early Theories}
-\citep{Larson+1976}
+\section{Background \& Early Simulations}
+One of the first papers to propose the idea of inside-out growth was \citet{Larson+1976}. They extended previous simulations of galaxies with the goal of producing both a spheroidal and disc component to the galaxy. Most previous papers on the topic \citep[e.g.][]{Larson+1969, Gott+1973} focussed on reproducing the formation of elliptical galaxies and didn't investigate spiral galaxies with a significant disc component.
+
+\citet{Larson+1976} start their simulations with a protogalaxy that is assumed to be a uniform, uniformly rotating sphere with a fixed total mass. Larson addresses the simplicity of these initial conditions by noting that, despite initial uniformity, collapse is always non-homologous and inhomogeneties still emerge.
+
+They explore 9 different models of increasing complexity, including effects such as varying star formation rates, tidally inhibited star formation, different boundary radii. The final model that they find best fits the observations at the time uses a star formation rate that depends on the ratio of the cloud collision time to the free-fall time. This has the effect of producing a more realistic bulge to disc ratio.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{larson1976_fig13.png}
+    \caption{Figure 13 from \citet{Larson+1976}. This shows the star formation rate density as a function of time for different radii for Model 9 from the paper. Annotations indicate the radius, where for example $3.3+2$ means $3.3 \times 10^2$.}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{vandokkum2013_fig5.png}
+    \caption{Figure 5 from \citet{vanDokkum+2013}. The effective radius of observed galaxies from 3D-HST and CANDELS at different redshifts, compared to another paper.}
+\end{figure}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{goddard2017_fig14.png}
+    \caption{Figure 14 from \citet{Goddard+2017}. Mass weighted age-radius gradients are given in red for four different mass bins, from observations in SDSS-IV MaNGA.}
+\end{figure*}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{frankel2019_fig5.png}
+    \caption{}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{frankel2019_fig9.png}
+    \caption{}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{frankel2019_fig12.png}
+    \caption{}
+\end{figure}
 
 \section{Observations}
 \subsection{For}
@@ -66,6 +106,10 @@ For my project I'm going to investigate the inside-out growth of galaxies, focus
 %     \includegraphics[width=\columnwidth]{frankel2019_fig5.png}
 %     \caption{\citet{Frankel+2019} Figure 5 showing the model for inside-out growth.}
 % \end{figure}
+
+\begin{acknowledgements}
+    I thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case. Since this is acknowledgements, I will also acknowledge that this isn't my very best work, but it's been quite the quarter and I would like to sleep now :D
+\end{acknowledgements}
 
 \bibliographystyle{aasjournal}
 \bibliography{refs}{}
