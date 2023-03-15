@@ -152,16 +152,29 @@ They present these results as a resolution of the tension among different observ
 \citet{Frankel+2019} address the weak age gradients found in \citet{Goddard+2017} by highlighting that the effect of radial migration. In Figure~\ref{fig:frankel_gradient}, they show the mass-weighted age-radius gradient weakens in the case in which you apply radial migration (the solid orange line). This indicates that in other galaxies (many of which were observed my MaNGA), radial migration could be having an even stronger effect and erasing the inside-out evidence even further than what we see in the Milky Way. Expectations for evidence of inside-out growth should therefore be tempered by the knowledge that radial migration may severely weaken the age radius gradient over time.
 
 \section{Applications}
-An interesting result applying inside-out growth is presented in \citet{Banerjee+2020}. In this paper they show that inside-out growth is the missing link for getting NSNS mergers to reproduce the observed decreasing trend of [Eu/Fe] with [Fe/H] in the solar neighbourhood without any changes to the delay time distribution or additional $r$-process sources.
+An interesting result applying inside-out growth is presented in \citet{Banerjee+2020}. In this paper they show that inside-out growth is the missing link for getting NSNS (neutron star-neutron star) mergers to reproduce the observed decreasing trend of [Eu/Fe] with [Fe/H] in the solar neighbourhood without any changes to the delay time distribution or additional $r$-process sources.
 
-\section{Future Work}
-\citep{Hogg+2019}
+NSNSs are thought to be a strong source of $r$-process enrichment within the galaxy and, in particular, their strong natal kicks can spread this enrichment to new regions from where they formed. This paper aims to reproduce the distribution of [Eu/Fe] to [Fe/H] in the solar neighbourhood using NSNS mergers alone. They create a model that accounts for the natal kick of NSs, a variety of potential delay time distributions and, critically, inside-out growth.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{banerjee2020_fig2.png}
+    \caption{\citet{Banerjee+2020} Figure 2. Fits to the distribution of [Eu/Fe] to [Fe/H] for a series of models. The top panel uses a model including radial migration, the bottom panel assumes a fixed scale length.}
+    \label{fig:nsns}
+\end{figure}
+
+In Figure~\ref{fig:nsns}, we show their results for two different models. In the top panel, NSNSs are formed at locations that account for the effect of inside-out growth, whereas in the bottom panel NSNSs are formed according to a fixed scale length of the disc. It is clear that the model accounting for inside-out growth fits the data much better and the best fitting model within this group reproduces the distribution quite well. This is rather exciting!
+
+I will now take a moment to dampen that excitement with some comments about their assumptions about the formation of NSNS binaries, which seem a little shaky. They assume a kick distribution following an exponential peaked around $90 \unit{km}{s^{-1}}$, whilst most papers more recently agree that the distribution should follow a double maxwellian with a peak around $30  \unit{km}{s^{-1}}$ for electron capture supernovae and a peak around $265 \unit{km}{s^{-1}}$ for core collapse supernovae. Additionally they don't seem to worry about disruptions at all (as far as I can see) and assume that there is a single kick instead of two. However each NS should get a kick, and the correlation between their directions is nontrivial when conditioning on only the surviving ones (since certain combinations of directions are more likely to result in disruptions). All that being said I may just be misunderstanding things, but this confuses me at first glance. 
+
+\section{Future Directions}
+As discussed in \citet{Frankel+2019}, the main uncertainty currently on their model for inside-out growth and radial migration comes from the poorly constrained ages of stars. An interesting future direction would be to fit this model again using a sample of stars with better constrained ages and see how this could affect the model (in particular the strength of inside-out growth and radial migration). With a data set with more precise distances like Gaia, the data selection should also be less prone to population selection effects \citep{Hogg+2019} and provide a better fit for the Milky Way.
 
 \section{Summary}
 In summary, inside-out growth is the concept that spiral galaxies form from the inside out, with star formation first occuring in the centre before progressing outwards. We discussed some of the early simulations of galaxies and how it led to the acknowledgement of the necessity of inside-out growth to reproduce disc components with significant masses \citep{Larson+1976}. We explored various observations that search for evidence of inside-out growth, consider both cases in which evidence was found using 3D-HST and CANDELS \citep{vanDokkum+2013} and cases in which there was a significant lack of evidence when considering mass-weighted age-radius gradients using SDSS-IV MaNGA \citep{Goddard+2017}. We considered a new models that includes provisions for both inside-out growth and radial migration and how it implies that weaker age gradients are a direct result of strong radial migration erasing information \citep{Frankel+2019}. Finally, we examined some more recent applications of inside-out growth to the idea of $r$-process enrichment from NSNS mergers and considered some potential future directions in this area \citep{Banerjee+2020}.
 
 \begin{acknowledgements}
-    I thank Pixar for making a movie about inside-out growth that was nearly as scintillating reading these papers. I also thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case. Finally I also thank Jim for a great class and hope he can forgive me for the quality of this paper.
+    I thank Pixar for making a cinematic masterpiece about inside-out growth (emotionally at least) that was just nearly as scintillating reading these papers. I also thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case. Finally I also thank Jim for a great class and hope he can forgive me for the quality of this paper.
     
     Since this is acknowledgements, I will also acknowledge that this isn't my very best work, but it's been quite the quarter and I would like to sleep now and lay this to rest :D
 \end{acknowledgements}
