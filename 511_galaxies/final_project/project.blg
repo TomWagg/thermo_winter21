@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: project.aux
+The style file: aasjournal.bst
+Database file #1: refs.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Warning--empty publisher in Sersic+1968
+You've used 14 entries,
+            3168 wiz_defined-function locations,
+            771 strings with 7795 characters,
+and the built_in function-call counts, 6365 in all, are:
+= -- 539
+> -- 470
+< -- 4
++ -- 163
+- -- 178
+* -- 559
+:= -- 1185
+add.period$ -- 14
+call.type$ -- 14
+change.case$ -- 95
+chr.to.int$ -- 14
+cite$ -- 15
+duplicate$ -- 229
+empty$ -- 380
+format.name$ -- 183
+if$ -- 1264
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 14
+newline$ -- 50
+num.names$ -- 56
+pop$ -- 95
+preamble$ -- 1
+purify$ -- 95
+quote$ -- 0
+skip$ -- 193
+stack$ -- 0
+substring$ -- 216
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 123
+warning$ -- 1
+while$ -- 55
+width$ -- 0
+write$ -- 159
+(There was 1 warning)

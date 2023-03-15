@@ -79,6 +79,8 @@ After grouping galaxies into bins of redshit, \citet{vanDokkum+2013} stack galax
 
 Figure~\ref{fig:vd} shows that the effective radius of a galaxies decreases with increasing redshift, implying that galaxies are growing over time and thus providing evidence for some sort of inside-out growth. It is also notable that within this figure they also compare to \citet{Patel+2013}, a paper that finds stronger evidence of inside-out growth in more massive galaxies. They conclude that there is likely some sort of mass dependence to the rate of inside-out growth and that galaxy formation models will need to explain both effects.
 
+\clearpage
+
 \subsection{A lack of strong evidence}
 
 \begin{figure*}[t]
@@ -97,12 +99,12 @@ They selected an initial sample of 806 galaxies from the SDSS DR13 release based
 In Figure~\ref{fig:goddard}, we show the age-radius gradients found by \citet{Goddard+2017}. Whilst the light-weighted gradients show a very weak indication of a negative slop, the mass-weighted gradients are not statistically significant and are consistent with zero \citep[in agreement with][]{Sanchez-Blazquez+2014}. Therefore, though the light-weighted gradients show some very slight evidence for inside-out growth, the mass-weighted gradients display no such evidence.
 
 \subsection{Why the disagreement?}
-So clearly there is some tension between the results of \citet{vanDokkum+2013} and \citet{Goddard+2017}. Both examine similar samples of galaxies and yet find very different results, indicating that either (1) one of the papers has an error in their analysis or (2) there is another effect at play which is making a difference between the two samples.
+So clearly there is some tension between the results of \citet{vanDokkum+2013} and \citet{Goddard+2017} and this represents a key challenge in this topic. Both examine similar samples of galaxies and yet find very different results, indicating that either (1) one of the papers has an error in their analysis or (2) there is another effect at play which is making a difference between the two samples.
 
 With that in mind, we can now consider some recent models for inside-out growth that include a provision for radial migration as a potential solution for this tension.
 
 \section{A model for inside-out growth}
-\citet{Frankel+2019} develop and apply a framework for a global evolution Milky Way disc model with an emphasis on inside-out growth. They note the observational tension and highlight that the importance of dynamical heating from spiral arms and molecular clouds has long been recognised. They point out that observations are restricted to studying present-day radii of stellar populations rather than their unknown birth sites and this has a strong effect on the observed gradients.
+\citet{Frankel+2019} made a key development in this area by creating and applying a framework for a global evolution Milky Way disc model with an emphasis on inside-out growth. They note the observational tension and highlight that the importance of dynamical heating from spiral arms and molecular clouds has long been recognised and should be accounted for. They point out that observations are restricted to studying present-day radii of stellar populations rather than their unknown birth sites and this has a strong effect on the observed gradients.
 
 They argue that, given that we have access to positions, chemical compositions and ages of \textit{individual} stars in the Milky Way, we may be able to trace their birth positions through weak chemical tagging and fit a model for inside-out growth and radial migration simulataneously.
 
@@ -110,30 +112,44 @@ With this goal in mind, they attain a sample of around 5000 red clump giant star
 
 \citet{Frankel+2019} model a variety of effects and have distributions for star formation rates, surface densities and metallicities. We focus in particular in their models for inside-out growth and radial migration. They state that the star formation history is a function of age $\tau$ as
 \begin{equation}
-    \text{SFH} \propto \exp \qty[ \frac{1}{\tau_{\rm sfr}} \qty( \qty( 1 - x \frac{R_0}{8 \unit{kpc}}) \tau - \tau_m ) ],
+    \text{SFH} \propto \exp \qty[ \frac{1}{\tau_{\rm sfr}} \qty( \qty[1 - x \frac{R_0}{8 \unit{kpc}}] \tau - \tau_m ) ],
 \end{equation}
-where the inside-out growth is encoded in the dimensionless parameter $x$ ($\tau_{\rm sfr}, R_0, \tau_m$ are other parameters of the model that are fit for). From this equation we can see that a value of $x > 0$ would imply inside-out growth, whilst $x < 0$ is outside-in and $x = 0$ means constant formation across the disc.
+where the inside-out growth is encoded in the dimensionless parameter $x$ ($\tau_{\rm sfr}, \tau_m$ are other parameters of the model that are fit for and $R_0$ is the birth radius). From this equation we can see that a value of $x > 0$ would imply inside-out growth, whilst $x < 0$ is outside-in and $x = 0$ means constant formation across the disc.
 
-\begin{figure}[htb]
+\begin{figure}[b]
     \centering
     \includegraphics[width=\columnwidth]{frankel2019_fig5.png}
-    \caption{\citet{Frankel+2019} Figure 5 showing the model for inside-out growth.}
+    \caption{\citet{Frankel+2019} Figure 5 showing the model for inside-out growth with the best fit set of parameters (values are annotated).}
     \label{fig:frankel_io_model}
 \end{figure}
 
-This equation is plotting in Figure~\ref{fig:frankel_io_model} for an example set of parameters which demonstrate inside-out growth. One can see that formation for small radii peaks at small radii, whereas formation as large radii is still increasing at present day.
+This equation is plotted in Figure~\ref{fig:frankel_io_model} for the best fit set of parameters which demonstrate inside-out growth. One can see that formation for small radii peaks at small radii, whereas formation as large radii is still increasing at present day.
 
-\begin{figure}[htb]
+For radial migration, \citet{Frankel+2019} define the probability that a star is found at a radius $R$ given that it was born at a radius $R_0$ at a time $\tau$ as
+\begin{equation}
+    p(R | R_0, \tau) \propto \exp \qty(- \frac{(R - R_0)^2}{2 \sigma_{\rm RM7}^2 \qty(\frac{\tau}{7 \unit{Gyr}})}),
+\end{equation}
+where $\sigma_{\rm RM7}$ is a constant that defines the global diffusion strength of radial migration.
+
+\begin{figure}[tb]
     \centering
     \includegraphics[width=\columnwidth]{frankel2019_fig9.png}
-    \caption{}
+    \caption{\citet{Frankel+2019} Figure 9. Mock observations of what SDSS would observe for the Milky Way's surface brightness profile when observed at different times. Each line represents an observation at a different points in time.}
+    \label{fig:frankel_sdss}
 \end{figure}
 
-\begin{figure}[htb]
+After fitting for these two distributions and several others, \citet{Frankel+2019} find a best fit to the Milky Way's low-$\alpha$ disc as $x = 0.75$, implying that inside-growth has occured within the Milky Way disc. It indicates that star formation has been constant at a radius of around $10.5 \unit{kpc}$, decreasing within this radius and increasing outside of it. They also find that the radial migration strength is much strong than zero with a value of $\sigma_{\rm RM7} = 3.9 \unit{kpc}$, which (I \textit{think}) means that stars that formed 7 Gyr ago will on average move by nearly 4 kpc.
+
+They present these results as a resolution of the tension among different observations. The lack of evidence could be interpreted as a lack of inside-out growth, however \citet{Frankel+2019} argue that it is instead evidence of wide-scale radial migration erasing traces of inside-out growth over time. In Figure~\ref{fig:frankel_sdss}, we show their predictions for what SDSS would observe when looking at the Milky Way a different times. The evidence of inside-out growth is clear in these observations, as older observations have a sufrace brightness profile more clearly peaked at lower radii.
+
+\begin{figure}[tb]
     \centering
     \includegraphics[width=\columnwidth]{frankel2019_fig12.png}
-    \caption{}
+    \caption{\citet{Frankel+2019} Figure 12. Mass-weighted age-radius relations for the Milky Way in two cases: one with no radial migration and one with radial migration (using the best fit model from \citet{Frankel+2019}).}
+    \label{fig:frankel_gradient}
 \end{figure}
+
+\citet{Frankel+2019} address the weak age gradients found in \citet{Goddard+2017} by highlighting that the effect of radial migration. In Figure~\ref{fig:frankel_gradient}, they show the mass-weighted age-radius gradient weakens in the case in which you apply radial migration (the solid orange line). This indicates that in other galaxies (many of which were observed my MaNGA), radial migration could be having an even stronger effect and erasing the inside-out evidence even further than what we see in the Milky Way. Expectations for evidence of inside-out growth should therefore be tempered by the knowledge that radial migration may severely weaken the age radius gradient over time.
 
 \section{Applications}
 \citep{Banerjee+2020}
@@ -142,7 +158,7 @@ This equation is plotting in Figure~\ref{fig:frankel_io_model} for an example se
 \citep{Hogg+2019}
 
 \begin{acknowledgements}
-    I thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case.
+    I thank Pixar for making a movie about inside-out growth that was nearly as scintillating reading these papers. I also thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case.
     
     Since this is acknowledgements, I will also acknowledge that this isn't my very best work, but it's been quite the quarter and I would like to sleep now and lay this to rest :D
 \end{acknowledgements}
