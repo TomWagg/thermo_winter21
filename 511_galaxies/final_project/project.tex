@@ -101,20 +101,27 @@ So clearly there is some tension between the results of \citet{vanDokkum+2013} a
 
 With that in mind, we can now consider some recent models for inside-out growth that include a provision for radial migration as a potential solution for this tension.
 
-\section{Models}
-\citep{Frankel+2019}
+\section{A model for inside-out growth}
+\citet{Frankel+2019} develop and apply a framework for a global evolution Milky Way disc model with an emphasis on inside-out growth. They note the observational tension and highlight that the importance of dynamical heating from spiral arms and molecular clouds has long been recognised. They point out that observations are restricted to studying present-day radii of stellar populations rather than their unknown birth sites and this has a strong effect on the observed gradients.
 
-\section{Applications}
-\citep{Banerjee+2020}
+They argue that, given that we have access to positions, chemical compositions and ages of \textit{individual} stars in the Milky Way, we may be able to trace their birth positions through weak chemical tagging and fit a model for inside-out growth and radial migration simulataneously.
 
-\section{Future Work}
-\citep{Hogg+2019}
+With this goal in mind, they attain a sample of around 5000 red clump giant stars from APOGEE that have asteroseismically calibrated ages, metallicities and 3D positions. These stars in particular were chosen since they have similar core mass and therefore similar luminosities, which makes them useful standard candles. They also focus only on the low-$\alpha$ disc to avoid undesired information from older stars. This means the model mainly describes the recent evolution of the outer disc.
+
+\citet{Frankel+2019} model a variety of effects and have distributions for star formation rates, surface densities and metallicities. We focus in particular in their models for inside-out growth and radial migration. They state that the star formation history is a function of age $\tau$ as
+\begin{equation}
+    \text{SFH} \propto \exp \qty[ \frac{1}{\tau_{\rm sfr}} \qty( \qty( 1 - x \frac{R_0}{8 \unit{kpc}}) \tau - \tau_m ) ],
+\end{equation}
+where the inside-out growth is encoded in the dimensionless parameter $x$ ($\tau_{\rm sfr}, R_0, \tau_m$ are other parameters of the model that are fit for). From this equation we can see that a value of $x > 0$ would imply inside-out growth, whilst $x < 0$ is outside-in and $x = 0$ means constant formation across the disc.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{frankel2019_fig5.png}
     \caption{\citet{Frankel+2019} Figure 5 showing the model for inside-out growth.}
+    \label{fig:frankel_io_model}
 \end{figure}
+
+This equation is plotting in Figure~\ref{fig:frankel_io_model} for an example set of parameters which demonstrate inside-out growth. One can see that formation for small radii peaks at small radii, whereas formation as large radii is still increasing at present day.
 
 \begin{figure}[htb]
     \centering
@@ -128,8 +135,16 @@ With that in mind, we can now consider some recent models for inside-out growth 
     \caption{}
 \end{figure}
 
+\section{Applications}
+\citep{Banerjee+2020}
+
+\section{Future Work}
+\citep{Hogg+2019}
+
 \begin{acknowledgements}
-    I thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case. Since this is acknowledgements, I will also acknowledge that this isn't my very best work, but it's been quite the quarter and I would like to sleep now :D
+    I thank my laptop for not losing any data despite the fan malfunctioning and the whole thing nearly exploding and I thank GitHub for having my back on that just in case.
+    
+    Since this is acknowledgements, I will also acknowledge that this isn't my very best work, but it's been quite the quarter and I would like to sleep now and lay this to rest :D
 \end{acknowledgements}
 
 \bibliographystyle{aasjournal}
