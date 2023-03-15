@@ -68,6 +68,8 @@ Using data from 3D-HST and CANDELS Treasury surveys, \citet{vanDokkum+2013} inve
 
 They use the number density of galaxies to rank them and assume that galaxies maintain the same rank throughout cosmic time. This has been shown to be a reasonably effective way of associating progenitor galaxies with their descendants \citep{Leja+2013}. They select galaxies with stellar masses close to that of the Milky Way and use this ranking method to associate galaxies together in order to measure their evolution over time. This produces a sample of approximately 400 galaxies.
 
+After grouping galaxies into bins of redshit, \citet{vanDokkum+2013} stack galaxies and fit them using a \citet{Sersic+1968} profile (correcting for PSF effects and bootstrapping to produce error bars). We show their estimated effective radii for galaxies of different redshifts in Figure~\ref{fig:vd}.
+
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\columnwidth]{vandokkum2013_fig5.png}
@@ -75,18 +77,29 @@ They use the number density of galaxies to rank them and assume that galaxies ma
     \label{fig:vd}
 \end{figure}
 
-After grouping galaxies into bins of redshit, \citet{vanDokkum+2013} stack galaxies and fit them using a \citet{Sersic+1968} profile (correcting for PSF effects and bootstrapping to produce error bars). We show their estimated effective radii for galaxies of different redshifts in Figure~\ref{fig:vd}.
-
 Figure~\ref{fig:vd} shows that the effective radius of a galaxies decreases with increasing redshift, implying that galaxies are growing over time and thus providing evidence for some sort of inside-out growth. It is also notable that within this figure they also compare to \citet{Patel+2013}, a paper that finds stronger evidence of inside-out growth in more massive galaxies. They conclude that there is likely some sort of mass dependence to the rate of inside-out growth and that galaxy formation models will need to explain both effects.
 
-\subsection{A lack of evidence}
-\citep{Goddard+2017}
+\subsection{A lack of strong evidence}
 
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{goddard2017_fig14.png}
     \caption{Figure 14 from \citet{Goddard+2017}. Mass weighted age-radius gradients are given in red for four different mass bins, from observations in SDSS-IV MaNGA.}
+    \label{fig:goddard}
 \end{figure*}
+
+More recently, \citet{Goddard+2017} studied the star formation of histories in galaxies as a function of galaxy mass and type using the SDSS-IV MaNGA survey.
+
+They selected an initial sample of 806 galaxies from the SDSS DR13 release based on whether they were part of Primary sample of MaNGA and absolute magnitude. They use \texttt{FIREFLY} to perform full spectral fitting and cross match with the Galaxy Zoo to establish the morphological classification of the galaxies. Only galaxies with an 80\% majority vote for a certain morphological type were included in the final sample to avoid irregularities. Finally, galaxies with poor velocity dispersion estimates were exluded since they resulted in poor spectral fits. This left a sample of 791 galaxies, of which 216 are spiral galaxies.
+
+\citet{Goddard+2017} use a method of full spectral fitting to spatially resolve the age, metallicity and dust attenuation radial gradients for individual galaxies with the code \texttt{FIREFLY}. They argue that their code improves upon existing codes such as \texttt{STARLIGHT} \citep{CidFernandes+2005}, due to parameter free estimation of dust which requires no dust reddening law and improved underlying stellar tracks. They also check that beam smearing is not a significant effect through comparison with the secondary sample when restricting it to equivalent effective radii. They find that the effect of beam smearing must be quite small and does not affect the gradients in any significant way.
+
+In Figure~\ref{fig:goddard}, we show the age-radius gradients found by \citet{Goddard+2017}. Whilst the light-weighted gradients show a very weak indication of a negative slop, the mass-weighted gradients are not statistically significant and are consistent with zero \citep[in agreement with][]{Sanchez-Blazquez+2014}. Therefore, though the light-weighted gradients show some very slight evidence for inside-out growth, the mass-weighted gradients display no such evidence.
+
+\subsection{Why the disagreement?}
+So clearly there is some tension between the results of \citet{vanDokkum+2013} and \citet{Goddard+2017}. Both examine similar samples of galaxies and yet find very different results, indicating that either (1) one of the papers has an error in their analysis or (2) there is another effect at play which is making a difference between the two samples.
+
+With that in mind, we can now consider some recent models for inside-out growth that include a provision for radial migration as a potential solution for this tension.
 
 \section{Models}
 \citep{Frankel+2019}
